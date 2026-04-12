@@ -85,15 +85,62 @@ function App() {
           </div>
           <div>
             <h3>{t('footer.quick_msg')}</h3>
-            <form onSubmit={(e) => e.preventDefault()} style={{display: 'flex', flexDirection: 'column', gap: '0.5rem'}}>
-              <input type="email" placeholder="Email" required />
-              <textarea placeholder="Message" rows={3} required></textarea>
-              <button type="submit">{t('footer.send')}</button>
-            </form>
+            <FooterForm t={t} />
           </div>
         </div>
       </footer>
     </div>
+  )
+}
+
+function FooterForm({ t }: { t: any }) {
+  const [email, setEmail] = useState('')
+  const [message, setMessage] = useState('')
+  const [submitted, setSubmitted] = useState(false)
+  const [loading, setLoading] = useState(false)
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setLoading(true)
+    try {
+      const apiUrl = window.location.hostname === 'localhost' 
+        ? 'http://localhost:8787/api/order' 
+        : 'https://vincent-flowers-backend.vincent-flowers-porto.workers.dev/api/order';
+      
+      await fetch(apiUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+          type: 'footer',
+          customer: { email },
+          message
+        })
+      })
+    } catch (err) {
+      console.error('Footer message failed:', err)
+    }
+  }
+
+  if (submitted) return <p style={{ color: 'var(--accent-color)' }}>{t('footer.msg_sent') || 'Message sent!'}</p>
+
+  return (
+    <form onSubmit={handleSubmit} style={{display: 'flex', flexDirection: 'column', gap: '0.5rem'}}>
+      <input 
+        type="email" 
+        placeholder="Email" 
+        required 
+        value={email}
+        onChange={e => setEmail(e.target.value)} 
+      />
+      <textarea 
+        placeholder="Message" 
+        rows={3} 
+        required 
+        value={message}
+        onChange={e => setMessage(e.target.value)}
+      ></textarea>
+      <button type="submit">{t('footer.send')}</button>
+    </form>
   )
 }
 

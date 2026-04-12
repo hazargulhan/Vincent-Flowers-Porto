@@ -24,11 +24,11 @@ app.post('/api/order', async (c) => {
   const customerEmail = customer?.email
 
   // 1. Build dynamic email content based on type
-  let subject = `New Inquiry - Vincent Flowers Porto`
+  let subject = `[V2] New Inquiry - Vincent Flowers Porto`
   let detailsHtml = ''
 
   if (type === 'make-your-own') {
-    subject = `New Custom Order / Novo Pedido Customizado - ${customer.name}`
+    subject = `[V2] New Custom Order / Novo Pedido Customizado - ${customer.name}`
     const orderDetails = (configuration || []).map((item: any) => 
       `- ${item.name} (${item.color}) - ${item.qty}x: €${(item.price * item.qty).toFixed(2)}`
     ).join('\n')
@@ -36,28 +36,28 @@ app.post('/api/order', async (c) => {
       <h3>Order Summary / Resumo do Pedido</h3>
       <p><strong>Type:</strong> ${mode} | <strong>Option:</strong> ${deliveryMode}</p>
       <pre style="background: #f4f4f4; padding: 10px; border-radius: 5px;">${orderDetails}</pre>
-      <p><strong>Total: €${total.toFixed(2)}</strong></p>
+      <p><strong>Total: €${(total || 0).toFixed(2)}</strong></p>
     `
   } else if (type === 'shop') {
-    subject = `Shop Order / Pedido da Loja - ${customer.name}`
+    subject = `[V2] Shop Order / Pedido da Loja - ${customer.name}`
     const item = configuration?.[0] || {}
     detailsHtml = `
       <h3>Shop Selection / Seleção da Loja</h3>
       <p><strong>Item:</strong> ${item.title}</p>
       <p><strong>Option:</strong> ${deliveryMode}</p>
-      <p><strong>Total: €${total.toFixed(2)}</strong></p>
+      <p><strong>Total: €${(total || 0).toFixed(2)}</strong></p>
     `
   } else if (type === 'subscription') {
-    subject = `New Subscription Inquiry / Nova Inscrição - ${customer.name}`
+    subject = `[V2] New Subscription Inquiry / Nova Inscrição - ${customer.name}`
     detailsHtml = `
       <h3>Subscription Details / Detalhes da Assinatura</h3>
       <p><strong>Size:</strong> ${extras.sizeLabel}</p>
       <p><strong>Frequency:</strong> ${extras.frequency}x per month</p>
-      <p><strong>Estimated Monthly Total: €${total.toFixed(2)}</strong></p>
+      <p><strong>Estimated Monthly Total: €${(total || 0).toFixed(2)}</strong></p>
     `
   } else if (type === 'events' || type === 'b2b') {
     const label = type === 'events' ? 'Event Inquiry' : 'B2B Inquiry'
-    subject = `${label} / Pedido de Orçamento - ${customer.name || extras.businessName}`
+    subject = `[V2] ${label} - ${customer.name || extras.businessName}`
     detailsHtml = `
       <h3>${label} Details / Detalhes</h3>
       ${extras.businessName ? `<p><strong>Business:</strong> ${extras.businessName}</p>` : ''}
@@ -65,6 +65,14 @@ app.post('/api/order', async (c) => {
       ${extras.location ? `<p><strong>Location:</strong> ${extras.location}</p>` : ''}
       <p><strong>Message:</strong></p>
       <div style="background: #f4f4f4; padding: 10px; border-radius: 5px; white-space: pre-wrap;">${extras.message || 'No message provided.'}</div>
+    `
+  } else if (type === 'footer') {
+    subject = `[V2] Quick Message from Website - ${customer.email}`
+    detailsHtml = `
+      <h3>Quick Contact / Mensagem Rápida</h3>
+      <p><strong>Customer Email:</strong> ${customer.email}</p>
+      <p><strong>Message:</strong></p>
+      <div style="background: #f4f4f4; padding: 10px; border-radius: 5px; white-space: pre-wrap;">${body.message || 'No message.'}</div>
     `
   }
 
@@ -84,7 +92,7 @@ app.post('/api/order', async (c) => {
       <p>
         <strong>Name:</strong> ${customer.name || extras.contactPerson || 'N/A'}<br />
         <strong>Email:</strong> ${customer.email}<br />
-        <strong>Phone:</strong> ${customer.phone}<br />
+        <strong>Phone:</strong> ${customer.phone || 'N/A'}<br />
         ${deliveryMode === 'delivery' || customer.address ? `<strong>Address:</strong> ${customer.address}${customer.city ? `, ${customer.city}` : ''}<br />` : ''}
         ${customer.pickupTime ? `<strong>Time:</strong> ${new Date(customer.pickupTime).toLocaleString()}` : ''}
       </p>
@@ -99,7 +107,7 @@ app.post('/api/order', async (c) => {
 
   try {
     const recipients = ['vincent.flowers.porto@gmail.com']
-    if (customerEmail) {
+    if (customerEmail && customerEmail.includes('@')) {
       recipients.push(customerEmail)
     }
 
