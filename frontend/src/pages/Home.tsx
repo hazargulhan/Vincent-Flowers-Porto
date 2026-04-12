@@ -1,13 +1,6 @@
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect } from 'react'
 import { Info, MessageCircle, Send } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
-
-// Map generic flower names to their images for the visualizer
-const FLOWER_IMAGES: Record<string, string> = {
-  'Rose': '/images/Rose-White.webp',
-  'Matthiola': '/images/Matthiola-Purple.webp',
-  'Flor da Serra': '/images/Flor-da-Serra.webp2.webp',
-}
 
 interface FlowerVariant {
   color: string
@@ -16,48 +9,18 @@ interface FlowerVariant {
   qty: number
 }
 
-interface FlowerGroup {
+export interface FlowerGroup {
   name: string
   available: boolean
+  image: string
   variants: FlowerVariant[]
 }
 
-const INITIAL_GROUPS: FlowerGroup[] = [
-  {
-    name: 'Rose',
-    available: true,
-    variants: [
-      { color: 'White', hexColor: '#f8f9fa', basePrice: 3, qty: 0 },
-      { color: 'Red', hexColor: '#d90429', basePrice: 3.25, qty: 0 },
-    ]
-  },
-  {
-    name: 'Matthiola',
-    available: true,
-    variants: [
-      { color: 'Purple', hexColor: '#e0b0ff', basePrice: 2.5, qty: 0 }
-    ]
-  },
-  {
-    name: 'Flor da Serra',
-    available: true,
-    variants: [
-      { color: 'Pink', hexColor: '#ffb6c1', basePrice: 4, qty: 0 }
-    ]
-  }
-]
-
 export default function Home() {
   const { t } = useTranslation()
-  const [groups, setGroups] = useState<FlowerGroup[]>(INITIAL_GROUPS.filter(g => g.available))
-  
-  const [activeVariants, setActiveVariants] = useState<Record<string, number>>(() => {
-    const defaultActive: Record<string, number> = {}
-    INITIAL_GROUPS.filter(g => g.available).forEach(g => {
-      defaultActive[g.name] = 0 
-    })
-    return defaultActive
-  })
+  const [loading, setLoading] = useState(true)
+  const [groups, setGroups] = useState<FlowerGroup[]>([])
+  const [activeVariants, setActiveVariants] = useState<Record<string, number>>({})
 
   const [mode, setMode] = useState<'bouquet' | 'bunch' | null>(null)
   const [deliveryMode, setDeliveryMode] = useState<'delivery' | 'pickup'>('delivery')
@@ -78,6 +41,32 @@ export default function Home() {
     }
     return new Date(d.getTime() - d.getTimezoneOffset() * 60000).toISOString().slice(0, 16)
   }, [])
+
+  useEffect(() => {
+    const apiUrl = window.location.hostname === 'localhost' 
+      ? 'http://localhost:8787/api/catalog' 
+      : 'https://vincent-flowers-backend.vincent-flowers-porto.workers.dev/api/catalog';
+      
+    fetch(apiUrl)
+      .then(res => res.json())
+      .then(data => {
+        if (data && data.makeYourOwn) {
+          const fetchedGroups = data.makeYourOwn.filter((g: FlowerGroup) => g.available)
+          setGroups(fetchedGroups)
+          const defaultActive: Record<string, number> = {}
+          fetchedGroups.forEach((g: FlowerGroup) => {
+            defaultActive[g.name] = 0 
+          })
+          setActiveVariants(defaultActive)
+        }
+        setLoading(false)
+      })
+      .catch(err => {
+        console.error(err)
+        setLoading(false)
+      })
+  }, [])
+
 
   const handleQtyChange = (groupName: string, delta: number) => {
     const newGroups = [...groups]
@@ -116,16 +105,25 @@ export default function Home() {
     setTimeError('')
     setSubmitted(true)
     try {
-      const apiHost = window.location.hostname
+      const apiUrl = window.location.hostname === 'localhost' 
+        ? 'http://localhost:8787/api/order' 
+        : 'https://vincent-flowers-backend.vincent-flowers-porto.workers.dev/api/order';
       
       const flatConfig = groups.flatMap(g => 
         g.variants.filter(v => v.qty > 0).map(v => ({ name: g.name, color: v.color, price: v.basePrice, qty: v.qty }))
       )
 
-      await fetch(`http://${apiHost}:8787/api/order`, {
+      await fetch(apiUrl, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ configuration: flatConfig, mode, deliveryMode, customer: formData, total: currentTotal })
+        body: JSON.stringify({ 
+          type: 'make-your-own',
+          configuration: flatConfig, 
+          mode, 
+          deliveryMode, 
+          customer: formData, 
+          total: currentTotal 
+        })
       })
     } catch (err) {
       console.error(err)
@@ -133,11 +131,11 @@ export default function Home() {
   }
 
   const compositeStems = useMemo(() => {
-    const stems: {name: string, variant: FlowerVariant}[] = []
+    const stems: {name: string, variant: FlowerVariant, image: string}[] = []
     groups.forEach(g => {
       g.variants.forEach(v => {
         for (let i = 0; i < v.qty; i++) {
-          stems.push({name: g.name, variant: v})
+          stems.push({name: g.name, variant: v, image: g.image})
         }
       })
     })
@@ -154,6 +152,14 @@ export default function Home() {
           <h2>Order Received</h2>
           <p>Thank you, {formData.name}. We have sent an auto-reply to {formData.email}.</p>
         </div>
+      </div>
+    )
+  }
+
+  if (loading) {
+    return (
+      <div className="container page-section" style={{ textAlign: 'center', padding: '4rem 0' }}>
+        <h2>Loading...</h2>
       </div>
     )
   }
@@ -183,7 +189,7 @@ export default function Home() {
                  return (
                    <img 
                       key={`${stem.name}-${stem.variant.color}-${i}`} 
-                      src={FLOWER_IMAGES[stem.name]} 
+                      src={stem.image} 
                       alt=""
                       className="composite-layer"
                       style={{ 

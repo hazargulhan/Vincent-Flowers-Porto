@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next'
 export default function Events() {
   const { t } = useTranslation()
   const [lightboxImg, setLightboxImg] = useState<string | null>(null);
+  const [submitted, setSubmitted] = useState(false);
 
   const portfolioImages = [
     '/images/events/Events - Flowers for People/Sub-1.webp',
@@ -69,25 +70,65 @@ export default function Events() {
       <div style={{ marginTop: '4rem', padding: '3rem', border: '1px solid var(--text-color)', textAlign: 'center' }}>
         <h2>{t('events.consultation')}</h2>
         <p>{t('events.consultation_desc')}</p>
-        <form style={{ display: 'flex', flexDirection: 'column', gap: '1rem', maxWidth: '500px', margin: '2rem auto 0' }} onSubmit={(e) => { e.preventDefault(); alert('Quote Request Sent.'); }}>
-          <input type="text" placeholder={t('events.form_name')} required />
-          <input type="email" placeholder={t('events.form_email')} required />
-          <input type="tel" placeholder={t('events.form_phone')} required />
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', textAlign: 'left' }}>
-            <label style={{ fontSize: '0.9rem', color: '#666' }}>{t('events.form_date')}</label>
-            <input 
-              type="date" 
-              required 
-              placeholder="dd/mm/yyyy"
-              onClick={(e) => e.currentTarget.showPicker()}
-              style={{ width: '100%' }}
-            />
+        
+        {submitted ? (
+          <div style={{ padding: '2rem', marginTop: '2rem' }}>
+            <h3>{t('events.inquiry_sent') || 'Consultation Requested'}</h3>
+            <p>{t('events.inquiry_sent_desc') || 'We will contact you shortly.'}</p>
           </div>
-          <input type="text" placeholder={t('events.form_location')} required />
-          <button type="submit" style={{ padding: '1rem', background: 'transparent', color: 'var(--text-color)', border: '1px solid var(--text-color)' }}>
-             {t('events.btn_send')}
-          </button>
-        </form>
+        ) : (
+          <form 
+            style={{ display: 'flex', flexDirection: 'column', gap: '1rem', maxWidth: '500px', margin: '2rem auto 0' }} 
+            onSubmit={async (e) => { 
+              e.preventDefault(); 
+              const target = e.target as any;
+              const data = {
+                type: 'events',
+                customer: {
+                  name: target[0].value,
+                  email: target[1].value,
+                  phone: target[2].value,
+                },
+                eventDate: target[3].value,
+                location: target[4].value,
+                message: 'Consultation request for event.'
+              };
+
+              setSubmitted(true);
+              try {
+                const apiUrl = window.location.hostname === 'localhost' 
+                  ? 'http://localhost:8787/api/order' 
+                  : 'https://vincent-flowers-backend.vincent-flowers-porto.workers.dev/api/order';
+                
+                await fetch(apiUrl, {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify(data)
+                })
+              } catch (err) {
+                console.error('Event Inquiry failed:', err)
+              }
+            }}
+          >
+            <input type="text" placeholder={t('events.form_name')} required />
+            <input type="email" placeholder={t('events.form_email')} required />
+            <input type="tel" placeholder={t('events.form_phone')} required />
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', textAlign: 'left' }}>
+              <label style={{ fontSize: '0.9rem', color: '#666' }}>{t('events.form_date')}</label>
+              <input 
+                type="date" 
+                required 
+                placeholder="dd/mm/yyyy"
+                onClick={(e) => e.currentTarget.showPicker()}
+                style={{ width: '100%' }}
+              />
+            </div>
+            <input type="text" placeholder={t('events.form_location')} required />
+            <button type="submit" style={{ padding: '1rem', background: 'transparent', color: 'var(--text-color)', border: '1px solid var(--text-color)' }}>
+               {t('events.btn_send')}
+            </button>
+          </form>
+        )}
       </div>
 
       {lightboxImg && <ImageModal src={lightboxImg} onClose={() => setLightboxImg(null)} />}

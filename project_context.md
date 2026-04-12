@@ -47,13 +47,14 @@ Vincent Flowers, Porto merkezli yerel bir çiçekçinin (Vincent Flowers) dijita
 
 ### Altyapı
 - [x] **Bilingual Support:** Tüm metinlerin i18next kancalarıyla (t hooks) sistemize edilmesi (EN/PT).
-- [x] **API Entegrasyonu:** Hono tabanlı temel backend endpoint'leri (Envanter, Sipariş mock süreci).
+- [x] **API Entegrasyonu:** Hono tabanlı temel backend endpoint'leri (Envanter, Sipariş süreci).
+- [x] **Gerçek E-posta Entegrasyonu:** Resend üzerinden çift dilli (EN/PT) sipariş bildirim sisteminin aktif hale getirilmesi.
+- [x] **Git & GitHub:** Projenin GitHub reposuna aktarılması ve CI/CD süreçleri için hazır hale getirilmesi.
 - [x] **Admin Girişi:** Temel şifre korumalı (admin auth) ön hazırlık.
 
 ---
 
 ## 4. Bilinen Mevcut Hatalar / Eksikler
-- [ ] **Gerçek E-posta Entegrasyonu:** Sipariş bildirimleri şu an sadece backend konsoluna loglanır (Mock).
 - [ ] **Canlı Ödeme Sistemi:** Ödeme altyapısı (Stripe vb.) henüz entegre edilmedi (Siparişler şu an form tabanlı/iletişim odaklı).
 - [ ] **Envanter Yönetimi Arayüzü:** Admin panelinin envanter güncelleme (fiyat/stok) kısmı henüz tam işlevsel değil.
 - [ ] **SEO Meta Tagları:** Her sayfa için dinamik meta verileri (OpenGraph/SEO) eklenmeli.
@@ -61,10 +62,8 @@ Vincent Flowers, Porto merkezli yerel bir çiçekçinin (Vincent Flowers) dijita
 ---
 
 ## 5. Bir Sonraki Adımda Yapılacaklar
-1. **Bildirim Sistemi:** Brevo veya Resend gibi bir servis üzerinden gerçek sipariş e-postalarının gönderilmesi.
-2. **Deploy Süreci:** Frontend'in Cloudflare Pages'e, Backend'in Cloudflare Workers'a kalıcı olarak dağıtılması.
-3. **SEO Optimizasyonu:** Sayfa bazlı meta descriptions ve title tag'lerinin optimize edilmesi.
-4. **Resim Optimizasyonu:** Çekilen ürün resimlerinin 3:5 oranında ve optimize edilmiş formatlarda (WebP) sunulması.
+1. **Deploy Süreci:** Frontend'in Cloudflare Pages'e, Backend'in Cloudflare Workers'a kalıcı olarak dağıtılması.
+2. **SEO Optimizasyonu:** Sayfa bazlı meta descriptions ve title tag'lerinin optimize edilmesi.
 
 ---
 

@@ -156,7 +156,32 @@ export default function Subscription() {
         {/* STEP 3 */}
         <div className={`step-section ${!isStep2Complete ? 'frozen-section' : ''}`}>
           <h2 style={{ borderBottom: '1px solid var(--border-color)', paddingBottom: '1rem', marginBottom: '1.5rem' }}>{t('sub.step3')}</h2>
-          <form onSubmit={e => { e.preventDefault(); setSubmitted(true) }} className="delivery-form">
+          <form 
+            onSubmit={async (e) => { 
+                e.preventDefault(); 
+                setSubmitted(true);
+                try {
+                  const apiUrl = window.location.hostname === 'localhost' 
+                    ? 'http://localhost:8787/api/order' 
+                    : 'https://vincent-flowers-backend.vincent-flowers-porto.workers.dev/api/order';
+                  
+                  await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ 
+                      type: 'subscription',
+                      customer: formData, 
+                      total: totalMonthly,
+                      sizeLabel: size ? sizePricing[size].label : 'Unknown',
+                      frequency: freq
+                    })
+                  })
+                } catch (err) {
+                  console.error('Subscription Inquiry failed:', err)
+                }
+            }} 
+            className="delivery-form"
+          >
             <input type="text" placeholder={t('sub.form_name')} required value={formData.name} onChange={e => setFormData({...formData, name: e.target.value})} />
             <input type="email" placeholder={t('sub.form_email')} required value={formData.email} onChange={e => setFormData({...formData, email: e.target.value})} />
             <input type="tel" placeholder={t('sub.form_phone')} required value={formData.phone} onChange={e => setFormData({...formData, phone: e.target.value})} />

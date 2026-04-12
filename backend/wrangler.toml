@@ -4,3 +4,8 @@ compatibility_date = "2024-03-20"
 
 [observability]
 enabled = true
+
+[[kv_namespaces]]
+binding = "VINCENT_INVENTORY"
+id = "f1e6af9a68a94d7e9cfc13e09bf812e9"
+preview_id = "35bf31b0a19d44f9814519f464d279c5"

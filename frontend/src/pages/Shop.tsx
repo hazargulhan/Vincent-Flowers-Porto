@@ -1,9 +1,17 @@
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect } from 'react'
 import ImageModal from '../components/ImageModal'
 import { useTranslation } from 'react-i18next'
 
+export interface Bouquet {
+  title: string
+  price: number
+  img: string
+  available: boolean
+}
+
 export default function Shop() {
   const { t } = useTranslation()
+  const [loading, setLoading] = useState(true)
   const [lightboxImg, setLightboxImg] = useState<string | null>(null);
   const [sortBy, setSortBy] = useState('none')
   const [selectedBouquet, setSelectedBouquet] = useState<{title: string, price: number} | null>(null)
@@ -12,21 +20,8 @@ export default function Shop() {
   const [submitted, setSubmitted] = useState(false)
   const [timeError, setTimeError] = useState('')
   
-  const bouquets = [
-    { title: 'Annette', price: 45, img: '/images/shop/Annette.webp' },
-    { title: 'Blue iris', price: 50, img: '/images/shop/Blue iris.webp' },
-    { title: 'Bright Spring', price: 60, img: '/images/shop/Bright Spring.webp' },
-    { title: 'King Julian', price: 75, img: '/images/shop/King Julian.webp' },
-    { title: 'Marshmallow', price: 55, img: '/images/shop/Marshmallow.webp' },
-    { title: 'Martha', price: 45, img: '/images/shop/Martha.webp' },
-    { title: 'Rose Basket', price: 85, img: '/images/shop/Rose Basket.webp' },
-    { title: 'Salmon Rose', price: 55, img: '/images/shop/Salmon Rose.webp' },
-    { title: 'Spring Flowers', price: 50, img: '/images/shop/Spring Flowers.webp' },
-    { title: 'Tropical', price: 65, img: '/images/shop/Tropical.webp' },
-    { title: 'Tulip basket', price: 60, img: '/images/shop/Tulip basket.webp' },
-    { title: 'Venus', price: 70, img: '/images/shop/Venus.webp' },
-    { title: 'Vera', price: 45, img: '/images/shop/Vera.webp' }
-  ]
+  const [bouquets, setBouquets] = useState<Bouquet[]>([])
+
 
   const sortedBouquets = [...bouquets].sort((a, b) => {
     if (sortBy === 'price-asc') return a.price - b.price
@@ -47,6 +42,27 @@ export default function Shop() {
     return new Date(d.getTime() - d.getTimezoneOffset() * 60000).toISOString().slice(0, 16)
   }, [])
 
+  useEffect(() => {
+    const apiUrl = window.location.hostname === 'localhost' 
+      ? 'http://localhost:8787/api/catalog' 
+      : 'https://vincent-flowers-backend.vincent-flowers-porto.workers.dev/api/catalog';
+      
+    fetch(apiUrl)
+      .then(res => res.json())
+      .then(data => {
+        if (data && data.shopBouquets) {
+          const activeBouquets = data.shopBouquets.filter((b: Bouquet) => b.available !== false)
+          setBouquets(activeBouquets)
+        }
+        setLoading(false)
+      })
+      .catch(err => {
+        console.error(err)
+        setLoading(false)
+      })
+  }, [])
+
+
   const validateTime = (dateStr: string) => {
     const d = new Date(dateStr)
     const hours = d.getHours()
@@ -63,7 +79,27 @@ export default function Shop() {
     if (error) { setTimeError(error); return }
     setTimeError('')
     setSubmitted(true)
-    // mock api wait...
+    
+    try {
+      const apiUrl = window.location.hostname === 'localhost' 
+        ? 'http://localhost:8787/api/order' 
+        : 'https://vincent-flowers-backend.vincent-flowers-porto.workers.dev/api/order';
+      
+      await fetch(apiUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+          type: 'shop',
+          mode: 'Shop Bouquet',
+          deliveryMode, 
+          customer: formData, 
+          total: selectedBouquet.price,
+          configuration: [selectedBouquet]
+        })
+      })
+    } catch (err) {
+      console.error('Order failed:', err)
+    }
   }
 
   if (submitted) {
@@ -71,6 +107,14 @@ export default function Shop() {
       <div className="container page-section" style={{ textAlign: 'center', padding: '4rem 0' }}>
         <h2>{t('shop.order_received')}</h2>
         <p>{t('shop.order_received_desc')}</p>
+      </div>
+    )
+  }
+
+  if (loading) {
+    return (
+      <div className="container page-section" style={{ textAlign: 'center', padding: '4rem 0' }}>
+        <h2>Loading...</h2>
       </div>
     )
   }
