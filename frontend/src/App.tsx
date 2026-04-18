@@ -1,4 +1,5 @@
 import { useState } from 'react'
+// Version 1.0.1 - Triggering auto-deploy
 import { Routes, Route, Link, useLocation } from 'react-router-dom'
 import { Menu, X, MessageCircle } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
