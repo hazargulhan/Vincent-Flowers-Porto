@@ -27,11 +27,11 @@ export default function Landing() {
             </a>
           </div>
         </div>
-        <div className="hero-image-content">
+        <div className="hero-image-content" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
           <img 
             src="/images/About/IMG_5663.JPG" 
             alt="Artisanal Bouquet" 
-            style={{ width: '100%', minHeight: '400px', objectFit: 'cover' }} 
+            style={{ width: '95%', minHeight: '400px', maxHeight: '85vh', objectFit: 'cover', borderRadius: '8px' }} 
           />
         </div>
       </section>
