@@ -119,8 +119,11 @@ function FooterForm({ t }: { t: any }) {
           message
         })
       })
+      setSubmitted(true)
     } catch (err) {
       console.error('Footer message failed:', err)
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -142,7 +145,7 @@ function FooterForm({ t }: { t: any }) {
         value={message}
         onChange={e => setMessage(e.target.value)}
       ></textarea>
-      <button type="submit">{t('footer.send')}</button>
+      <button type="submit" disabled={loading}>{loading ? t('footer.sending') || 'Sending...' : t('footer.send')}</button>
     </form>
   )
 }
