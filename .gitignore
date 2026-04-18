@@ -9,7 +9,6 @@ coverage
 # Build
 dist
 .wrangler
-.github
 
 # Environment variables
 .env
