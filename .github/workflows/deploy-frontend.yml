@@ -32,7 +32,7 @@ jobs:
         uses: cloudflare/pages-action@v1
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          accountId: '3c2a3d9cf4b7a29183669f8ef6f334d2'
           projectName: 'vincent-flowers-porto'
           directory: 'frontend/dist'
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
