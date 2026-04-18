@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect } from 'react'
+import { useState, useMemo, useEffect, useRef } from 'react'
 import ImageModal from '../components/ImageModal'
 import { useTranslation } from 'react-i18next'
 
@@ -16,9 +16,10 @@ export default function Shop() {
   const [sortBy, setSortBy] = useState('none')
   const [selectedBouquet, setSelectedBouquet] = useState<{title: string, price: number} | null>(null)
   const [deliveryMode, setDeliveryMode] = useState<'delivery' | 'pickup'>('delivery')
-  const [formData, setFormData] = useState({ name: '', email: '', phone: '', address: '', pickupTime: '', city: 'Porto' })
+  const [formData, setFormData] = useState({ name: '', email: '', phone: '', address: '', pickupDate: '', pickupSlot: 'Morning (10:00 - 13:00)', city: 'Porto' })
   const [submitted, setSubmitted] = useState(false)
   const [timeError, setTimeError] = useState('')
+  const step2Ref = useRef<HTMLDivElement>(null)
   
   const [bouquets, setBouquets] = useState<Bouquet[]>([])
 
@@ -29,17 +30,10 @@ export default function Shop() {
     return 0
   })
 
-  const minDatetime = useMemo(() => {
+  const minDate = useMemo(() => {
     const d = new Date()
-    d.setHours(d.getHours() + 5)
-    if (d.getHours() >= 18) {
-      d.setDate(d.getDate() + 1)
-      d.setHours(9, 0, 0, 0)
-    }
-    if (d.getHours() < 9) {
-      d.setHours(9, 0, 0, 0)
-    }
-    return new Date(d.getTime() - d.getTimezoneOffset() * 60000).toISOString().slice(0, 16)
+    d.setDate(d.getDate() + 1)
+    return new Date(d.getTime() - d.getTimezoneOffset() * 60000).toISOString().split('T')[0]
   }, [])
 
   useEffect(() => {
@@ -64,18 +58,19 @@ export default function Shop() {
 
 
   const validateTime = (dateStr: string) => {
+    if (!dateStr) return t('shop.time_err_bounds')
     const d = new Date(dateStr)
-    const hours = d.getHours()
-    if (hours < 9 || hours >= 18) return t('shop.time_err_bounds')
-    const diff = (d.getTime() - new Date().getTime()) / 3600000
-    if (diff < 5) return t('shop.time_err_notice')
+    const tomorrow = new Date()
+    tomorrow.setDate(tomorrow.getDate() + 1)
+    tomorrow.setHours(0,0,0,0)
+    if (d < tomorrow) return t('shop.time_err_notice')
     return ""
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     if (!selectedBouquet) return
-    const error = validateTime(formData.pickupTime)
+    const error = validateTime(formData.pickupDate)
     if (error) { setTimeError(error); return }
     setTimeError('')
     setSubmitted(true)
@@ -85,6 +80,11 @@ export default function Shop() {
         ? 'http://localhost:8787/api/order' 
         : 'https://vincent-flowers-backend.vincent-flowers-porto.workers.dev/api/order';
       
+      const payloadFormData = {
+        ...formData,
+        pickupTime: formData.pickupDate ? `${formData.pickupDate} - ${formData.pickupSlot}` : ''
+      }
+
       await fetch(apiUrl, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -92,7 +92,7 @@ export default function Shop() {
           type: 'shop',
           mode: 'Shop Bouquet',
           deliveryMode, 
-          customer: formData, 
+          customer: payloadFormData, 
           total: selectedBouquet.price,
           configuration: [selectedBouquet]
         })
@@ -144,7 +144,10 @@ export default function Shop() {
             {sortedBouquets.map(b => {
               const isSelected = selectedBouquet?.title === b.title
               return (
-                <div key={b.title} style={{ border: isSelected ? '2px solid var(--text-color)' : '1px solid var(--border-color)', padding: '1rem', textAlign: 'center', cursor: 'pointer', transition: 'all 0.2s', display: 'flex', flexDirection: 'column', height: '100%' }} onClick={() => setSelectedBouquet(b)}>
+                <div key={b.title} style={{ border: isSelected ? '2px solid var(--text-color)' : '1px solid var(--border-color)', padding: '1rem', textAlign: 'center', cursor: 'pointer', transition: 'all 0.2s', display: 'flex', flexDirection: 'column', height: '100%' }} onClick={() => {
+                  setSelectedBouquet(b);
+                  setTimeout(() => step2Ref.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 100);
+                }}>
                     <div 
                        style={{ width: '100%', aspectRatio: '3 / 5', marginBottom: '1rem', overflow: 'hidden' }}
                        onClick={(e) => { e.stopPropagation(); setLightboxImg((b as any).img); }}
@@ -167,7 +170,7 @@ export default function Shop() {
         </div>
 
         {/* STEP 2 */}
-        <div className={`step-section ${!selectedBouquet ? 'frozen-section' : ''}`}>
+        <div ref={step2Ref} className={`step-section ${!selectedBouquet ? 'frozen-section' : ''}`}>
           <h2 style={{ borderBottom: '1px solid var(--border-color)', paddingBottom: '1rem', marginBottom: '2rem' }}>{t('shop.step2')}</h2>
           
           <div className="delivery-toggle mode-buttons" style={{ marginBottom: '1rem' }}>
@@ -202,15 +205,25 @@ export default function Shop() {
             
             <h3 style={{ marginTop: '1rem', marginBottom: '0.5rem' }}>{t('shop.preferred_time')}</h3>
             <small style={{ display: 'block', marginBottom: '1rem' }}>{t('shop.time_warning')}</small>
-            <input 
-              type="datetime-local" 
-              min={minDatetime} 
-              required 
-              placeholder="dd/mm/yyyy --:--"
-              value={formData.pickupTime} 
-              onClick={(e) => e.currentTarget.showPicker()}
-              onChange={e => { setFormData({...formData, pickupTime: e.target.value}); setTimeError(''); }} 
-            />
+            <div style={{ display: 'flex', gap: '1rem', flexDirection: 'column' }}>
+              <input 
+                type="date" 
+                min={minDate} 
+                required 
+                placeholder="dd/mm/yyyy"
+                value={formData.pickupDate} 
+                onClick={(e) => e.currentTarget.showPicker && e.currentTarget.showPicker()}
+                onChange={e => { setFormData({...formData, pickupDate: e.target.value}); setTimeError(''); }} 
+              />
+              <select 
+                required 
+                value={formData.pickupSlot} 
+                onChange={e => setFormData({...formData, pickupSlot: e.target.value})}
+              >
+                <option value="Morning (10:00 - 13:00)">Morning (10:00 - 13:00)</option>
+                <option value="Afternoon (14:00 - 17:30)">Afternoon (14:00 - 17:30)</option>
+              </select>
+            </div>
             {timeError && <div style={{ color: 'red', marginTop: '0.5rem' }}>{timeError}</div>}
             
             <div style={{ marginTop: '2rem', padding: '1.5rem', border: '1px solid var(--border-color)', background: 'transparent', color: 'var(--text-color)', textAlign: 'center' }}>

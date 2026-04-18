@@ -19,9 +19,9 @@ export default function About() {
           </div>
           <div 
              style={{ background: '#f0f0f0', height: '400px', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden', cursor: 'pointer' }}
-             onClick={() => setLightboxImg('/images/About/IMG_5304.webp')}
+             onClick={() => setLightboxImg('/images/landing-hero.jpg')}
           >
-            <img src="/images/About/IMG_5304.webp" alt="Studio Detail" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+            <img src="/images/landing-hero.jpg" alt="Studio Detail" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
           </div>
         </div>
         <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>

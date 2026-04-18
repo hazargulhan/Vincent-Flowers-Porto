@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { ArrowRight } from 'lucide-react'
+import { ArrowRight, Instagram } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 
 export default function Landing() {
@@ -21,10 +21,15 @@ export default function Landing() {
               {t('landing.btn_shop')} <ArrowRight size={20} />
             </Link>
           </div>
+          <div style={{ marginTop: '2rem' }}>
+            <a href="https://www.instagram.com/vincent_flowers_porto/" target="_blank" rel="noreferrer" style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', padding: '0.5rem', border: '1px solid var(--border-color)', borderRadius: '50%', color: 'inherit', transition: 'all 0.2s ease' }} className="ig-icon-btn">
+              <Instagram size={24} />
+            </a>
+          </div>
         </div>
         <div className="hero-image-content">
           <img 
-            src="/images/landing-hero.jpg" 
+            src="/images/About/IMG_5663.JPG" 
             alt="Artisanal Bouquet" 
             style={{ width: '100%', minHeight: '400px', objectFit: 'cover' }} 
           />

@@ -24,22 +24,15 @@ export default function Home() {
 
   const [mode, setMode] = useState<'bouquet' | 'bunch' | null>(null)
   const [deliveryMode, setDeliveryMode] = useState<'delivery' | 'pickup'>('delivery')
-  const [formData, setFormData] = useState({ name: '', email: '', phone: '', address: '', pickupTime: '', city: 'Porto' })
+  const [formData, setFormData] = useState({ name: '', email: '', phone: '', address: '', pickupDate: '', pickupSlot: 'Morning (10:00 - 13:00)', city: 'Porto' })
   const [submitted, setSubmitted] = useState(false)
   const [timeError, setTimeError] = useState('')
   const [showInfo, setShowInfo] = useState<'bouquet' | 'bunch' | 'pickup' | null>(null)
 
-  const minDatetime = useMemo(() => {
+  const minDate = useMemo(() => {
     const d = new Date()
-    d.setHours(d.getHours() + 5)
-    if (d.getHours() >= 18) {
-      d.setDate(d.getDate() + 1)
-      d.setHours(9, 0, 0, 0)
-    }
-    if (d.getHours() < 9) {
-      d.setHours(9, 0, 0, 0)
-    }
-    return new Date(d.getTime() - d.getTimezoneOffset() * 60000).toISOString().slice(0, 16)
+    d.setDate(d.getDate() + 1)
+    return new Date(d.getTime() - d.getTimezoneOffset() * 60000).toISOString().split('T')[0]
   }, [])
 
   useEffect(() => {
@@ -81,14 +74,13 @@ export default function Home() {
   const currentTotal = baseTotal * priceModifier
 
   const validateTime = (dateStr: string) => {
+    if (!dateStr) return "Please select a date."
     const d = new Date(dateStr)
-    const hours = d.getHours()
-    if (hours < 9 || hours >= 18) {
-      return "Delivery/Pickup is only available between 09:00 and 18:00."
-    }
-    const diff = (d.getTime() - new Date().getTime()) / (1000 * 60 * 60)
-    if (diff < 5) {
-      return "Minimum 5 working hours required before delivery/pickup."
+    const tomorrow = new Date()
+    tomorrow.setDate(tomorrow.getDate() + 1)
+    tomorrow.setHours(0,0,0,0)
+    if (d < tomorrow) {
+      return "Minimum 1 working day required before delivery/pickup."
     }
     return ""
   }
@@ -97,7 +89,7 @@ export default function Home() {
     e.preventDefault()
     if (baseTotal < 15 || !mode) return;
     
-    const error = validateTime(formData.pickupTime)
+    const error = validateTime(formData.pickupDate)
     if (error) {
       setTimeError(error)
       return
@@ -113,6 +105,11 @@ export default function Home() {
         g.variants.filter(v => v.qty > 0).map(v => ({ name: g.name, color: v.color, price: v.basePrice, qty: v.qty }))
       )
 
+      const payloadFormData = {
+        ...formData,
+        pickupTime: formData.pickupDate ? `${formData.pickupDate} - ${formData.pickupSlot}` : ''
+      }
+
       await fetch(apiUrl, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -121,7 +118,7 @@ export default function Home() {
           configuration: flatConfig, 
           mode, 
           deliveryMode, 
-          customer: formData, 
+          customer: payloadFormData, 
           total: currentTotal 
         })
       })
@@ -348,18 +345,28 @@ export default function Home() {
                 
                 <h3 style={{ marginTop: '1rem', marginBottom: '0.5rem' }}>{deliveryMode === 'delivery' ? t('home.delivery_time') : t('home.pickup_time')}</h3>
                 <small style={{ display: 'block', marginBottom: '1rem' }}>{t('home.time_warning')}</small>
-                <input 
-                  type="datetime-local" 
-                  min={minDatetime} 
-                  required 
-                  placeholder="dd/mm/yyyy --:--"
-                  value={formData.pickupTime} 
-                  onClick={(e) => e.currentTarget.showPicker()}
-                  onChange={e => {
-                     setFormData({...formData, pickupTime: e.target.value});
-                     setTimeError('');
-                  }} 
-                />
+                <div style={{ display: 'flex', gap: '1rem', flexDirection: 'column' }}>
+                  <input 
+                    type="date" 
+                    min={minDate} 
+                    required 
+                    placeholder="dd/mm/yyyy"
+                    value={formData.pickupDate} 
+                    onClick={(e) => e.currentTarget.showPicker && e.currentTarget.showPicker()}
+                    onChange={e => {
+                       setFormData({...formData, pickupDate: e.target.value});
+                       setTimeError('');
+                    }} 
+                  />
+                  <select 
+                    required 
+                    value={formData.pickupSlot} 
+                    onChange={e => setFormData({...formData, pickupSlot: e.target.value})}
+                  >
+                    <option value="Morning (10:00 - 13:00)">Morning (10:00 - 13:00)</option>
+                    <option value="Afternoon (14:00 - 17:30)">Afternoon (14:00 - 17:30)</option>
+                  </select>
+                </div>
                 {timeError && <div style={{ color: 'red', marginTop: '0.5rem' }}>{timeError}</div>}
                 
                 <div style={{ marginTop: '2rem', padding: '1.5rem', border: '1px solid var(--border-color)', background: 'transparent', color: 'var(--text-color)', textAlign: 'center' }}>

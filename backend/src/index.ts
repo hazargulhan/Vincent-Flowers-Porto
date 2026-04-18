@@ -24,11 +24,11 @@ app.post('/api/order', async (c) => {
   const customerEmail = customer?.email
 
   // 1. Build dynamic email content based on type
-  let subject = `[V2] New Inquiry - Vincent Flowers Porto`
+  let subject = `New Inquiry - Vincent Flowers Porto`
   let detailsHtml = ''
 
   if (type === 'make-your-own') {
-    subject = `[V2] New Custom Order / Novo Pedido Customizado - ${customer.name}`
+    subject = `New Custom Order / Novo Pedido Customizado - ${customer.name}`
     const orderDetails = (configuration || []).map((item: any) => 
       `- ${item.name} (${item.color}) - ${item.qty}x: €${(item.price * item.qty).toFixed(2)}`
     ).join('\n')
@@ -39,7 +39,7 @@ app.post('/api/order', async (c) => {
       <p><strong>Total: €${(total || 0).toFixed(2)}</strong></p>
     `
   } else if (type === 'shop') {
-    subject = `[V2] Shop Order / Pedido da Loja - ${customer.name}`
+    subject = `Shop Order / Pedido da Loja - ${customer.name}`
     const item = configuration?.[0] || {}
     detailsHtml = `
       <h3>Shop Selection / Seleção da Loja</h3>
@@ -48,7 +48,7 @@ app.post('/api/order', async (c) => {
       <p><strong>Total: €${(total || 0).toFixed(2)}</strong></p>
     `
   } else if (type === 'subscription') {
-    subject = `[V2] New Subscription Inquiry / Nova Inscrição - ${customer.name}`
+    subject = `New Subscription Inquiry / Nova Inscrição - ${customer.name}`
     detailsHtml = `
       <h3>Subscription Details / Detalhes da Assinatura</h3>
       <p><strong>Size:</strong> ${extras.sizeLabel}</p>
@@ -57,7 +57,7 @@ app.post('/api/order', async (c) => {
     `
   } else if (type === 'events' || type === 'b2b') {
     const label = type === 'events' ? 'Event Inquiry' : 'B2B Inquiry'
-    subject = `[V2] ${label} - ${customer.name || extras.businessName}`
+    subject = `${label} - ${customer.name || extras.businessName}`
     detailsHtml = `
       <h3>${label} Details / Detalhes</h3>
       ${extras.businessName ? `<p><strong>Business:</strong> ${extras.businessName}</p>` : ''}
@@ -67,7 +67,7 @@ app.post('/api/order', async (c) => {
       <div style="background: #f4f4f4; padding: 10px; border-radius: 5px; white-space: pre-wrap;">${extras.message || 'No message provided.'}</div>
     `
   } else if (type === 'footer') {
-    subject = `[V2] Quick Message from Website - ${customer.email}`
+    subject = `Quick Message from Website - ${customer.email}`
     detailsHtml = `
       <h3>Quick Contact / Mensagem Rápida</h3>
       <p><strong>Customer Email:</strong> ${customer.email}</p>
@@ -79,8 +79,8 @@ app.post('/api/order', async (c) => {
   const emailHtml = `
     <div style="font-family: sans-serif; line-height: 1.6; color: #333;">
       <h2 style="color: #d44c8c;">Vincent Flowers Porto</h2>
-      <p><strong>English:</strong> We have received your inquiry/order. We will contact you soon!</p>
-      <p><strong>Português:</strong> Recebemos a sua solicitação. Entraremos em contacto em breve!</p>
+      <p><strong>English:</strong> Thank you for your order! It is now being processed by our team.<br/><br/>We will reach out to you shortly via WhatsApp or email to confirm the details.<br/><br/>Regarding payment, please note that we accept bank transfers or credit cards.<br/><br/>Best wishes,<br/>Vincent Flowers Porto</p>
+      <p><strong>Português:</strong> Obrigado pela sua encomenda! Está agora a ser processada pela nossa equipa.<br/><br/>Entraremos em contacto em breve via WhatsApp ou email para confirmar os detalhes.<br/><br/>Relativamente ao pagamento, por favor note que aceitamos transferências bancárias ou cartões de crédito.<br/><br/>Com os melhores cumprimentos,<br/>Vincent Flowers Porto</p>
       
       <hr style="border: none; border-top: 1px solid #eee; margin: 20px 0;" />
       
@@ -94,7 +94,7 @@ app.post('/api/order', async (c) => {
         <strong>Email:</strong> ${customer.email}<br />
         <strong>Phone:</strong> ${customer.phone || 'N/A'}<br />
         ${deliveryMode === 'delivery' || customer.address ? `<strong>Address:</strong> ${customer.address}${customer.city ? `, ${customer.city}` : ''}<br />` : ''}
-        ${customer.pickupTime ? `<strong>Time:</strong> ${new Date(customer.pickupTime).toLocaleString()}` : ''}
+        ${customer.pickupTime ? `<strong>Time:</strong> ${customer.pickupTime}` : ''}
       </p>
       
       <footer style="margin-top: 30px; font-size: 0.8em; color: #777; border-top: 1px solid #eee; padding-top: 10px;">
@@ -112,7 +112,7 @@ app.post('/api/order', async (c) => {
     }
 
     await resend.emails.send({
-      from: 'Vincent Flowers <orders@vincentflowersporto.com>',
+      from: 'Vincent Flowers <noreply@vincentflowersporto.com>',
       to: recipients,
       subject: subject,
       html: emailHtml,

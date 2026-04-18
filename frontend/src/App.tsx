@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Routes, Route, Link, useLocation } from 'react-router-dom'
-import { Menu, X } from 'lucide-react'
+import { Menu, X, MessageCircle } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import './App.css'
 
@@ -73,8 +73,10 @@ function App() {
         <div className="container footer-content">
           <div>
             <h3>{t('footer.contact_us')}</h3>
-            <p>Rua de Tanger 1544 Porto</p>
-            <p>{t('footer.phone')}: +351- 911-11-9351</p>
+            <p>Rua de Tanger 1544, 4150-722 Porto</p>
+            <p style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', flexWrap: 'wrap' }}>
+              {t('footer.phone')}: <MessageCircle size={16} /> +351- 911-119 - 351
+            </p>
             <p>Email: vincent.flowers.porto@gmail.com</p>
           </div>
           <div>
