@@ -115,7 +115,13 @@ export default function B2B() {
             }}
             onClick={() => setLightboxImg(img)}
           >
-            <img src={img} alt={`B2B Portfolio Visual ${idx + 1}`} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+            <img
+              src={img}
+              alt={`B2B Portfolio Visual ${idx + 1}`}
+              loading="lazy"
+              decoding="async"
+              style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+            />
           </div>
         ))}
       </div>

@@ -172,7 +172,13 @@ export default function Shop() {
                        style={{ width: '100%', aspectRatio: '3 / 5', marginBottom: '1rem', overflow: 'hidden' }}
                        onClick={(e) => { e.stopPropagation(); setLightboxImg(mediaUrl(b.img)); }}
                     >
-                      <img src={mediaUrl(b.img)} alt={b.title} style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center', cursor: 'zoom-in' }} />
+                      <img
+                        src={mediaUrl(b.img)}
+                        alt={b.title}
+                        loading="lazy"
+                        decoding="async"
+                        style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center', cursor: 'zoom-in' }}
+                      />
                     </div>
                     <div style={{ flex: '1', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
                       <div>

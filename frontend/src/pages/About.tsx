@@ -21,13 +21,25 @@ export default function About() {
              style={{ background: '#f0f0f0', height: '400px', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden', cursor: 'pointer' }}
              onClick={() => setLightboxImg('/images/About/IMG_5305.webp')}
           >
-            <img src="/images/About/IMG_5305.webp" alt={t('about.founder_alt')} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+            <img
+              src="/images/About/IMG_5305.webp"
+              alt={t('about.founder_alt')}
+              loading="lazy"
+              decoding="async"
+              style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+            />
           </div>
           <div 
              style={{ background: '#f0f0f0', height: '400px', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden', cursor: 'pointer' }}
              onClick={() => setLightboxImg('/images/landing-hero.jpg')}
           >
-            <img src="/images/landing-hero.jpg" alt={t('about.studio_alt')} style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 25%' }} />
+            <img
+              src="/images/landing-hero.jpg"
+              alt={t('about.studio_alt')}
+              loading="lazy"
+              decoding="async"
+              style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 25%' }}
+            />
           </div>
         </div>
         <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>

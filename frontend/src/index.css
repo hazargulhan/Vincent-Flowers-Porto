@@ -24,23 +24,22 @@
 }
 
 .closure-notice__item {
-  background: #f7f3eb;
+  background: #f8f5ee;
   border: 1px solid #dfd7cb;
-  border-left: 4px solid var(--text-color);
   padding: 1.25rem 1.5rem;
   border-radius: 4px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.03);
 }
 
 .closure-notice__item--upcoming {
-  background: #faf7f2;
-  border-left-color: #8c857b;
+  background: #fbf9f4;
+  border-color: #e5e0d7;
 }
 
 .closure-notice__header {
   display: flex;
   align-items: center;
-  margin-bottom: 0.6rem;
+  margin-bottom: 0.5rem;
 }
 
 .closure-notice__badge {
@@ -49,13 +48,13 @@
   gap: 0.45rem;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  font-size: 0.78rem;
+  font-size: 0.76rem;
   font-weight: 600;
-  color: var(--text-color);
+  color: #444;
 }
 
 .closure-notice__item--upcoming .closure-notice__badge {
-  color: #555;
+  color: #666;
 }
 
 .closure-notice__message {
@@ -70,10 +69,10 @@
   display: inline-flex;
   align-items: center;
   gap: 0.45rem;
-  font-size: 0.9rem;
+  font-size: 0.88rem;
   color: #333;
   font-weight: 600;
-  background: rgba(0, 0, 0, 0.05);
+  background: rgba(0, 0, 0, 0.04);
   padding: 0.35rem 0.65rem;
   border-radius: 3px;
   margin-bottom: 0.3rem;
@@ -94,7 +93,6 @@
 
 .closure-notice--compact .closure-notice__item {
   padding: 0.75rem 1rem;
-  border-left-width: 3px;
 }
 
 .closure-notice--compact .closure-notice__badge {
@@ -113,45 +111,6 @@
 
 .closure-notice--compact .closure-notice__hint {
   font-size: 0.78rem;
-}
-
-/* Site-wide top announcement bar */
-.site-announcement-bar {
-  background-color: #1a1a1a;
-  color: #fdfaf5;
-  padding: 0.7rem 1.25rem;
-  font-size: 0.88rem;
-  letter-spacing: 0.02em;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
-}
-
-.site-announcement-bar--upcoming {
-  background-color: #ece5d8;
-  color: #1a1a1a;
-  border-bottom: 1px solid #dcd3c3;
-}
-
-.announcement-content {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.6rem;
-  text-align: center;
-  flex-wrap: wrap;
-}
-
-.announcement-icon {
-  flex-shrink: 0;
-}
-
-.announcement-text {
-  line-height: 1.4;
-}
-
-.announcement-dates {
-  opacity: 0.9;
-  font-weight: 500;
-  margin-left: 0.3rem;
 }
 
 * {

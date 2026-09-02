@@ -142,7 +142,7 @@ export default function Subscription() {
                 }}
               >
                 <div style={{ width: '100px', height: '100px', borderRadius: '50%', border: '1px solid var(--border-color)', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
-                   <img src={sizePricing[n].img} alt={sizePricing[n].label} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                   <img src={sizePricing[n].img} alt={sizePricing[n].label} loading="lazy" decoding="async" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                 </div>
                 <div>
                    <strong>{sizePricing[n].label}</strong>
@@ -303,7 +303,13 @@ export default function Subscription() {
                  style={{ height: '350px', background: '#f5f5f5', border: '1px solid var(--border-color)', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden', cursor: 'pointer' }}
                  onClick={() => setLightboxImg(img)}
               >
-                 <img src={img} alt={`${sizePricing[portfolioTab].label} Visual ${idx + 1}`} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                  <img
+                    src={img}
+                    alt={`${sizePricing[portfolioTab].label} Visual ${idx + 1}`}
+                    loading="lazy"
+                    decoding="async"
+                    style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                  />
               </div>
             ))}
           </div>

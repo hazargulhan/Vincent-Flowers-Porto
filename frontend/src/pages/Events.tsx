@@ -110,7 +110,13 @@ export default function Events() {
             }}
             onClick={() => setLightboxImg(img)}
           >
-            <img src={img} alt={`Portfolio Visual ${idx + 1}`} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+            <img
+              src={img}
+              alt={`Portfolio Visual ${idx + 1}`}
+              loading="lazy"
+              decoding="async"
+              style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+            />
           </div>
         ))}
       </div>
