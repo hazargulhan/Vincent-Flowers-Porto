@@ -6,6 +6,84 @@ Her maddenin yanında **[ ]** varsa henüz yapılmadı, **[x]** varsa tamamland�
 
 ---
 
+## Nasıl Çalışıyoruz (kural)
+
+Siz teknik biri değilsiniz. Bu yüzden:
+
+- Her konuşmanın sonunda, **sadece sizin yapmanız gerekenler** sade bir dille, numaralandırılmış olarak yazılacak. Nereye tıklayacaksınız, ne göreceksiniz, ne yazacaksınız — hepsi adım adım.
+- Size çıplak komut listesi verilmeyecek. Bir komutu gerçekten sizin çalıştırmanız gerekiyorsa, önce **ne işe yaradığı ve ekranda ne olacağı** bir cümleyle anlatılacak.
+- Teknik detaylar cevabın başında olabilir (neyin neden yapıldığını bilmek hakkınız), ama günlük dille yazılacak.
+- Bu dosya her turun sonunda güncellenecek; biten işler [x] olarak işaretlenecek.
+
+---
+
+## ŞU AN SİZDEN BEKLENEN 2 İŞ
+
+Fotoğraf deposunu açtınız, kovayı ben oluşturdum — o iş bitti. Geriye iki şey kaldı.
+İkisi de bitince yeni sistemi canlıya alma sırası bana geliyor.
+
+### İş 1 — Admin şifrenizi güvenli yere taşımak
+
+**Neden:** Şu anda admin şifreniz Cloudflare panelinde "açık metin" olarak duruyor.
+Yeni kodu yayınladığımız anda bu tür ayarlar siliniyor. Taşımazsak yayından sonra
+admin paneline giremezsiniz.
+
+1. Bilgisayarda bu satırı çalıştırın:
+   ```
+   npx wrangler secret put ADMIN_PASSWORD
+   ```
+2. Ekranda `Enter a secret value:` yazacak.
+3. **Şu an admin paneline girerken kullandığınız şifreyi** yazıp Enter'a basın.
+   Yazarken harfler ekranda görünmeyebilir, bu normaldir.
+4. `Success!` yazısını görünce bu iş tamam.
+
+> Şifreyi ben yazamam — güvenlik kuralım gereği şifre, kart ve hesap bilgisi giremiyorum.
+
+### İş 2 — Yeni bir güvenlik anahtarı oluşturmak
+
+**Neden:** Admin paneline girdiğinizde size bir "giriş bileti" veriliyor. Bunun sahtesinin
+yapılamaması için rastgele uzun bir metin gerekiyor. Bir kez tanımlanıyor, ezberlemenize
+gerek yok, bir daha lazım olmayacak.
+
+1. Önce rastgele metni üretin. Bu komut ekrana karışık bir metin yazacak:
+   ```
+   node -e "console.log(require('crypto').randomBytes(32).toString('base64'))"
+   ```
+2. Çıkan metni kopyalayın (`x9Kf2p...==` gibi görünecek).
+3. Sonra şunu çalıştırın:
+   ```
+   npx wrangler secret put ADMIN_TOKEN_SECRET
+   ```
+4. `Enter a secret value:` yazınca kopyaladığınız metni yapıştırıp Enter'a basın.
+5. `Success!` yazısını görünce bu iş de tamam.
+
+---
+
+## Antigravity'ye Geçerken
+
+Yeni asistanla devam edeceksiniz. Her şeyi baştan anlatmanıza gerek yok.
+
+1. Antigravity'de bu klasörü açın: `C:/Users/Hazar/Documents/VFP`
+2. Tek cümle yazın: **"DEVAM.md dosyasını oku ve kaldığımız yerden devam et."**
+3. Asistan gerisini oradan öğrenecek.
+
+`DEVAM.md` adında yeni bir dosya hazırladım. İçinde şunlar var: projenin ne olduğu,
+hangi hesapların kullanıldığı, bu turda nelerin değiştiği, sırada hangi adımların olduğu,
+ve en önemlisi **yaparken düşülebilecek 8 tuzak**. O dosya sizin için değil, asistan için
+yazıldı — okumanıza gerek yok, ama silmeyin.
+
+Yeni asistana ayrıca şunu söylemeyi unutmayın: **"Ben teknik biri değilim, her konuşmanın
+sonunda bana düşen işleri sade dille adım adım yaz."** Bu kural `DEVAM.md`'nin en başında
+da yazıyor ama hatırlatmanız iyi olur.
+
+### Canlı sitenin durumu
+
+**Canlı sitede hâlâ hiçbir şey değişmedi.** Bugüne kadar yapılan tüm değişiklikler
+bilgisayarınızda ve GitHub'da ayrı bir dalda duruyor. Müşterileriniz eski siteyi
+görmeye devam ediyor — yani acele etmenize gerek yok, bir şey bozulmadı.
+
+---
+
 ## Önce: Kodun Hazır Olduğunu Bilin
 
 Müşteri notlarındaki 7 madde + fazladan istediğiniz 2 konu (kapanış tarihleri detaylandırıldı, çiçek fotoğrafları için Cloudflare depolama) kod tarafında tamamlandı ve bilgisayarımda test edildi (siteyi açıp gerçekten denedim, formları doldurdum, admin paneline girdim, kapalı tarih ekledim vs.). Aşağıda ne değiştiğinin sade bir özeti var, sonra da sizin yapmanız gereken adımlar var.
