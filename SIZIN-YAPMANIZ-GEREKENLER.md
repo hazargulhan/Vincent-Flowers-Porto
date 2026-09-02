@@ -25,6 +25,7 @@ Yeni sistem hem arka uç (Cloudflare Workers) hem de ön yüz (Cloudflare Pages)
 - Çiçek kataloğunuz (49 çeşit çiçek) eksiksiz olarak korundu.
 - Siparişlerin kalıcı kaydedilmesi ve admin panelinde görüntülenmesi aktif edildi.
 - 404 sayfası, SEO site haritası (`sitemap.xml`) ve arama motoru kuralları (`robots.txt`) yayına girdi.
+- **Kapanış Uyarısı (Closure Notice):** Sitenin en tepesine siyah, yüksek kontrastlı bir duyuru şeridi eklendi; ana sayfa ve sipariş sayfalarında uyarı kartı belirgin ve şık hale getirildi.
 
 ### Tamamlanan İşler
 - [x] Fotoğraf depolama kovası (`vincent-flowers-media`) oluşturuldu.
@@ -32,6 +33,7 @@ Yeni sistem hem arka uç (Cloudflare Workers) hem de ön yüz (Cloudflare Pages)
 - [x] İş 2 — Güvenlik anahtarı tanımlandı (`ADMIN_TOKEN_SECRET`).
 - [x] Arka uç (Backend) canlıya yüklendi ve 49 çiçek ile doğrulandı.
 - [x] Ön yüz (Frontend) canlıya yüklendi (`vincentflowersporto.com`).
+- [x] Kapanış uyarısı (Closure Notice) tüm sitede belirginleştirildi.
 - [x] Resend e-posta DNS anahtarı kontrol edildi (aktif).
 
 ---
