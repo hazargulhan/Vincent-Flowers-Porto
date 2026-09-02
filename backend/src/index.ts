@@ -765,6 +765,7 @@ async function getCatalog(env: Env): Promise<Catalog> {
 }
 
 app.get('/api/catalog', async (c) => {
+  c.header('Cache-Control', 'no-store, no-cache, must-revalidate')
   return c.json(await getCatalog(c.env))
 })
 
@@ -788,6 +789,7 @@ app.post('/api/admin/catalog', async (c) => {
 // --- Closures (admin-managed closed date ranges) ---
 
 app.get('/api/closures', async (c) => {
+  c.header('Cache-Control', 'no-store, no-cache, must-revalidate')
   const closures = await getClosures(c.env)
   return c.json(closures)
 })

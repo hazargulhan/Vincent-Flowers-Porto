@@ -3,7 +3,7 @@ import ImageDropzone from '../components/ImageDropzone'
 import AdminOrders from '../components/AdminOrders'
 import type { Catalog } from '../types/catalog'
 import type { ClosurePeriod } from '../types/order'
-import { apiUrl } from '../lib/api'
+import { apiUrl, mediaUrl } from '../lib/api'
 import Seo from '../components/Seo'
 
 export default function Admin() {
@@ -39,15 +39,23 @@ export default function Admin() {
   }
 
   const fetchCatalog = async () => {
-    const res = await fetch(apiUrl('/api/catalog'))
-    const data = await res.json()
-    setCatalog(data)
+    try {
+      const res = await fetch(apiUrl(`/api/catalog?t=${Date.now()}`), { cache: 'no-store' })
+      const data = await res.json()
+      setCatalog(data)
+    } catch (err) {
+      console.error('Failed to load catalog:', err)
+    }
   }
 
   const fetchClosures = async () => {
-    const res = await fetch(apiUrl('/api/closures'))
-    const data = await res.json()
-    setClosures(Array.isArray(data) ? data : [])
+    try {
+      const res = await fetch(apiUrl(`/api/closures?t=${Date.now()}`), { cache: 'no-store' })
+      const data = await res.json()
+      setClosures(Array.isArray(data) ? data : [])
+    } catch (err) {
+      console.error('Failed to load closures:', err)
+    }
   }
 
   const saveCatalog = async () => {
@@ -340,19 +348,36 @@ export default function Admin() {
                             {g.available ? 'Active' : 'Hidden (Frozen)'}
                         </label>
                     </div>
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.2rem' }}>
-                        <label style={{ fontSize: '0.8rem', color: '#666' }}>Visualizer Image Path/URL</label>
-                        <input
-                            type="text"
-                            placeholder="/images/flowers/example.webp or https://..."
-                            value={g.image}
-                            style={{ width: '100%', padding: '0.4rem' }}
-                            onChange={e => {
-                                const newCat = {...catalog};
-                                newCat.makeYourOwn[gIdx].image = e.target.value;
-                                setCatalog(newCat);
-                            }}
-                        />
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.3rem' }}>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                            <label style={{ fontSize: '0.8rem', color: '#666' }}>Visualizer Image</label>
+                            {g.image?.startsWith('/media/') ? (
+                                <span style={{ fontSize: '0.72rem', color: '#2e7d32', fontWeight: 600 }}>☁️ Cloudflare R2</span>
+                            ) : g.image?.includes('github') ? (
+                                <span style={{ fontSize: '0.72rem', color: '#d32f2f', fontWeight: 600 }}>⚠️ GitHub</span>
+                            ) : null}
+                        </div>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
+                            {g.image && (
+                                <img
+                                    src={mediaUrl(g.image)}
+                                    alt={g.name}
+                                    style={{ width: '40px', height: '40px', objectFit: 'contain', border: '1px solid var(--border-color)', borderRadius: '4px', background: '#fff', padding: '2px', flexShrink: 0 }}
+                                    onError={(e) => { (e.target as HTMLElement).style.display = 'none'; }}
+                                />
+                            )}
+                            <input
+                                type="text"
+                                placeholder="/media/flowers/example.webp or /images/..."
+                                value={g.image}
+                                style={{ flex: 1, padding: '0.4rem' }}
+                                onChange={e => {
+                                    const newCat = {...catalog};
+                                    newCat.makeYourOwn[gIdx].image = e.target.value;
+                                    setCatalog(newCat);
+                                }}
+                            />
+                        </div>
                         <ImageDropzone
                           token={token}
                           onUploaded={(url) => {
@@ -456,26 +481,44 @@ export default function Admin() {
                     }}
                  />
                </div>
-               <div style={{ display: 'flex', flexDirection: 'column', gap: '0.3rem' }}>
-                 <label style={{ fontSize: '0.8rem' }}>Image URL/Path</label>
-                 <input
-                    type="text"
-                    value={b.img}
-                    onChange={e => {
-                        const newCat = {...catalog}
-                        newCat.shopBouquets[bIdx].img = e.target.value
-                        setCatalog(newCat)
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.3rem' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <label style={{ fontSize: '0.8rem' }}>Image URL/Path</label>
+                    {b.img?.startsWith('/media/') ? (
+                      <span style={{ fontSize: '0.72rem', color: '#2e7d32', fontWeight: 600 }}>☁️ Cloudflare R2</span>
+                    ) : b.img?.includes('github') ? (
+                      <span style={{ fontSize: '0.72rem', color: '#d32f2f', fontWeight: 600 }}>⚠️ GitHub</span>
+                    ) : null}
+                  </div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
+                    {b.img && (
+                      <img
+                        src={mediaUrl(b.img)}
+                        alt={b.title}
+                        style={{ width: '40px', height: '40px', objectFit: 'cover', border: '1px solid var(--border-color)', borderRadius: '4px', background: '#fff', flexShrink: 0 }}
+                        onError={(e) => { (e.target as HTMLElement).style.display = 'none'; }}
+                      />
+                    )}
+                    <input
+                       type="text"
+                       value={b.img}
+                       style={{ flex: 1 }}
+                       onChange={e => {
+                           const newCat = {...catalog}
+                           newCat.shopBouquets[bIdx].img = e.target.value
+                           setCatalog(newCat)
+                       }}
+                    />
+                  </div>
+                  <ImageDropzone
+                    token={token}
+                    onUploaded={(url) => {
+                      const newCat = {...catalog};
+                      newCat.shopBouquets[bIdx].img = url;
+                      setCatalog(newCat);
                     }}
-                 />
-                 <ImageDropzone
-                   token={token}
-                   onUploaded={(url) => {
-                     const newCat = {...catalog};
-                     newCat.shopBouquets[bIdx].img = url;
-                     setCatalog(newCat);
-                   }}
-                 />
-               </div>
+                  />
+                </div>
                <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.9rem', cursor: 'pointer', marginBottom: '0.5rem' }}>
                     <input
                         type="checkbox"
