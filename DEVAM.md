@@ -85,10 +85,11 @@ backend ve eski frontend çalışıyor.
 
 - [x] **ADIM 12 — Tamamlandı:** Sekme ikonu (Favicon) düzeltildi. Mor Vite şimşek ikonu kaldırılarak yerine logonun multi-resolution ICO, PNG ve apple-touch formatları yerleştirildi.
 - [x] **ADIM 13 — Tamamlandı:** Admin paneli telefona tam uyumlu (responsive) hale getirildi (siparişler için mobil kart görünümü, kaydırmasız renk varyantları ve esnek butonlar).
-- [x] **ADIM 14 — Tamamlandı:** Admin paneline ve sipariş geçmişine tam Portekizce dil desteği eklendi; panelin sağ üstüne anlık dil değiştirici (EN | PT) yerleştirildi.
+- [x] **ADIM 14 — Tamamlandı:** Admin paneline ve sipariş geçmişine tam Portekizce dil desteği eklendi (üst bar genel dil seçicisi ile entegre).
+- [x] **ADIM 15 — Tamamlandı:** İşletme fiyatları ve ayarları (Abonelikler, minimum sepet tutarı, buket montaj ücreti, teslimat şehirleri ve çalışma saatleri) Cloudflare KV'ye bağlandı ve Admin panelinde yönetilebilir hale getirildi; ön yüzde dinamik senkronize edildi.
 
 ### Canlı Doğrulama (Kullanıcı Tarafı)
-- [ ] Kullanıcı telefondan veya bilgisayardan `https://vincentflowersporto.com/admin` adresine girip sekme logosunu, mobil kart düzenini ve Portekizce dil seçeneğini doğrulayacak.
+- [ ] Kullanıcı telefondan veya bilgisayardan `https://vincentflowersporto.com/admin` adresine girip sekme logosunu, mobil kart düzenini, Portekizce dil seçeneğini ve yeni "İşletme Ayarları" (Business Settings) bölümünü test edecek.
 
 ---
 

@@ -17,13 +17,14 @@ Siz teknik biri değilsiniz. Bu yüzden:
 
 ---
 
-## ŞU AN DURUM (AŞAMA 2 VE MARKA LOGOSU CANLIDA 🎉)
+## ŞU AN DURUM (İŞLETME AYARLARI VE DİNAMİK FİYATLAR CANLIDA 🎉)
 
-İkinci aşama ve favicon geliştirmeleri tamamlandı ve canlıya yayınlandı:
+İşletme fiyatlarının ve dükkan kurallarının koddan kurtarılıp Admin Paneli üzerinden anlık yönetilmesi tamamlandı ve canlıya yayınlandı:
 
-- **Sekme Logosu (Favicon):** Mor şimşek simgesi tamamen kaldırıldı. Tarayıcı sekmelerinde artık Vincent Flowers Porto'nun kendi zarif çiçek logosu yer alıyor.
-- **Admin Panelinin Telefona Uyumu (Mobile Responsive):** Sipariş listesi telefon ekranlarında sağa-sola taşmayacak şekilde kart düzenine geçirildi. Renk varyantları ve kapatma tarihleri artık küçük ekranlarda parmakla rahatça düzenlenebiliyor.
-- **Portekizce Desteği:** Admin paneli ve sipariş detayları tamamen çift dilli (İngilizce ve Portekizce) hale getirildi. Sağ üstteki **EN | PT** butonlarıyla tek tıkla dil değiştirilebiliyor.
+- **Dinamik Abonelik Fiyatları:** Small (30 €), Medium (55 €) ve Large (75 €) fiyatları artık doğrudan Admin Panelinden değiştirilebiliyor. Değiştirdiğiniz an Abonelik sayfasındaki tüm butonlar ve toplam tutarlar otomatik güncelleniyor.
+- **Kendi Buketini Yap Kuralları:** 15 € olan minimum sipariş tutarı ve %25 olan buket montaj ücreti panelden ayarlanabiliyor.
+- **Teslimat Şehirleri ve Çalışma Saatleri:** Porto, Gaia, Maia, Matosinhos şehir listesi ve 09:00 - 18:00 saat aralığı panelden güncellenebiliyor.
+- **Admin Paneli "Business Settings" Bölümü:** Kapatma tarihlerinin hemen altına şık ve ferah bir ayarlar kartı eklendi. "Save Settings" butonuyla yapılan değişiklikler anında kaydediliyor.
 
 ### Tamamlanan İşler
 - [x] Fotoğraf depolama kovası (`vincent-flowers-media`) oluşturuldu.
@@ -38,7 +39,8 @@ Siz teknik biri değilsiniz. Bu yüzden:
 - [x] Resend e-posta DNS anahtarı kontrol edildi (aktif).
 - [x] Sekme logosu (Favicon) marka logosuyla değiştirildi.
 - [x] Admin paneli mobil uyumlu (responsive) hale getirildi.
-- [x] Admin paneline Portekizce dil desteği ve dil seçici (EN / PT) eklendi.
+- [x] Admin paneline Portekizce dil desteği eklendi.
+- [x] İşletme fiyatları ve dükkan ayarları Admin Paneline taşındı ve canlıya alındı.
 
 ---
 
