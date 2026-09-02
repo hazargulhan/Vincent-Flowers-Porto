@@ -7,29 +7,8 @@ import type { ClosurePeriod } from '../types/order'
 import { apiUrl, mediaUrl } from '../lib/api'
 import Seo from '../components/Seo'
 
-function LangToggle({ lang, onSelect }: { lang: string; onSelect: (l: string) => void }) {
-  return (
-    <div className="admin-lang-toggle">
-      <button
-        type="button"
-        className={`admin-lang-btn ${lang.startsWith('en') ? 'active' : ''}`}
-        onClick={() => onSelect('en')}
-      >
-        EN
-      </button>
-      <button
-        type="button"
-        className={`admin-lang-btn ${lang.startsWith('pt') ? 'active' : ''}`}
-        onClick={() => onSelect('pt')}
-      >
-        PT
-      </button>
-    </div>
-  )
-}
-
 export default function Admin() {
-  const { t, i18n } = useTranslation()
+  const { t } = useTranslation()
   const [password, setPassword] = useState('')
   const [token, setToken] = useState('')
   const [authed, setAuthed] = useState(false)
@@ -248,9 +227,6 @@ export default function Admin() {
           path="/admin"
           noindex
         />
-        <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '1rem' }}>
-          <LangToggle lang={i18n.language} onSelect={(l) => i18n.changeLanguage(l)} />
-        </div>
         <h1 style={{ textAlign: 'center' }}>{t('admin.login_title')}</h1>
         <form onSubmit={handleLogin} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
           <input
@@ -270,10 +246,7 @@ export default function Admin() {
     return (
       <div className="container page-section">
         <Seo title="Admin — Vincent Flowers Porto" description="Administration area." path="/admin" noindex />
-        <div className="admin-header-bar">
-          <h1 style={{ margin: 0 }}>{t('admin.dashboard_title')}</h1>
-          <LangToggle lang={i18n.language} onSelect={(l) => i18n.changeLanguage(l)} />
-        </div>
+        <h1 style={{ marginBottom: '2rem' }}>{t('admin.dashboard_title')}</h1>
         <AdminOrders token={token} />
         <p style={{ color: '#888' }}>{t('admin.loading_inventory')}</p>
       </div>
@@ -289,10 +262,7 @@ export default function Admin() {
         noindex
       />
 
-      <div className="admin-header-bar">
-        <h1 style={{ margin: 0 }}>{t('admin.dashboard_title')}</h1>
-        <LangToggle lang={i18n.language} onSelect={(l) => i18n.changeLanguage(l)} />
-      </div>
+      <h1 style={{ marginBottom: '2rem' }}>{t('admin.dashboard_title')}</h1>
 
       <AdminOrders token={token} />
 
