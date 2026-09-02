@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import ImageDropzone from '../components/ImageDropzone'
 import AdminOrders from '../components/AdminOrders'
 import type { Catalog } from '../types/catalog'
@@ -6,7 +7,29 @@ import type { ClosurePeriod } from '../types/order'
 import { apiUrl, mediaUrl } from '../lib/api'
 import Seo from '../components/Seo'
 
+function LangToggle({ lang, onSelect }: { lang: string; onSelect: (l: string) => void }) {
+  return (
+    <div className="admin-lang-toggle">
+      <button
+        type="button"
+        className={`admin-lang-btn ${lang.startsWith('en') ? 'active' : ''}`}
+        onClick={() => onSelect('en')}
+      >
+        EN
+      </button>
+      <button
+        type="button"
+        className={`admin-lang-btn ${lang.startsWith('pt') ? 'active' : ''}`}
+        onClick={() => onSelect('pt')}
+      >
+        PT
+      </button>
+    </div>
+  )
+}
+
 export default function Admin() {
+  const { t, i18n } = useTranslation()
   const [password, setPassword] = useState('')
   const [token, setToken] = useState('')
   const [authed, setAuthed] = useState(false)
@@ -225,24 +248,34 @@ export default function Admin() {
           path="/admin"
           noindex
         />
-        <h1 style={{ textAlign: 'center' }}>Admin Access</h1>
+        <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '1rem' }}>
+          <LangToggle lang={i18n.language} onSelect={(l) => i18n.changeLanguage(l)} />
+        </div>
+        <h1 style={{ textAlign: 'center' }}>{t('admin.login_title')}</h1>
         <form onSubmit={handleLogin} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-          <input type="password" placeholder="Password" required value={password} onChange={e => setPassword(e.target.value)} />
-          <button type="submit">Enter</button>
+          <input
+            type="password"
+            placeholder={t('admin.password_placeholder')}
+            required
+            value={password}
+            onChange={e => setPassword(e.target.value)}
+          />
+          <button type="submit">{t('admin.btn_enter')}</button>
         </form>
       </div>
     )
   }
 
   if (!catalog) {
-    // Orders do not depend on the catalog, and gating the whole dashboard behind it
-    // meant a failed catalog fetch also hid the order history.
     return (
       <div className="container page-section">
         <Seo title="Admin — Vincent Flowers Porto" description="Administration area." path="/admin" noindex />
-        <h1 style={{ marginBottom: '2rem' }}>Admin Dashboard</h1>
+        <div className="admin-header-bar">
+          <h1 style={{ margin: 0 }}>{t('admin.dashboard_title')}</h1>
+          <LangToggle lang={i18n.language} onSelect={(l) => i18n.changeLanguage(l)} />
+        </div>
         <AdminOrders token={token} />
-        <p style={{ color: '#888' }}>Loading inventory...</p>
+        <p style={{ color: '#888' }}>{t('admin.loading_inventory')}</p>
       </div>
     )
   }
@@ -256,24 +289,25 @@ export default function Admin() {
         noindex
       />
 
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
-        <h1>Admin Dashboard</h1>
+      <div className="admin-header-bar">
+        <h1 style={{ margin: 0 }}>{t('admin.dashboard_title')}</h1>
+        <LangToggle lang={i18n.language} onSelect={(l) => i18n.changeLanguage(l)} />
       </div>
 
       <AdminOrders token={token} />
 
       <div style={{ marginBottom: '4rem' }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
-            <h2>Closure Periods</h2>
-            <div style={{ display: 'flex', gap: '1rem' }}>
-              <button onClick={addClosure} style={{ padding: '0.5rem 1rem' }}>+ Add Closure</button>
+        <div className="admin-section-header">
+            <h2 style={{ margin: 0 }}>{t('admin.closures_title')}</h2>
+            <div style={{ display: 'flex', gap: '0.8rem', flexWrap: 'wrap' }}>
+              <button onClick={addClosure} style={{ padding: '0.5rem 1rem' }}>{t('admin.btn_add_closure')}</button>
               <button onClick={saveClosures} disabled={savingClosures} style={{ background: 'var(--text-color)', color: '#fff', padding: '0.5rem 1.5rem', cursor: 'pointer' }}>
-                {savingClosures ? 'Saving...' : 'Save Closures'}
+                {savingClosures ? t('admin.saving') : t('admin.btn_save_closures')}
               </button>
             </div>
         </div>
         <p style={{ fontSize: '0.85rem', color: '#666', marginBottom: '1rem' }}>
-          Dates inside a closure period cannot be selected in Make Your Own / Shop, and Subscription sign-ups are hidden while a closure is active today. Customers will see the message you write below.
+          {t('admin.closures_desc')}
         </p>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
           {closures.map((c, idx) => (
@@ -283,38 +317,38 @@ export default function Admin() {
                   {closureErrorMap[c.id]}
                 </p>
               )}
-              <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
-                <div style={{ display: 'flex', flexDirection: 'column' }}>
-                  <label style={{ fontSize: '0.7rem' }}>Start Date</label>
+              <div className="admin-closure-inputs" style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
+                  <label style={{ fontSize: '0.7rem' }}>{t('admin.start_date')}</label>
                   <input type="date" value={c.startDate} onChange={e => updateClosure(idx, 'startDate', e.target.value)} />
                 </div>
-                <div style={{ display: 'flex', flexDirection: 'column' }}>
-                  <label style={{ fontSize: '0.7rem' }}>End Date</label>
+                <div style={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
+                  <label style={{ fontSize: '0.7rem' }}>{t('admin.end_date')}</label>
                   <input type="date" value={c.endDate} onChange={e => updateClosure(idx, 'endDate', e.target.value)} />
                 </div>
-                <button onClick={() => deleteClosure(idx)} style={{ color: 'red', border: 'none', background: 'transparent', cursor: 'pointer', alignSelf: 'flex-end' }}>Delete</button>
+                <button onClick={() => deleteClosure(idx)} style={{ color: 'red', border: 'none', background: 'transparent', cursor: 'pointer', alignSelf: 'flex-end', padding: '0.4rem 0' }}>{t('admin.btn_delete')}</button>
               </div>
               <div style={{ display: 'flex', flexDirection: 'column' }}>
-                <label style={{ fontSize: '0.7rem' }}>Message shown to customers (English)</label>
+                <label style={{ fontSize: '0.7rem' }}>{t('admin.message_en')}</label>
                 <textarea rows={2} value={c.messageEn} onChange={e => updateClosure(idx, 'messageEn', e.target.value)} />
               </div>
               <div style={{ display: 'flex', flexDirection: 'column' }}>
-                <label style={{ fontSize: '0.7rem' }}>Mensagem para clientes (Português)</label>
+                <label style={{ fontSize: '0.7rem' }}>{t('admin.message_pt')}</label>
                 <textarea rows={2} value={c.messagePt} onChange={e => updateClosure(idx, 'messagePt', e.target.value)} />
               </div>
             </div>
           ))}
-          {closures.length === 0 && <p style={{ color: '#888', fontSize: '0.9rem' }}>No closure periods defined.</p>}
+          {closures.length === 0 && <p style={{ color: '#888', fontSize: '0.9rem' }}>{t('admin.no_closures')}</p>}
         </div>
       </div>
 
       <div style={{ marginBottom: '4rem' }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
-            <h2>Make Your Own (Flowers)</h2>
-            <div style={{ display: 'flex', gap: '1rem' }}>
-              <button onClick={addFlowerGroup} style={{ padding: '0.5rem 1rem' }}>+ Add Flower Type</button>
+        <div className="admin-section-header">
+            <h2 style={{ margin: 0 }}>{t('admin.catalog_title')}</h2>
+            <div style={{ display: 'flex', gap: '0.8rem', flexWrap: 'wrap' }}>
+              <button onClick={addFlowerGroup} style={{ padding: '0.5rem 1rem' }}>{t('admin.btn_add_flower')}</button>
               <button onClick={saveCatalog} disabled={saving} style={{ background: 'var(--text-color)', color: '#fff', padding: '0.5rem 1.5rem', cursor: 'pointer' }}>
-                {saving ? 'Saving...' : 'Save All Changes'}
+                {saving ? t('admin.saving') : t('admin.btn_save_catalog')}
               </button>
             </div>
         </div>
@@ -345,16 +379,16 @@ export default function Admin() {
                                     setCatalog(newCat);
                                 }}
                             />
-                            {g.available ? 'Active' : 'Hidden (Frozen)'}
+                            {g.available ? t('admin.active') : t('admin.hidden_frozen')}
                         </label>
                     </div>
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '0.3rem' }}>
                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                            <label style={{ fontSize: '0.8rem', color: '#666' }}>Visualizer Image</label>
+                            <label style={{ fontSize: '0.8rem', color: '#666' }}>{t('admin.visualizer_image')}</label>
                             {g.image?.startsWith('/media/') ? (
-                                <span style={{ fontSize: '0.72rem', color: '#2e7d32', fontWeight: 600 }}>☁️ Cloudflare R2</span>
+                                <span style={{ fontSize: '0.72rem', color: '#2e7d32', fontWeight: 600 }}>☁️ {t('admin.stored_r2')}</span>
                             ) : g.image?.includes('github') ? (
-                                <span style={{ fontSize: '0.72rem', color: '#d32f2f', fontWeight: 600 }}>⚠️ GitHub</span>
+                                <span style={{ fontSize: '0.72rem', color: '#d32f2f', fontWeight: 600 }}>⚠️ {t('admin.stored_github')}</span>
                             ) : null}
                         </div>
                         <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
@@ -388,18 +422,18 @@ export default function Admin() {
                         />
                     </div>
                 </div>
-                <button onClick={() => deleteFlowerGroup(gIdx)} style={{ color: 'red', border: 'none', background: 'transparent', cursor: 'pointer' }}>Delete Type</button>
+                <button onClick={() => deleteFlowerGroup(gIdx)} style={{ color: 'red', border: 'none', background: 'transparent', cursor: 'pointer', padding: '0.4rem 0' }}>{t('admin.btn_delete_type')}</button>
               </div>
 
-              <div style={{ paddingLeft: '2rem', borderLeft: '2px solid var(--border-color)' }}>
+              <div className="admin-flower-variants-container" style={{ paddingLeft: '1.5rem', borderLeft: '2px solid var(--border-color)' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
-                    <h4 style={{ margin: 0 }}>Color Variants</h4>
-                    <button onClick={() => addVariant(gIdx)} style={{ fontSize: '0.8rem' }}>+ Add Color</button>
+                    <h4 style={{ margin: 0 }}>{t('admin.color_variants')}</h4>
+                    <button onClick={() => addVariant(gIdx)} style={{ fontSize: '0.8rem', padding: '0.3rem 0.6rem' }}>{t('admin.btn_add_color')}</button>
                 </div>
                 {g.variants.map((v, vIdx) => (
-                  <div key={vIdx} style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr 1fr auto', gap: '1rem', alignItems: 'center', marginBottom: '0.8rem' }}>
+                  <div key={vIdx} className="admin-variant-grid">
                     <div style={{ display: 'flex', flexDirection: 'column' }}>
-                        <label style={{ fontSize: '0.7rem' }}>Color Name</label>
+                        <label style={{ fontSize: '0.7rem' }}>{t('admin.color_name')}</label>
                         <input
                             type="text"
                             value={v.color}
@@ -411,9 +445,9 @@ export default function Admin() {
                         />
                     </div>
                     <div style={{ display: 'flex', flexDirection: 'column' }}>
-                        <label style={{ fontSize: '0.7rem' }}>Hex Code (#...)</label>
-                        <div style={{ display: 'flex', gap: '0.3rem' }}>
-                            <div style={{ width: '20px', height: '20px', backgroundColor: v.hexColor, border: '1px solid #ccc' }}></div>
+                        <label style={{ fontSize: '0.7rem' }}>{t('admin.hex_code')}</label>
+                        <div style={{ display: 'flex', gap: '0.3rem', alignItems: 'center' }}>
+                            <div style={{ width: '22px', height: '22px', backgroundColor: v.hexColor, border: '1px solid #ccc', borderRadius: '3px', flexShrink: 0 }}></div>
                             <input
                                 type="text"
                                 value={v.hexColor}
@@ -427,7 +461,7 @@ export default function Admin() {
                         </div>
                     </div>
                     <div style={{ display: 'flex', flexDirection: 'column' }}>
-                        <label style={{ fontSize: '0.7rem' }}>Price (€)</label>
+                        <label style={{ fontSize: '0.7rem' }}>{t('admin.price')}</label>
                         <input
                             type="number"
                             step="0.01"
@@ -439,7 +473,9 @@ export default function Admin() {
                             }}
                         />
                     </div>
-                    <button onClick={() => deleteVariant(gIdx, vIdx)} style={{ fontSize: '0.7rem', color: '#999', border: 'none', background: 'transparent' }}>Remove</button>
+                    <div className="admin-variant-delete-btn">
+                      <button onClick={() => deleteVariant(gIdx, vIdx)} style={{ fontSize: '0.75rem', color: '#b00020', border: 'none', background: 'transparent', cursor: 'pointer', padding: '0.3rem 0' }}>{t('admin.btn_delete')}</button>
+                    </div>
                   </div>
                 ))}
               </div>
@@ -449,15 +485,15 @@ export default function Admin() {
       </div>
 
       <div style={{ marginBottom: '4rem' }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
-            <h2>Shop (Ready Bouquets)</h2>
-            <button onClick={addBouquet} style={{ padding: '0.5rem 1rem' }}>+ Add Bouquet</button>
+        <div className="admin-section-header">
+            <h2 style={{ margin: 0 }}>{t('admin.shop_bouquets_title')}</h2>
+            <button onClick={addBouquet} style={{ padding: '0.5rem 1rem' }}>{t('admin.btn_add_bouquet')}</button>
         </div>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
           {catalog.shopBouquets.map((b, bIdx) => (
-             <div key={bIdx} style={{ padding: '1.5rem', border: '1px solid var(--border-color)', background: b.available ? '#f9f9f9' : '#ececec', display: 'grid', gridTemplateColumns: 'minmax(150px, 1fr) 100px 1fr 150px auto', gap: '1.5rem', alignItems: 'flex-end' }}>
+             <div key={bIdx} className="admin-bouquet-card" style={{ background: b.available ? '#f9f9f9' : '#ececec' }}>
                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.3rem' }}>
-                 <label style={{ fontSize: '0.8rem' }}>Bouquet Title</label>
+                 <label style={{ fontSize: '0.8rem' }}>{t('admin.bouquet_title')}</label>
                  <input
                     type="text"
                     value={b.title}
@@ -469,7 +505,7 @@ export default function Admin() {
                  />
                </div>
                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.3rem' }}>
-                 <label style={{ fontSize: '0.8rem' }}>Price (€)</label>
+                 <label style={{ fontSize: '0.8rem' }}>{t('admin.price')}</label>
                  <input
                     type="number"
                     step="0.01"
@@ -483,11 +519,11 @@ export default function Admin() {
                </div>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '0.3rem' }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <label style={{ fontSize: '0.8rem' }}>Image URL/Path</label>
+                    <label style={{ fontSize: '0.8rem' }}>{t('admin.image_url')}</label>
                     {b.img?.startsWith('/media/') ? (
-                      <span style={{ fontSize: '0.72rem', color: '#2e7d32', fontWeight: 600 }}>☁️ Cloudflare R2</span>
+                      <span style={{ fontSize: '0.72rem', color: '#2e7d32', fontWeight: 600 }}>☁️ {t('admin.stored_r2')}</span>
                     ) : b.img?.includes('github') ? (
-                      <span style={{ fontSize: '0.72rem', color: '#d32f2f', fontWeight: 600 }}>⚠️ GitHub</span>
+                      <span style={{ fontSize: '0.72rem', color: '#d32f2f', fontWeight: 600 }}>⚠️ {t('admin.stored_github')}</span>
                     ) : null}
                   </div>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
@@ -529,9 +565,9 @@ export default function Admin() {
                             setCatalog(newCat)
                         }}
                     />
-                    {b.available ? 'Active' : 'Hidden'}
+                    {b.available ? t('admin.active') : t('admin.hidden')}
                </label>
-               <button onClick={() => deleteBouquet(bIdx)} style={{ color: 'red', border: 'none', background: 'transparent', cursor: 'pointer', marginBottom: '0.5rem' }}>Delete</button>
+               <button onClick={() => deleteBouquet(bIdx)} style={{ color: 'red', border: 'none', background: 'transparent', cursor: 'pointer', marginBottom: '0.5rem', alignSelf: 'flex-end' }}>{t('admin.btn_delete')}</button>
              </div>
           ))}
         </div>
