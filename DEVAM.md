@@ -78,9 +78,13 @@ backend ve eski frontend çalışıyor.
 - [x] **ADIM 5 — Tamamlandı:** dalı `main`'e merge + push yapıldı ve frontend Cloudflare Pages'e deploy edildi (`d82c3292`)
 - [x] **ADIM 6 — Tamamlandı:** canlı site doğrulandı (404 yönlendirmesi, robots.txt, sitemap.xml, admin rotası ve yeni bundle aktif)
 - [x] **ADIM 7 — Kontrol edildi:** Resend DKIM DNS kaydı Cloudflare üzerinde aktif (`resend._domainkey.vincentflowersporto.com`)
+- [x] **ADIM 8 — Tamamlandı:** Kapanış uyarısı sadeleştirildi (siyah üst şerit kaldırıldı, uyarı kutusunun solundaki kalın siyah şerit yumuşatıldı).
+- [x] **ADIM 9 — Tamamlandı:** 62 adet çiçek ve buket fotoğrafı Cloudflare R2'ye (`vincent-flowers-media`) yüklendi, KV kataloğu GitHub URL'lerinden arındırılıp R2'ye bağlandı.
+- [x] **ADIM 10 — Tamamlandı:** Görsel optimizasyonu yapıldı: 11.4 MB atıl dosya silindi, 4 PNG WebP'ye dönüştürüldü, 81 görsel optimize edildi (klasör boyutu 101.8 MB'tan 21.2 MB'a indi).
+- [x] **ADIM 11 — Tamamlandı:** Sayfa içi tüm görsellere `loading="lazy"` ve `decoding="async"` eklendi; `Admin` sayfası `React.lazy` ile kod bölünmesine (code-splitting) uğratılarak ilk JS paketi 500 KB altına düşürüldü.
 
-### Canlı Doğrulama (Kullanıcı Tarafı)
-- [ ] Kullanıcı tarayıcıda `https://vincentflowersporto.com/admin` adresine gidip admin şifresiyle giriş yapacak ve Orders sekmesini görecek.
+### Sıradaki Aşama (Kullanıcının Seçtiği)
+- [ ] **Aşama 2:** Admin Panelinin Telefona Uyumu (Responsive Tasarım) & Portekizce Dil Desteği
 
 ---
 

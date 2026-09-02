@@ -17,15 +17,14 @@ Siz teknik biri değilsiniz. Bu yüzden:
 
 ---
 
-## ŞU AN DURUM (YAYIN TAMAMLANDI 🎉)
+## ŞU AN DURUM (FOTOĞRAFLAR VE HIZ İYİLEŞTİRMESİ CANLIDA 🎉)
 
-Yeni sistem hem arka uç (Cloudflare Workers) hem de ön yüz (Cloudflare Pages) olarak **canlıya başarıyla yayınlandı**.
+Fotoğraf depolama ve web sitesi hızlandırma paketi başarıyla tamamlandı ve canlıya yayınlandı:
 
-- Admin şifreniz ve güvenlik anahtarınız Cloudflare kasasına taşındı.
-- Çiçek kataloğunuz (49 çeşit çiçek) eksiksiz olarak korundu.
-- Siparişlerin kalıcı kaydedilmesi ve admin panelinde görüntülenmesi aktif edildi.
-- 404 sayfası, SEO site haritası (`sitemap.xml`) ve arama motoru kuralları (`robots.txt`) yayına girdi.
-- **Kapanış Uyarısı (Closure Notice):** Sitenin en tepesine siyah, yüksek kontrastlı bir duyuru şeridi eklendi; ana sayfa ve sipariş sayfalarında uyarı kartı belirgin ve şık hale getirildi.
+- **Kapanış Uyarısı:** Tepedeki siyah şerit kaldırıldı; aşağıdaki kutunun solundaki kalın siyah hat kaldırılarak zarif, yumuşak bir çerçeveye dönüştürüldü.
+- **Cloudflare R2 Depolaması:** 62 adet çiçek ve buket fotoğrafı GitHub adreslerinden kurtarılarak Cloudflare'in güvenli R2 depolama sistemine taşındı. Fotoğraflar artık 1 yıl süreli önbellekle anında açılıyor.
+- **Görsel Boyutları (101.8 MB ➔ 21.2 MB):** 11.4 MB'lık kullanılmayan büyük fotoğraf silindi, 4 PNG WebP formatına çevrildi ve 81 adet yüksek çözünürlüklü fotoğraf gözle fark edilmeyecek kalitede %80 küçültüldü.
+- **Site Açılış Hızı:** Görsellere gecikmeli yükleme (`lazy-loading`) eklendi, Admin paneli ziyaretçilerin ana paketinden ayrılarak ilk sayfa yükleme hızı ciddi şekilde artırıldı.
 
 ### Tamamlanan İşler
 - [x] Fotoğraf depolama kovası (`vincent-flowers-media`) oluşturuldu.
@@ -33,7 +32,10 @@ Yeni sistem hem arka uç (Cloudflare Workers) hem de ön yüz (Cloudflare Pages)
 - [x] İş 2 — Güvenlik anahtarı tanımlandı (`ADMIN_TOKEN_SECRET`).
 - [x] Arka uç (Backend) canlıya yüklendi ve 49 çiçek ile doğrulandı.
 - [x] Ön yüz (Frontend) canlıya yüklendi (`vincentflowersporto.com`).
-- [x] Kapanış uyarısı (Closure Notice) tüm sitede belirginleştirildi.
+- [x] Kapanış uyarısı isteğinize göre sadeleştirildi.
+- [x] 62 çiçek ve buket fotoğrafı Cloudflare R2'ye aktarıldı.
+- [x] Görseller optimize edildi (101.8 MB'tan 21.2 MB'a indirildi).
+- [x] Gecikmeli görsel yükleme ve Admin kod ayrıştırması (code-splitting) tamamlandı.
 - [x] Resend e-posta DNS anahtarı kontrol edildi (aktif).
 
 ---
