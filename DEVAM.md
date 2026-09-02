@@ -70,13 +70,13 @@ backend ve eski frontend çalışıyor.
 - [x] Commit atıldı ve `order-persistence-and-launch-fixes` dalı GitHub'a push edildi
 - [x] Doğru Cloudflare hesabına giriş yapıldı, kaynaklar doğrulandı
 - [x] R2 etkinleştirildi ve `vincent-flowers-media` kovası oluşturuldu
+- [x] **ADIM 1 — Kullanıcı yaptı:** `ADMIN_PASSWORD` secret olarak tanımlandı
+- [x] **ADIM 2 — Kullanıcı yaptı:** `ADMIN_TOKEN_SECRET` secret olarak tanımlandı
+- [x] **ADIM 3 — Tamamlandı:** backend deploy yapıldı (`vincent-flowers-backend`)
+- [x] **ADIM 4 — Tamamlandı:** canlı backend doğrulandı (katalogda 49 çiçek tam, /api/admin/orders 401 korumalı)
 
 ### Sıradaki adımlar (bu sırayla)
 
-- [ ] **ADIM 1 — Kullanıcı yapacak:** `ADMIN_PASSWORD` secret olarak tanımlanacak
-- [ ] **ADIM 2 — Kullanıcı yapacak:** `ADMIN_TOKEN_SECRET` secret olarak tanımlanacak
-- [ ] **ADIM 3 — Sen yapacaksın:** backend deploy
-- [ ] **ADIM 4 — Sen yapacaksın:** canlı backend doğrulaması
 - [ ] **ADIM 5 — Sen yapacaksın:** dalı `main`'e merge + push (frontend yayını)
 - [ ] **ADIM 6 — Sen yapacaksın:** canlı site doğrulaması
 - [ ] **ADIM 7:** Resend alan adı doğrulaması kontrolü

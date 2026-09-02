@@ -17,45 +17,18 @@ Siz teknik biri değilsiniz. Bu yüzden:
 
 ---
 
-## ŞU AN SİZDEN BEKLENEN 2 İŞ
+## ŞU AN DURUM
 
-Fotoğraf deposunu açtınız, kovayı ben oluşturdum — o iş bitti. Geriye iki şey kaldı.
-İkisi de bitince yeni sistemi canlıya alma sırası bana geliyor.
+Admin şifrenizi güvenli kasaya taşıdınız ve güvenlik anahtarını tanımladınız.
+Arka uç (Backend) başarıyla Cloudflare'e yüklendi ve canlı testleri geçti (49 çeşit çiçek kataloğu korundu, sipariş kaydı aktifleştirildi).
 
-### İş 1 — Admin şifrenizi güvenli yere taşımak
+Sırada: Frontend'in (sitenin arayüzünün) Cloudflare Pages üzerinden canlıya yayınlanması var.
 
-**Neden:** Şu anda admin şifreniz Cloudflare panelinde "açık metin" olarak duruyor.
-Yeni kodu yayınladığımız anda bu tür ayarlar siliniyor. Taşımazsak yayından sonra
-admin paneline giremezsiniz.
-
-1. Bilgisayarda bu satırı çalıştırın:
-   ```
-   npx wrangler secret put ADMIN_PASSWORD
-   ```
-2. Ekranda `Enter a secret value:` yazacak.
-3. **Şu an admin paneline girerken kullandığınız şifreyi** yazıp Enter'a basın.
-   Yazarken harfler ekranda görünmeyebilir, bu normaldir.
-4. `Success!` yazısını görünce bu iş tamam.
-
-> Şifreyi ben yazamam — güvenlik kuralım gereği şifre, kart ve hesap bilgisi giremiyorum.
-
-### İş 2 — Yeni bir güvenlik anahtarı oluşturmak
-
-**Neden:** Admin paneline girdiğinizde size bir "giriş bileti" veriliyor. Bunun sahtesinin
-yapılamaması için rastgele uzun bir metin gerekiyor. Bir kez tanımlanıyor, ezberlemenize
-gerek yok, bir daha lazım olmayacak.
-
-1. Önce rastgele metni üretin. Bu komut ekrana karışık bir metin yazacak:
-   ```
-   node -e "console.log(require('crypto').randomBytes(32).toString('base64'))"
-   ```
-2. Çıkan metni kopyalayın (`x9Kf2p...==` gibi görünecek).
-3. Sonra şunu çalıştırın:
-   ```
-   npx wrangler secret put ADMIN_TOKEN_SECRET
-   ```
-4. `Enter a secret value:` yazınca kopyaladığınız metni yapıştırıp Enter'a basın.
-5. `Success!` yazısını görünce bu iş de tamam.
+### Tamamlanan İşler
+- [x] Fotoğraf depolama kovası (`vincent-flowers-media`) oluşturuldu.
+- [x] İş 1 — Admin şifresi güvenli kasaya taşındı (`ADMIN_PASSWORD`).
+- [x] İş 2 — Güvenlik anahtarı tanımlandı (`ADMIN_TOKEN_SECRET`).
+- [x] Arka uç (Backend) canlıya yüklendi ve doğrulandı.
 
 ---
 
