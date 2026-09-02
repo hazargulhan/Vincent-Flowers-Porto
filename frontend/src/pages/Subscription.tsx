@@ -6,9 +6,11 @@ import { formatDate } from '../lib/dates'
 import { useTranslation } from 'react-i18next'
 import { apiUrl } from '../lib/api'
 import Seo from '../components/Seo'
+import { useSettings } from '../hooks/useSettings'
 
 export default function Subscription() {
   const { t, i18n } = useTranslation()
+  const { settings } = useSettings()
   const [lightboxImg, setLightboxImg] = useState<string | null>(null);
   const [size, setSize] = useState<number | null>(null) // 1: Small, 2: Medium, 3: Large
   const [freq, setFreq] = useState<number | null>(null)
@@ -25,9 +27,9 @@ export default function Subscription() {
   const { activeClosure, closureMessage, loading: closuresLoading } = useClosures()
 
   const sizePricing: Record<number, {label: string, price: number, img: string}> = {
-    1: {label: 'Small', price: 30, img: '/images/Subscription-small.webp'},
-    2: {label: 'Medium', price: 55, img: '/images/Subscription-Medium.webp'},
-    3: {label: 'Large', price: 75, img: '/images/Subscription-Large.webp'}
+    1: {label: 'Small', price: settings.subscriptionPricing.small, img: '/images/Subscription-small.webp'},
+    2: {label: 'Medium', price: settings.subscriptionPricing.medium, img: '/images/Subscription-Medium.webp'},
+    3: {label: 'Large', price: settings.subscriptionPricing.large, img: '/images/Subscription-Large.webp'}
   }
 
   const portfolioImages: Record<number, string[]> = {

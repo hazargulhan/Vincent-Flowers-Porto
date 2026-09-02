@@ -9,9 +9,11 @@ import { minDeliveryDate, toIsoDate } from '../lib/dates'
 import type { FlowerGroup, FlowerVariant } from '../types/catalog'
 import { apiUrl, mediaUrl } from '../lib/api'
 import Seo from '../components/Seo'
+import { useSettings } from '../hooks/useSettings'
 
 export default function Home() {
   const { t, i18n } = useTranslation()
+  const { settings } = useSettings()
   const [loading, setLoading] = useState(true)
   const [groups, setGroups] = useState<FlowerGroup[]>([])
   const [activeVariants, setActiveVariants] = useState<Record<string, number>>({})
@@ -61,8 +63,10 @@ export default function Home() {
   }
 
   const baseTotal = groups.reduce((acc, g) => acc + g.variants.reduce((accV, v) => accV + v.basePrice * v.qty, 0), 0)
-  const priceModifier = mode === 'bouquet' ? 1.25 : 1.0
+  const bouquetMultiplier = 1 + ((settings.bouquetFeePercent ?? 25) / 100)
+  const priceModifier = mode === 'bouquet' ? bouquetMultiplier : 1.0
   const currentTotal = baseTotal * priceModifier
+  const minOrder = settings.minOrderTotal ?? 15
 
   const validateTime = (dateStr: string) => {
     if (!dateStr) return t('home.time_err_required')
@@ -80,7 +84,7 @@ export default function Home() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     if (submitting) return
-    if (baseTotal < 15 || !mode) return;
+    if (baseTotal < minOrder || !mode) return;
 
     const error = validateTime(recipient.pickupDate)
     if (error) {
@@ -150,7 +154,7 @@ export default function Home() {
     return stems
   }, [groups])
 
-  const IS_STEP_1_COMPLETE = baseTotal >= 15
+  const IS_STEP_1_COMPLETE = baseTotal >= minOrder
   const IS_STEP_2_COMPLETE = IS_STEP_1_COMPLETE && mode !== null
 
   if (submitted) {
@@ -290,7 +294,7 @@ export default function Home() {
             <div style={{ background: '#fafafa', padding: '1rem', border: '1px dashed #ccc' }}>
                 <h3 style={{ margin: 0 }}>{t('home.base_selection')}: €{baseTotal.toFixed(2)}</h3>
                 {!IS_STEP_1_COMPLETE ? (
-                  <p style={{ margin: '0.5rem 0 0 0', color: '#666', fontSize: '0.9rem' }}>{t('home.min_order_note').replace('{{amount}}', (15 - baseTotal).toFixed(2))}</p>
+                  <p style={{ margin: '0.5rem 0 0 0', color: '#666', fontSize: '0.9rem' }}>{t('home.min_order_note').replace('{{amount}}', (minOrder - baseTotal).toFixed(2))}</p>
                 ) : (
                   <p style={{ margin: '0.5rem 0 0 0', color: '#5cb85c', fontSize: '0.9rem' }}>{t('home.min_reached')}</p>
                 )}
@@ -371,10 +375,9 @@ export default function Home() {
                 {deliveryMode === 'delivery' && (
                   <>
                     <select required value={recipient.city} onChange={e => setRecipient({...recipient, city: e.target.value})}>
-                      <option value="Porto">Porto</option>
-                      <option value="Gaia">Gaia</option>
-                      <option value="Maia">Maia</option>
-                      <option value="Matosinhos">Matosinhos</option>
+                      {settings.deliveryCities.map((ct) => (
+                        <option key={ct} value={ct}>{ct}</option>
+                      ))}
                     </select>
                     <textarea placeholder={t('home.form_address')} rows={3} required value={recipient.address} onChange={e => setRecipient({...recipient, address: e.target.value})}></textarea>
                   </>

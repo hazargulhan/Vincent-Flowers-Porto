@@ -342,6 +342,20 @@
     "saving": "Saving...",
     "network_error": "Network error",
     "catalog_saved": "Catalog saved successfully!",
-    "closures_saved": "Closures saved successfully!"
+    "closures_saved": "Closures saved successfully!",
+    "settings_title": "Business Settings",
+    "settings_desc": "Control your minimum order amounts, bouquet assembly fee, subscription pricing tiers, delivery cities, and operating hours in real time.",
+    "btn_save_settings": "Save Settings",
+    "settings_saved": "Settings saved successfully!",
+    "settings_min_order": "Custom Bouquet Minimum Order (€)",
+    "settings_bouquet_fee": "Bouquet Assembly Fee (%)",
+    "settings_sub_pricing": "Subscription Monthly Pricing (€)",
+    "settings_sub_small": "Small Tier (€)",
+    "settings_sub_medium": "Medium Tier (€)",
+    "settings_sub_large": "Large Tier (€)",
+    "settings_delivery_cities": "Delivery Cities (comma-separated)",
+    "settings_hours": "Operating Hours",
+    "settings_opening_time": "Opening Time",
+    "settings_closing_time": "Closing Time"
   }
 }

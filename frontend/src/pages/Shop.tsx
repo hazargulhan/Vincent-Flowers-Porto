@@ -9,9 +9,11 @@ import { useTranslation } from 'react-i18next'
 import type { Bouquet } from '../types/catalog'
 import { apiUrl, mediaUrl } from '../lib/api'
 import Seo from '../components/Seo'
+import { useSettings } from '../hooks/useSettings'
 
 export default function Shop() {
   const { t, i18n } = useTranslation()
+  const { settings } = useSettings()
   const [loading, setLoading] = useState(true)
   const [lightboxImg, setLightboxImg] = useState<string | null>(null);
   const [sortBy, setSortBy] = useState('none')
@@ -239,10 +241,9 @@ export default function Shop() {
             {deliveryMode === 'delivery' && (
               <>
                 <select required value={recipient.city} onChange={e => setRecipient({...recipient, city: e.target.value})}>
-                  <option value="Porto">Porto</option>
-                  <option value="Gaia">Gaia</option>
-                  <option value="Maia">Maia</option>
-                  <option value="Matosinhos">Matosinhos</option>
+                  {settings.deliveryCities.map((ct) => (
+                    <option key={ct} value={ct}>{ct}</option>
+                  ))}
                 </select>
                 <textarea placeholder={t('shop.form_address')} rows={3} required value={recipient.address} onChange={e => setRecipient({...recipient, address: e.target.value})}></textarea>
               </>

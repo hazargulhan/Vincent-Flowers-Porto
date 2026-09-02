@@ -171,11 +171,34 @@ function safeSubject(value: unknown): string {
 // into the email, so a hand-rolled POST could claim any figure it liked. These mirror
 // the frontend's rules; here they are the authority.
 
-const PRICING = {
-  /** Assembling loose stems into a bouquet costs 25% on top of the stem total. */
-  BOUQUET_MULTIPLIER: 1.25,
-  /** Minimum stem subtotal for a custom order, before the bouquet fee. */
-  MIN_STEM_TOTAL: 15,
+export interface BusinessSettings {
+  minOrderTotal: number
+  bouquetFeePercent: number
+  subscriptionPricing: {
+    small: number
+    medium: number
+    large: number
+  }
+  deliveryCities: string[]
+  openingHours: {
+    start: string
+    end: string
+  }
+}
+
+export const DEFAULT_SETTINGS: BusinessSettings = {
+  minOrderTotal: 15,
+  bouquetFeePercent: 25,
+  subscriptionPricing: {
+    small: 30,
+    medium: 55,
+    large: 75,
+  },
+  deliveryCities: ['Porto', 'Gaia', 'Maia', 'Matosinhos'],
+  openingHours: {
+    start: '09:00',
+    end: '18:00',
+  },
 }
 
 function num(value: unknown): number {
@@ -190,15 +213,17 @@ function round2(n: number): number {
 type PricedOrder = { stemTotal: number; total: number }
 
 /**
- * Recomputes the money from the stored catalog. A flower or bouquet we cannot match
- * prices at 0 rather than at whatever the client claimed. Returns null for the types
- * we hold no server-side prices for (subscription/events/b2b/footer).
+ * Recomputes the money from the stored catalog and live business settings.
+ * A flower or bouquet we cannot match prices at 0 rather than at whatever the client claimed.
  */
 function priceOrder(
   type: OrderBody['type'],
   configuration: ConfigurationItem[] | undefined,
   mode: string | undefined,
-  catalog: Catalog
+  catalog: Catalog,
+  settings: BusinessSettings,
+  sizeLabel?: string,
+  frequency?: number
 ): PricedOrder | null {
   if (type === 'make-your-own') {
     const stemTotal = (configuration || []).reduce((sum, item) => {
@@ -206,7 +231,8 @@ function priceOrder(
       const variant = group?.variants?.find((v) => v.color === item.color)
       return sum + num(variant?.basePrice) * Math.max(0, Math.floor(num(item.qty)))
     }, 0)
-    const total = mode === 'bouquet' ? stemTotal * PRICING.BOUQUET_MULTIPLIER : stemTotal
+    const multiplier = mode === 'bouquet' ? 1 + (num(settings.bouquetFeePercent) / 100) : 1.0
+    const total = stemTotal * multiplier
     return { stemTotal: round2(stemTotal), total: round2(total) }
   }
 
@@ -215,6 +241,19 @@ function priceOrder(
     const bouquet = (catalog.shopBouquets || []).find((b) => b.title === title && b.available)
     if (!bouquet) return null
     return { stemTotal: num(bouquet.price), total: round2(num(bouquet.price)) }
+  }
+
+  if (type === 'subscription') {
+    const norm = (sizeLabel || '').toLowerCase()
+    let unit = 0
+    if (norm.includes('small')) unit = settings.subscriptionPricing.small
+    else if (norm.includes('medium')) unit = settings.subscriptionPricing.medium
+    else if (norm.includes('large')) unit = settings.subscriptionPricing.large
+
+    if (unit > 0) {
+      const freq = Math.max(1, Math.floor(num(frequency) || 1))
+      return { stemTotal: round2(unit), total: round2(unit * freq) }
+    }
   }
 
   return null
@@ -449,18 +488,41 @@ app.post('/api/order', async (c) => {
   }
 
   const catalog = await getCatalog(c.env)
-  const priced = priceOrder(body.type, body.configuration, body.mode, catalog)
+  const settings = await getSettings(c.env)
+  const priced = priceOrder(
+    body.type,
+    body.configuration,
+    body.mode,
+    catalog,
+    settings,
+    body.sizeLabel,
+    body.frequency
+  )
 
   if (body.type === 'make-your-own') {
     if (body.mode !== 'bouquet' && body.mode !== 'bunch') {
       return c.json({ success: false, message: 'Choose a bouquet or a bunch.' }, 400)
     }
-    if (!priced || priced.stemTotal < PRICING.MIN_STEM_TOTAL) {
-      return c.json({ success: false, message: `The minimum order is €${PRICING.MIN_STEM_TOTAL}.` }, 400)
+    if (!priced || priced.stemTotal < settings.minOrderTotal) {
+      return c.json({ success: false, message: `The minimum order is €${settings.minOrderTotal}.` }, 400)
     }
   }
   if (body.type === 'shop' && !priced) {
     return c.json({ success: false, message: 'That bouquet is no longer available.' }, 400)
+  }
+
+  if (body.deliveryMode === 'delivery' && body.customer?.city) {
+    const city = body.customer.city.trim().toLowerCase()
+    const allowed = settings.deliveryCities.some((ct) => ct.trim().toLowerCase() === city)
+    if (!allowed) {
+      return c.json(
+        {
+          success: false,
+          message: `Delivery is currently only available to: ${settings.deliveryCities.join(', ')}.`,
+        },
+        400
+      )
+    }
   }
 
   const createdAt = Date.now()
@@ -836,6 +898,82 @@ app.post('/api/admin/closures', async (c) => {
     return c.json({ success: true })
   } catch {
     return c.json({ success: false, message: 'Failed to update' }, 500)
+  }
+})
+
+// --- Business Settings (dynamic prices, minimums, cities, hours) ---
+
+async function getSettings(env: Env): Promise<BusinessSettings> {
+  try {
+    const data = await env.VINCENT_INVENTORY.get('settings', 'json')
+    if (data && typeof data === 'object') {
+      const s = data as Partial<BusinessSettings>
+      return {
+        minOrderTotal: typeof s.minOrderTotal === 'number' && s.minOrderTotal >= 0 ? s.minOrderTotal : DEFAULT_SETTINGS.minOrderTotal,
+        bouquetFeePercent: typeof s.bouquetFeePercent === 'number' && s.bouquetFeePercent >= 0 ? s.bouquetFeePercent : DEFAULT_SETTINGS.bouquetFeePercent,
+        subscriptionPricing: {
+          small: typeof s.subscriptionPricing?.small === 'number' && s.subscriptionPricing.small > 0 ? s.subscriptionPricing.small : DEFAULT_SETTINGS.subscriptionPricing.small,
+          medium: typeof s.subscriptionPricing?.medium === 'number' && s.subscriptionPricing.medium > 0 ? s.subscriptionPricing.medium : DEFAULT_SETTINGS.subscriptionPricing.medium,
+          large: typeof s.subscriptionPricing?.large === 'number' && s.subscriptionPricing.large > 0 ? s.subscriptionPricing.large : DEFAULT_SETTINGS.subscriptionPricing.large,
+        },
+        deliveryCities: Array.isArray(s.deliveryCities) && s.deliveryCities.length > 0 ? s.deliveryCities : DEFAULT_SETTINGS.deliveryCities,
+        openingHours: {
+          start: s.openingHours?.start || DEFAULT_SETTINGS.openingHours.start,
+          end: s.openingHours?.end || DEFAULT_SETTINGS.openingHours.end,
+        },
+      }
+    }
+  } catch {
+    // Fall through to default settings
+  }
+  return DEFAULT_SETTINGS
+}
+
+app.get('/api/settings', async (c) => {
+  c.header('Cache-Control', 'no-store, no-cache, must-revalidate')
+  return c.json(await getSettings(c.env))
+})
+
+app.post('/api/admin/settings', async (c) => {
+  if (!(await requireAdmin(c))) {
+    return c.json({ success: false, message: 'Unauthorized' }, 401)
+  }
+
+  try {
+    const body = (await c.req.json()) as Partial<BusinessSettings>
+    const current = await getSettings(c.env)
+
+    const updated: BusinessSettings = {
+      minOrderTotal: typeof body.minOrderTotal === 'number' && body.minOrderTotal >= 0
+        ? round2(body.minOrderTotal)
+        : current.minOrderTotal,
+      bouquetFeePercent: typeof body.bouquetFeePercent === 'number' && body.bouquetFeePercent >= 0
+        ? round2(body.bouquetFeePercent)
+        : current.bouquetFeePercent,
+      subscriptionPricing: {
+        small: typeof body.subscriptionPricing?.small === 'number' && body.subscriptionPricing.small > 0
+          ? round2(body.subscriptionPricing.small)
+          : current.subscriptionPricing.small,
+        medium: typeof body.subscriptionPricing?.medium === 'number' && body.subscriptionPricing.medium > 0
+          ? round2(body.subscriptionPricing.medium)
+          : current.subscriptionPricing.medium,
+        large: typeof body.subscriptionPricing?.large === 'number' && body.subscriptionPricing.large > 0
+          ? round2(body.subscriptionPricing.large)
+          : current.subscriptionPricing.large,
+      },
+      deliveryCities: Array.isArray(body.deliveryCities) && body.deliveryCities.length > 0
+        ? body.deliveryCities.map(String).map((ct) => ct.trim()).filter(Boolean)
+        : current.deliveryCities,
+      openingHours: {
+        start: String(body.openingHours?.start || current.openingHours.start).trim(),
+        end: String(body.openingHours?.end || current.openingHours.end).trim(),
+      },
+    }
+
+    await c.env.VINCENT_INVENTORY.put('settings', JSON.stringify(updated))
+    return c.json({ success: true, settings: updated })
+  } catch (err) {
+    return c.json({ success: false, message: 'Failed to update settings' }, 500)
   }
 })
 

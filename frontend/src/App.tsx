@@ -36,78 +36,78 @@ function App() {
   return (
     <div className="app-container">
       <header className="app-header">
-        <div className="container nav-container" style={{ display: 'flex', alignItems: 'center' }}>
-          <Link to="/" className="logo" style={{ display: 'flex', alignItems: 'center', gap: '0.25rem', flex: 1 }} onClick={() => setMobileMenuOpen(false)}>
-            <img src="/images/logo.webp" alt={t('nav.logo_alt')} className="nav-logo" />
-            <span className="logo-text">Vincent Flowers Porto</span>
-          </Link>
-          
-          <button className="mobile-menu-btn" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
-            {mobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
-          </button>
-
-          <nav className={`nav-links ${mobileMenuOpen ? 'open' : ''}`}>
-            <button 
-              onClick={toggleLanguage} 
-              style={{ border: '1px solid var(--border-color)', background: 'transparent', cursor: 'pointer', padding: '0.25rem 0.5rem', fontSize: '0.8rem', borderRadius: '4px', margin: 'auto 0' }}
-              title="Change Language"
-            >
-              {(i18n.language || '').startsWith('pt') ? 'PT' : 'EN'}
+          <div className="container nav-container" style={{ display: 'flex', alignItems: 'center' }}>
+            <Link to="/" className="logo" style={{ display: 'flex', alignItems: 'center', gap: '0.25rem', flex: 1 }} onClick={() => setMobileMenuOpen(false)}>
+              <img src="/images/logo.webp" alt={t('nav.logo_alt')} className="nav-logo" />
+              <span className="logo-text">Vincent Flowers Porto</span>
+            </Link>
+            
+            <button className="mobile-menu-btn" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
+              {mobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
             </button>
-            <Link to="/builder" className={location.pathname === '/builder' ? 'active' : ''} onClick={() => setMobileMenuOpen(false)}>{t('nav.make')}</Link>
-            <Link to="/shop" className={location.pathname === '/shop' ? 'active' : ''} onClick={() => setMobileMenuOpen(false)}>{t('nav.shop')}</Link>
-            <Link to="/subscription" className={location.pathname === '/subscription' ? 'active' : ''} onClick={() => setMobileMenuOpen(false)}>{t('nav.sub')}</Link>
-            <Link to="/events" className={location.pathname === '/events' ? 'active' : ''} onClick={() => setMobileMenuOpen(false)}>{t('nav.events')}</Link>
-            <Link to="/b2b" className={location.pathname === '/b2b' ? 'active' : ''} onClick={() => setMobileMenuOpen(false)}>B2B</Link>
-            <Link to="/about" className={location.pathname === '/about' ? 'active' : ''} onClick={() => setMobileMenuOpen(false)}>{t('nav.about')}</Link>
-          </nav>
-        </div>
-      </header>
 
-      <main>
-        <Routes>
-          <Route path="/" element={<Landing />} />
-          <Route path="/builder" element={<Home />} />
-          <Route path="/shop" element={<Shop />} />
-          <Route path="/subscription" element={<Subscription />} />
-          <Route path="/events" element={<Events />} />
-          <Route path="/b2b" element={<B2B />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/faq" element={<FAQ />} />
-          <Route
-            path="/admin"
-            element={
-              <Suspense fallback={<div className="container page-section" style={{ padding: '4rem 0', textAlign: 'center' }}>Loading...</div>}>
-                <Admin />
-              </Suspense>
-            }
-          />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </main>
+            <nav className={`nav-links ${mobileMenuOpen ? 'open' : ''}`}>
+              <button 
+                onClick={toggleLanguage} 
+                style={{ border: '1px solid var(--border-color)', background: 'transparent', cursor: 'pointer', padding: '0.25rem 0.5rem', fontSize: '0.8rem', borderRadius: '4px', margin: 'auto 0' }}
+                title="Change Language"
+              >
+                {(i18n.language || '').startsWith('pt') ? 'PT' : 'EN'}
+              </button>
+              <Link to="/builder" className={location.pathname === '/builder' ? 'active' : ''} onClick={() => setMobileMenuOpen(false)}>{t('nav.make')}</Link>
+              <Link to="/shop" className={location.pathname === '/shop' ? 'active' : ''} onClick={() => setMobileMenuOpen(false)}>{t('nav.shop')}</Link>
+              <Link to="/subscription" className={location.pathname === '/subscription' ? 'active' : ''} onClick={() => setMobileMenuOpen(false)}>{t('nav.sub')}</Link>
+              <Link to="/events" className={location.pathname === '/events' ? 'active' : ''} onClick={() => setMobileMenuOpen(false)}>{t('nav.events')}</Link>
+              <Link to="/b2b" className={location.pathname === '/b2b' ? 'active' : ''} onClick={() => setMobileMenuOpen(false)}>B2B</Link>
+              <Link to="/about" className={location.pathname === '/about' ? 'active' : ''} onClick={() => setMobileMenuOpen(false)}>{t('nav.about')}</Link>
+            </nav>
+          </div>
+        </header>
 
-      <footer className="app-footer">
-        <div className="container footer-content">
-          <div>
-            <h3>{t('footer.contact_us')}</h3>
-            <p style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', flexWrap: 'wrap' }}>
-              {t('footer.phone')}: <MessageCircle size={16} /> +351- 911-119 - 351
-            </p>
-            <p>Email: vincent.flowers.porto@gmail.com</p>
+        <main>
+          <Routes>
+            <Route path="/" element={<Landing />} />
+            <Route path="/builder" element={<Home />} />
+            <Route path="/shop" element={<Shop />} />
+            <Route path="/subscription" element={<Subscription />} />
+            <Route path="/events" element={<Events />} />
+            <Route path="/b2b" element={<B2B />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/faq" element={<FAQ />} />
+            <Route
+              path="/admin"
+              element={
+                <Suspense fallback={<div className="container page-section" style={{ padding: '4rem 0', textAlign: 'center' }}>Loading...</div>}>
+                  <Admin />
+                </Suspense>
+              }
+            />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </main>
+
+        <footer className="app-footer">
+          <div className="container footer-content">
+            <div>
+              <h3>{t('footer.contact_us')}</h3>
+              <p style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', flexWrap: 'wrap' }}>
+                {t('footer.phone')}: <MessageCircle size={16} /> +351- 911-119 - 351
+              </p>
+              <p>Email: vincent.flowers.porto@gmail.com</p>
+            </div>
+            <div>
+              <h3>{t('footer.faq')}</h3>
+              <p><Link to="/faq#delivery">Delivery Information</Link></p>
+              <p><Link to="/faq#care">Flower Care Guide</Link></p>
+              <p><Link to="/faq#returns">Returns Policy</Link></p>
+            </div>
+            <div>
+              <h3>{t('footer.quick_msg')}</h3>
+              <FooterForm t={t} />
+            </div>
           </div>
-          <div>
-            <h3>{t('footer.faq')}</h3>
-            <p><Link to="/faq#delivery">Delivery Information</Link></p>
-            <p><Link to="/faq#care">Flower Care Guide</Link></p>
-            <p><Link to="/faq#returns">Returns Policy</Link></p>
-          </div>
-          <div>
-            <h3>{t('footer.quick_msg')}</h3>
-            <FooterForm t={t} />
-          </div>
-        </div>
-      </footer>
-    </div>
+        </footer>
+      </div>
   )
 }
 

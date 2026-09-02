@@ -4,6 +4,8 @@ import ImageDropzone from '../components/ImageDropzone'
 import AdminOrders from '../components/AdminOrders'
 import type { Catalog } from '../types/catalog'
 import type { ClosurePeriod } from '../types/order'
+import type { BusinessSettings } from '../types/settings'
+import { DEFAULT_SETTINGS } from '../types/settings'
 import { apiUrl, mediaUrl } from '../lib/api'
 import Seo from '../components/Seo'
 
@@ -17,6 +19,9 @@ export default function Admin() {
   const [closures, setClosures] = useState<ClosurePeriod[]>([])
   const [savingClosures, setSavingClosures] = useState(false)
   const [closureErrorMap, setClosureErrorMap] = useState<Record<string, string>>({})
+  const [settings, setSettings] = useState<BusinessSettings>(DEFAULT_SETTINGS)
+  const [savingSettings, setSavingSettings] = useState(false)
+  const [settingsFeedback, setSettingsFeedback] = useState('')
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -32,6 +37,7 @@ export default function Admin() {
         setAuthed(true)
         fetchCatalog()
         fetchClosures()
+        fetchSettings()
       } else {
         alert('Invalid password')
       }
@@ -57,6 +63,45 @@ export default function Admin() {
       setClosures(Array.isArray(data) ? data : [])
     } catch (err) {
       console.error('Failed to load closures:', err)
+    }
+  }
+
+  const fetchSettings = async () => {
+    try {
+      const res = await fetch(apiUrl(`/api/settings?t=${Date.now()}`), { cache: 'no-store' })
+      if (res.ok) {
+        const data = await res.json()
+        setSettings(data)
+      }
+    } catch (err) {
+      console.error('Failed to load settings:', err)
+    }
+  }
+
+  const saveSettings = async () => {
+    setSavingSettings(true)
+    setSettingsFeedback('')
+    try {
+      const res = await fetch(apiUrl('/api/admin/settings'), {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify(settings)
+      })
+      const data = await res.json()
+      if (data.success) {
+        if (data.settings) setSettings(data.settings)
+        setSettingsFeedback(t('admin.settings_saved'))
+        setTimeout(() => setSettingsFeedback(''), 4000)
+      } else {
+        alert(data.message || t('admin.network_error'))
+      }
+    } catch {
+      alert(t('admin.network_error'))
+    } finally {
+      setSavingSettings(false)
     }
   }
 
@@ -309,6 +354,154 @@ export default function Admin() {
             </div>
           ))}
           {closures.length === 0 && <p style={{ color: '#888', fontSize: '0.9rem' }}>{t('admin.no_closures')}</p>}
+        </div>
+      </div>
+
+      <div style={{ marginBottom: '4rem' }}>
+        <div className="admin-section-header">
+          <h2 style={{ margin: 0 }}>{t('admin.settings_title')}</h2>
+          <div style={{ display: 'flex', gap: '0.8rem', alignItems: 'center', flexWrap: 'wrap' }}>
+            {settingsFeedback && (
+              <span style={{ color: '#2e7d32', fontSize: '0.9rem', fontWeight: 600 }}>
+                ✓ {settingsFeedback}
+              </span>
+            )}
+            <button
+              onClick={saveSettings}
+              disabled={savingSettings}
+              style={{ background: 'var(--text-color)', color: '#fff', padding: '0.5rem 1.5rem', cursor: 'pointer' }}
+            >
+              {savingSettings ? t('admin.saving') : t('admin.btn_save_settings')}
+            </button>
+          </div>
+        </div>
+        <p style={{ fontSize: '0.85rem', color: '#666', marginBottom: '1rem' }}>
+          {t('admin.settings_desc')}
+        </p>
+
+        <div style={{ border: '1px solid var(--border-color)', padding: '1.5rem', background: '#fafafa', display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+          {/* Group 1: Custom Bouquet Rules */}
+          <div>
+            <h4 style={{ margin: '0 0 0.8rem' }}>Make Your Own Rules</h4>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '1rem' }}>
+              <div style={{ display: 'flex', flexDirection: 'column' }}>
+                <label style={{ fontSize: '0.75rem', fontWeight: 600, marginBottom: '0.3rem' }}>{t('admin.settings_min_order')}</label>
+                <input
+                  type="number"
+                  step="0.5"
+                  min="0"
+                  value={settings.minOrderTotal}
+                  onChange={e => setSettings({ ...settings, minOrderTotal: parseFloat(e.target.value) || 0 })}
+                />
+              </div>
+              <div style={{ display: 'flex', flexDirection: 'column' }}>
+                <label style={{ fontSize: '0.75rem', fontWeight: 600, marginBottom: '0.3rem' }}>{t('admin.settings_bouquet_fee')}</label>
+                <input
+                  type="number"
+                  step="1"
+                  min="0"
+                  max="100"
+                  value={settings.bouquetFeePercent}
+                  onChange={e => setSettings({ ...settings, bouquetFeePercent: parseFloat(e.target.value) || 0 })}
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Group 2: Subscription Monthly Tiers */}
+          <div>
+            <h4 style={{ margin: '0 0 0.8rem' }}>{t('admin.settings_sub_pricing')}</h4>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '1rem' }}>
+              <div style={{ display: 'flex', flexDirection: 'column' }}>
+                <label style={{ fontSize: '0.75rem', fontWeight: 600, marginBottom: '0.3rem' }}>{t('admin.settings_sub_small')}</label>
+                <input
+                  type="number"
+                  step="1"
+                  min="0"
+                  value={settings.subscriptionPricing.small}
+                  onChange={e => setSettings({
+                    ...settings,
+                    subscriptionPricing: { ...settings.subscriptionPricing, small: parseFloat(e.target.value) || 0 }
+                  })}
+                />
+              </div>
+              <div style={{ display: 'flex', flexDirection: 'column' }}>
+                <label style={{ fontSize: '0.75rem', fontWeight: 600, marginBottom: '0.3rem' }}>{t('admin.settings_sub_medium')}</label>
+                <input
+                  type="number"
+                  step="1"
+                  min="0"
+                  value={settings.subscriptionPricing.medium}
+                  onChange={e => setSettings({
+                    ...settings,
+                    subscriptionPricing: { ...settings.subscriptionPricing, medium: parseFloat(e.target.value) || 0 }
+                  })}
+                />
+              </div>
+              <div style={{ display: 'flex', flexDirection: 'column' }}>
+                <label style={{ fontSize: '0.75rem', fontWeight: 600, marginBottom: '0.3rem' }}>{t('admin.settings_sub_large')}</label>
+                <input
+                  type="number"
+                  step="1"
+                  min="0"
+                  value={settings.subscriptionPricing.large}
+                  onChange={e => setSettings({
+                    ...settings,
+                    subscriptionPricing: { ...settings.subscriptionPricing, large: parseFloat(e.target.value) || 0 }
+                  })}
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Group 3: Delivery Cities */}
+          <div>
+            <h4 style={{ margin: '0 0 0.8rem' }}>{t('admin.settings_delivery_cities')}</h4>
+            <input
+              type="text"
+              value={settings.deliveryCities.join(', ')}
+              placeholder="Porto, Gaia, Maia, Matosinhos"
+              onChange={e => {
+                const raw = e.target.value
+                const cities = raw.split(',').map(s => s.trim())
+                setSettings({ ...settings, deliveryCities: cities })
+              }}
+            />
+            <small style={{ color: '#777', marginTop: '0.3rem', display: 'block' }}>
+              Separate city names with commas. Customers can only select these cities when choosing Delivery.
+            </small>
+          </div>
+
+          {/* Group 4: Operating Hours */}
+          <div>
+            <h4 style={{ margin: '0 0 0.8rem' }}>{t('admin.settings_hours')}</h4>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '1rem' }}>
+              <div style={{ display: 'flex', flexDirection: 'column' }}>
+                <label style={{ fontSize: '0.75rem', fontWeight: 600, marginBottom: '0.3rem' }}>{t('admin.settings_opening_time')}</label>
+                <input
+                  type="text"
+                  placeholder="09:00"
+                  value={settings.openingHours.start}
+                  onChange={e => setSettings({
+                    ...settings,
+                    openingHours: { ...settings.openingHours, start: e.target.value }
+                  })}
+                />
+              </div>
+              <div style={{ display: 'flex', flexDirection: 'column' }}>
+                <label style={{ fontSize: '0.75rem', fontWeight: 600, marginBottom: '0.3rem' }}>{t('admin.settings_closing_time')}</label>
+                <input
+                  type="text"
+                  placeholder="18:00"
+                  value={settings.openingHours.end}
+                  onChange={e => setSettings({
+                    ...settings,
+                    openingHours: { ...settings.openingHours, end: e.target.value }
+                  })}
+                />
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 

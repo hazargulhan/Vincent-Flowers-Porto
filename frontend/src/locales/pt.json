@@ -342,6 +342,20 @@
     "saving": "A guardar...",
     "network_error": "Erro de ligação",
     "catalog_saved": "Catálogo guardado com sucesso!",
-    "closures_saved": "Encerramentos guardados com sucesso!"
+    "closures_saved": "Encerramentos guardados com sucesso!",
+    "settings_title": "Definições da Loja",
+    "settings_desc": "Controle em tempo real o valor mínimo de encomenda, taxa de montagem de ramos, preços de subscrição, cidades de entrega e horário de funcionamento.",
+    "btn_save_settings": "Guardar Definições",
+    "settings_saved": "Definições guardadas com sucesso!",
+    "settings_min_order": "Valor Mínimo para Ramo Personalizado (€)",
+    "settings_bouquet_fee": "Taxa de Montagem do Ramo (%)",
+    "settings_sub_pricing": "Preços Mensais de Subscrição (€)",
+    "settings_sub_small": "Plano Pequeno (€)",
+    "settings_sub_medium": "Plano Médio (€)",
+    "settings_sub_large": "Plano Grande (€)",
+    "settings_delivery_cities": "Cidades de Entrega (separadas por vírgula)",
+    "settings_hours": "Horário de Funcionamento",
+    "settings_opening_time": "Hora de Abertura",
+    "settings_closing_time": "Hora de Encerramento"
   }
 }
