@@ -75,11 +75,12 @@ backend ve eski frontend çalışıyor.
 - [x] **ADIM 3 — Tamamlandı:** backend deploy yapıldı (`vincent-flowers-backend`)
 - [x] **ADIM 4 — Tamamlandı:** canlı backend doğrulandı (katalogda 49 çiçek tam, /api/admin/orders 401 korumalı)
 
-### Sıradaki adımlar (bu sırayla)
+- [x] **ADIM 5 — Tamamlandı:** dalı `main`'e merge + push yapıldı ve frontend Cloudflare Pages'e deploy edildi (`d82c3292`)
+- [x] **ADIM 6 — Tamamlandı:** canlı site doğrulandı (404 yönlendirmesi, robots.txt, sitemap.xml, admin rotası ve yeni bundle aktif)
+- [x] **ADIM 7 — Kontrol edildi:** Resend DKIM DNS kaydı Cloudflare üzerinde aktif (`resend._domainkey.vincentflowersporto.com`)
 
-- [ ] **ADIM 5 — Sen yapacaksın:** dalı `main`'e merge + push (frontend yayını)
-- [ ] **ADIM 6 — Sen yapacaksın:** canlı site doğrulaması
-- [ ] **ADIM 7:** Resend alan adı doğrulaması kontrolü
+### Canlı Doğrulama (Kullanıcı Tarafı)
+- [ ] Kullanıcı tarayıcıda `https://vincentflowersporto.com/admin` adresine gidip admin şifresiyle giriş yapacak ve Orders sekmesini görecek.
 
 ---
 
