@@ -3,9 +3,12 @@ import { ArrowRight } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { Helmet } from 'react-helmet-async'
 import Seo from '../components/Seo'
+import ClosureNotice from '../components/ClosureNotice'
+import { useClosures } from '../hooks/useClosures'
 
 export default function Landing() {
   const { t } = useTranslation()
+  const { closures, closureMessage } = useClosures()
 
   return (
     <div className="landing-page">
@@ -38,10 +41,13 @@ export default function Landing() {
       <section className="hero-section container landing-hero">
         <div className="hero-text-content">
           <h1 className="hero-title">{t('landing.title')}</h1>
-          <p style={{ fontSize: '1.2rem', color: '#555', marginBottom: '2.5rem', lineHeight: 1.6 }}>
+          <p style={{ fontSize: '1.2rem', color: '#555', marginBottom: '1.5rem', lineHeight: 1.6 }}>
             {t('landing.subtitle')}
           </p>
-          <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
+
+          <ClosureNotice closures={closures} closureMessage={closureMessage} />
+
+          <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', marginTop: '1.5rem' }}>
             <Link to="/builder" className="landing-btn" style={{ flex: '1 1 250px' }}>
               {t('landing.btn_custom')} <ArrowRight size={20} />
             </Link>

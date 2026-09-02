@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Routes, Route, Link, useLocation } from 'react-router-dom'
-import { Menu, X, MessageCircle } from 'lucide-react'
+import { Menu, X, MessageCircle, AlertCircle, Calendar } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import type { TFunction } from 'i18next'
 import './App.css'
@@ -16,11 +16,18 @@ import FAQ from './pages/FAQ'
 import B2B from './pages/B2B'
 import NotFound from './pages/NotFound'
 import { apiUrl } from './lib/api'
+import { useClosures } from './hooks/useClosures'
+import { formatDate } from './lib/dates'
 
 function App() {
   const location = useLocation()
   const { t, i18n } = useTranslation()
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const { activeClosure, upcomingClosures, closureMessage } = useClosures()
+
+  const currentBannerClosure = activeClosure || (upcomingClosures.length > 0 ? upcomingClosures[0] : null)
+  const isBannerActive = !!activeClosure
+  const showBanner = !location.pathname.startsWith('/admin') && !!currentBannerClosure
 
   const toggleLanguage = () => {
     const newLang = i18n.language === 'en' ? 'pt' : 'en';
@@ -33,6 +40,33 @@ function App() {
 
   return (
     <div className="app-container">
+      {showBanner && currentBannerClosure && (
+        <aside
+          className={`site-announcement-bar ${isBannerActive ? 'site-announcement-bar--active' : 'site-announcement-bar--upcoming'}`}
+          role="alert"
+        >
+          <div className="container announcement-content">
+            {isBannerActive ? (
+              <AlertCircle size={16} className="announcement-icon" />
+            ) : (
+              <Calendar size={16} className="announcement-icon" />
+            )}
+            <div className="announcement-text">
+              <strong>
+                {isBannerActive ? t('common.closure_notice_title') : t('common.closure_notice_title_upcoming')}:
+              </strong>{' '}
+              <span>{closureMessage(currentBannerClosure, i18n.language)}</span>
+              <span className="announcement-dates">
+                ({t('common.closure_notice_dates', {
+                  start: formatDate(currentBannerClosure.startDate, i18n.language),
+                  end: formatDate(currentBannerClosure.endDate, i18n.language),
+                })})
+              </span>
+            </div>
+          </div>
+        </aside>
+      )}
+
       <header className="app-header">
         <div className="container nav-container" style={{ display: 'flex', alignItems: 'center' }}>
           <Link to="/" className="logo" style={{ display: 'flex', alignItems: 'center', gap: '0.25rem', flex: 1 }} onClick={() => setMobileMenuOpen(false)}>

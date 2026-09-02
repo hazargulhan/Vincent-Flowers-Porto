@@ -14,57 +14,144 @@
   background-color: var(--border-color);
 }
 
-/* --- Closure / holiday notice --------------------------------------------
-   Intentionally unadorned: a thin left rule and a quiet uppercase label,
-   matching the callout cards on the B2B page. No emoji, no tinted panel,
-   no rounded corners — the rest of the site is square-cornered.           */
+/* --- Closure / holiday notice & top banner ----------------------------
+   High-visibility, elegant styling matching the brand's aesthetic.        */
 .closure-notice {
-  margin: 2rem 0;
+  margin: 1.75rem 0;
   display: flex;
   flex-direction: column;
   gap: 1.25rem;
 }
 
 .closure-notice__item {
-  border-left: 1px solid var(--text-color);
-  padding-left: 1.25rem;
+  background: #f7f3eb;
+  border: 1px solid #dfd7cb;
+  border-left: 4px solid var(--text-color);
+  padding: 1.25rem 1.5rem;
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
 }
 
-/* Not started yet — same shape, lighter rule. */
 .closure-notice__item--upcoming {
-  border-left-color: var(--border-color);
+  background: #faf7f2;
+  border-left-color: #8c857b;
 }
 
-.closure-notice__label {
-  display: block;
+.closure-notice__header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.6rem;
+}
+
+.closure-notice__badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
   text-transform: uppercase;
-  letter-spacing: 0.12em;
-  font-size: 0.72rem;
-  color: #888;
-  margin-bottom: 0.4rem;
+  letter-spacing: 0.08em;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--text-color);
+}
+
+.closure-notice__item--upcoming .closure-notice__badge {
+  color: #555;
 }
 
 .closure-notice__message {
-  margin: 0 0 0.35rem 0;
+  font-size: 1.05rem;
+  line-height: 1.5;
+  color: var(--text-color);
+  font-weight: 500;
+  margin: 0 0 0.65rem 0;
 }
 
 .closure-notice__dates {
-  display: block;
-  font-size: 0.85rem;
-  color: #666;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.9rem;
+  color: #333;
+  font-weight: 600;
+  background: rgba(0, 0, 0, 0.05);
+  padding: 0.35rem 0.65rem;
+  border-radius: 3px;
+  margin-bottom: 0.3rem;
 }
 
+.closure-notice__hint {
+  margin: 0.4rem 0 0 0;
+  font-size: 0.85rem;
+  color: #666;
+  line-height: 1.4;
+}
+
+/* Compact version for inside datepicker popover */
 .closure-notice--compact {
-  margin: 0;
-  gap: 0.9rem;
+  margin: 0.5rem 0;
+  gap: 0.75rem;
+}
+
+.closure-notice--compact .closure-notice__item {
+  padding: 0.75rem 1rem;
+  border-left-width: 3px;
+}
+
+.closure-notice--compact .closure-notice__badge {
+  font-size: 0.72rem;
 }
 
 .closure-notice--compact .closure-notice__message {
-  font-size: 0.85rem;
+  font-size: 0.88rem;
+  margin-bottom: 0.4rem;
 }
 
 .closure-notice--compact .closure-notice__dates {
+  font-size: 0.8rem;
+  padding: 0.25rem 0.5rem;
+}
+
+.closure-notice--compact .closure-notice__hint {
   font-size: 0.78rem;
+}
+
+/* Site-wide top announcement bar */
+.site-announcement-bar {
+  background-color: #1a1a1a;
+  color: #fdfaf5;
+  padding: 0.7rem 1.25rem;
+  font-size: 0.88rem;
+  letter-spacing: 0.02em;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.site-announcement-bar--upcoming {
+  background-color: #ece5d8;
+  color: #1a1a1a;
+  border-bottom: 1px solid #dcd3c3;
+}
+
+.announcement-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  text-align: center;
+  flex-wrap: wrap;
+}
+
+.announcement-icon {
+  flex-shrink: 0;
+}
+
+.announcement-text {
+  line-height: 1.4;
+}
+
+.announcement-dates {
+  opacity: 0.9;
+  font-weight: 500;
+  margin-left: 0.3rem;
 }
 
 * {

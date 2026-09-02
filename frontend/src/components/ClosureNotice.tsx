@@ -1,4 +1,5 @@
 import { useTranslation } from 'react-i18next'
+import { AlertCircle, Calendar } from 'lucide-react'
 import type { ClosurePeriod } from '../types/order'
 import { formatDate, todayIso } from '../lib/dates'
 
@@ -12,12 +13,7 @@ interface ClosureNoticeProps {
 
 /**
  * Holiday / closed-period notice.
- *
- * Deliberately plain: no emoji, no tinted panel, no rounded corners — the site is a
- * square-cornered, single-weight serif design, so the notice is just a thin left rule
- * and a quiet uppercase label, matching the callout cards on the B2B page. The date
- * range is rendered through the i18n sentence ("Closed from X to Y"), so no arrows or
- * symbols appear, and the dates themselves are localised.
+ * Distinct, high-visibility callout card with brand-aligned typography and clear icons.
  */
 export default function ClosureNotice({ closures, closureMessage, compact = false }: ClosureNoticeProps) {
   const { t, i18n } = useTranslation()
@@ -33,20 +29,26 @@ export default function ClosureNotice({ closures, closureMessage, compact = fals
         return (
           <div
             key={c.id}
-            className={`closure-notice__item${isActive ? '' : ' closure-notice__item--upcoming'}`}
+            className={`closure-notice__item${isActive ? ' closure-notice__item--active' : ' closure-notice__item--upcoming'}`}
           >
-            <span className="closure-notice__label">
-              {isActive ? t('common.closure_notice_title') : t('common.closure_notice_title_upcoming')}
-            </span>
+            <div className="closure-notice__header">
+              <span className="closure-notice__badge">
+                <AlertCircle size={compact ? 14 : 16} />
+                {isActive ? t('common.closure_notice_title') : t('common.closure_notice_title_upcoming')}
+              </span>
+            </div>
             <p className="closure-notice__message">{closureMessage(c, i18n.language)}</p>
-            <span className="closure-notice__dates">
-              {t('common.closure_notice_dates', {
-                start: formatDate(c.startDate, i18n.language),
-                end: formatDate(c.endDate, i18n.language),
-              })}
-            </span>
+            <div className="closure-notice__dates">
+              <Calendar size={compact ? 13 : 15} />
+              <span>
+                {t('common.closure_notice_dates', {
+                  start: formatDate(c.startDate, i18n.language),
+                  end: formatDate(c.endDate, i18n.language),
+                })}
+              </span>
+            </div>
             {isActive && !compact && (
-              <span className="closure-notice__dates">{t('common.closure_notice_hint')}</span>
+              <p className="closure-notice__hint">{t('common.closure_notice_hint')}</p>
             )}
           </div>
         )
