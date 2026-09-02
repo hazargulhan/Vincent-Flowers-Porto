@@ -1,11 +1,17 @@
 import { useState } from 'react'
 import ImageModal from '../components/ImageModal'
+import PhoneInput from '../components/PhoneInput'
 import { useTranslation } from 'react-i18next'
+import { apiUrl } from '../lib/api'
+import Seo from '../components/Seo'
 
 export default function B2B() {
   const { t } = useTranslation()
   const [lightboxImg, setLightboxImg] = useState<string | null>(null);
   const [submitted, setSubmitted] = useState(false);
+  const [submitError, setSubmitError] = useState('');
+  const [submitting, setSubmitting] = useState(false);
+  const [formData, setFormData] = useState({ businessName: '', contactPerson: '', email: '', phoneDialCode: '+351', phoneNumber: '', message: '' });
 
   const portfolioImages = [
     '/images/b2b/DSC07339.webp',
@@ -18,8 +24,50 @@ export default function B2B() {
     '/images/b2b/IMG_5315.webp'
   ];
 
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (submitting) return;
+    setSubmitError('');
+    setSubmitting(true);
+    const data = {
+      type: 'b2b',
+      businessName: formData.businessName,
+      contactPerson: formData.contactPerson,
+      customer: {
+          name: formData.contactPerson,
+          email: formData.email,
+          phone: `${formData.phoneDialCode} ${formData.phoneNumber}`.trim(),
+      },
+      message: formData.message
+    };
+
+    try {
+      const res = await fetch(apiUrl('/api/order'), {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      })
+      const resData = await res.json().catch(() => null)
+      if (res.ok && resData?.success) {
+        setSubmitted(true)
+      } else {
+        setSubmitError(resData?.message || t('b2b.submit_error'))
+      }
+    } catch (err) {
+      console.error('B2B Inquiry failed:', err)
+      setSubmitError(t('b2b.submit_error'))
+    } finally {
+      setSubmitting(false)
+    }
+  }
+
   return (
     <div className="container page-section">
+      <Seo
+        title={t('seo.b2b_title')}
+        description={t('seo.b2b_desc')}
+        path="/b2b"
+      />
       <h1>{t('b2b.title')}</h1>
       <p style={{ maxWidth: '800px', fontSize: '1.4rem', color: '#1a1a1a', marginBottom: '4rem', lineHeight: '1.4' }}>
         {t('b2b.subtitle')}
@@ -54,13 +102,13 @@ export default function B2B() {
 
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))', gap: '1.5rem', marginBottom: '6rem' }}>
         {portfolioImages.map((img, idx) => (
-          <div 
-            key={idx} 
-            style={{ 
-              border: '1px solid var(--border-color)', 
-              aspectRatio: '1 / 1', 
-              display: 'flex', 
-              alignItems: 'center', 
+          <div
+            key={idx}
+            style={{
+              border: '1px solid var(--border-color)',
+              aspectRatio: '1 / 1',
+              display: 'flex',
+              alignItems: 'center',
               justifyContent: 'center',
               overflow: 'hidden',
               cursor: 'pointer'
@@ -75,65 +123,45 @@ export default function B2B() {
       <div id="contact-form" style={{ padding: '5rem 2rem', borderTop: '1px solid var(--border-color)', textAlign: 'center' }}>
         <h2 style={{ fontSize: '2rem', marginBottom: '1rem' }}>{t('b2b.get_in_touch')}</h2>
         <p style={{ opacity: 0.8, marginBottom: '3rem' }}>{t('b2b.contact_desc')}</p>
-        
+
         {submitted ? (
           <div style={{ padding: '2rem', border: '1px solid var(--text-color)' }}>
             <h3>{t('b2b.inquiry_sent')}</h3>
-            <p>{t('b2b.inquiry_sent_desc') || 'We will get back to you soon.'}</p>
+            <p>{t('b2b.inquiry_sent_desc')}</p>
           </div>
         ) : (
-          <form 
-            style={{ display: 'flex', flexDirection: 'column', gap: '1.2rem', maxWidth: '500px', margin: '0 auto' }} 
-            onSubmit={async (e) => { 
-              e.preventDefault(); 
-              const target = e.target as any;
-              const data = {
-                type: 'b2b',
-                businessName: target[0].value,
-                contactPerson: target[1].value,
-                customer: {
-                    email: target[2].value,
-                    phone: target[3].value,
-                },
-                message: target[4].value
-              };
-              
-              setSubmitted(true);
-              try {
-                const apiUrl = window.location.hostname === 'localhost' 
-                  ? 'http://localhost:8787/api/order' 
-                  : 'https://vincent-flowers-backend.vincent-flowers-porto.workers.dev/api/order';
-                
-                await fetch(apiUrl, {
-                  method: 'POST',
-                  headers: { 'Content-Type': 'application/json' },
-                  body: JSON.stringify(data)
-                })
-              } catch (err) {
-                console.error('B2B Inquiry failed:', err)
-              }
-            }}
+          <form
+            style={{ display: 'flex', flexDirection: 'column', gap: '1.2rem', maxWidth: '500px', margin: '0 auto' }}
+            onSubmit={handleSubmit}
           >
-            <input type="text" placeholder={t('b2b.form_business')} required style={{ padding: '1rem' }} />
-            <input type="text" placeholder={t('b2b.form_person')} required style={{ padding: '1rem' }} />
-            <input type="email" placeholder={t('b2b.form_email')} required style={{ padding: '1rem' }} />
-            <input type="tel" placeholder={t('b2b.form_phone')} required style={{ padding: '1rem' }} />
-            <textarea placeholder={t('b2b.form_msg')} rows={5} required style={{ padding: '1rem' }}></textarea>
-            <button 
-              type="submit" 
-              style={{ 
-                padding: '1.2rem', 
-                background: 'var(--text-color)', 
-                color: 'white', 
-                width: '100%', 
-                border: 'none', 
-                cursor: 'pointer', 
+            <input type="text" placeholder={t('b2b.form_business')} required style={{ padding: '1rem' }} value={formData.businessName} onChange={e => setFormData({...formData, businessName: e.target.value})} />
+            <input type="text" placeholder={t('b2b.form_person')} required style={{ padding: '1rem' }} value={formData.contactPerson} onChange={e => setFormData({...formData, contactPerson: e.target.value})} />
+            <input type="email" placeholder={t('b2b.form_email')} required style={{ padding: '1rem' }} value={formData.email} onChange={e => setFormData({...formData, email: e.target.value})} />
+            <PhoneInput
+              dialCode={formData.phoneDialCode}
+              number={formData.phoneNumber}
+              onDialCodeChange={dc => setFormData({...formData, phoneDialCode: dc})}
+              onNumberChange={n => setFormData({...formData, phoneNumber: n})}
+              placeholder={t('b2b.form_phone')}
+            />
+            <textarea placeholder={t('b2b.form_msg')} rows={5} required style={{ padding: '1rem' }} value={formData.message} onChange={e => setFormData({...formData, message: e.target.value})}></textarea>
+            {submitError && <div style={{ color: 'red' }}>{submitError}</div>}
+            <button
+              type="submit"
+              disabled={submitting}
+              style={{
+                padding: '1.2rem',
+                background: 'var(--text-color)',
+                color: 'white',
+                width: '100%',
+                border: 'none',
+                cursor: 'pointer',
                 fontWeight: 'bold',
                 marginTop: '1rem',
                 fontSize: '1rem'
               }}
             >
-              {t('b2b.btn_send')}
+              {submitting ? t('common.sending') : t('b2b.btn_send')}
             </button>
           </form>
         )}

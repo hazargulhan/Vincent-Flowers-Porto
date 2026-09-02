@@ -1,23 +1,54 @@
 {
+  "common": {
+    "select_date": "Selecione uma data",
+    "closure_notice_title": "Aviso de Encerramento Temporário",
+    "closure_notice_title_upcoming": "Encerramento Programado",
+    "closure_notice_dates": "Fechado de {{start}} a {{end}}",
+    "closure_notice_hint": "Entregas e levantamentos não estão disponíveis nas datas de fecho. Pode selecionar uma data após a reabertura.",
+    "sending": "A enviar..."
+  },
+  "seo": {
+    "site_name": "Vincent Flowers Porto",
+    "landing_title": "Vincent Flowers Porto | Entrega de Flores Frescas no Porto",
+    "landing_desc": "Bouquets artesanais, arranjos de flores personalizados e subscrições florais entregues no Porto, Gaia, Maia e Matosinhos.",
+    "home_title": "Crie o Seu Bouquet | Vincent Flowers Porto",
+    "home_desc": "Desenhe o seu próprio bouquet caule a caule, escolha o modo de montagem e agende a entrega ou levantamento no Porto.",
+    "shop_title": "Bouquets Prontos | Vincent Flowers Porto",
+    "shop_desc": "Explore as nossas composições prontas, selecionadas pelos nossos designers, disponíveis para entrega ou levantamento no Porto.",
+    "sub_title": "Subscrições Florais | Vincent Flowers Porto",
+    "sub_desc": "Subscreva entregas regulares e sazonais de flores para sua casa, escritório ou para quem mais ama, no Porto.",
+    "events_title": "Flores para Casamentos e Eventos | Vincent Flowers Porto",
+    "events_desc": "Bouquets de noiva, arcos de casamento e design floral completo para o seu evento pela Vincent Flowers Porto.",
+    "b2b_title": "Flores para Negócios e Hotelaria | Vincent Flowers Porto",
+    "b2b_desc": "Design floral personalizado e entregas programadas para hotéis, restaurantes e empresas no Porto.",
+    "about_title": "A Nossa História | Vincent Flowers Porto",
+    "about_desc": "Conheça a dupla mãe e filha por trás da Vincent Flowers Porto e a nossa abordagem inspirada na natureza.",
+    "faq_title": "Perguntas Frequentes | Vincent Flowers Porto",
+    "faq_desc": "Informações de entrega, cuidados com as flores e respostas às perguntas mais frequentes."
+  },
   "nav": {
     "make": "Crie o Seu",
     "shop": "Loja",
     "sub": "Subscrição",
     "events": "Eventos",
-    "about": "Sobre Nós"
+    "about": "Sobre Nós",
+    "logo_alt": "Logótipo da Vincent Flowers Porto"
   },
   "footer": {
     "contact_us": "Contacte-nos",
     "phone": "Telefone",
     "faq": "Perguntas Frequentes",
     "quick_msg": "Mensagem Rápida",
-    "send": "Enviar"
+    "send": "Enviar",
+    "msg_error": "Falha ao enviar a mensagem. Por favor, tente novamente.",
+    "msg_sent": "Mensagem enviada!"
   },
   "landing": {
     "title": "Flores Frescas e Lindas para Cada Ocasião",
     "subtitle": "Quer esteja a celebrar um marco importante, a dar vida à sua casa ou a enviar carinho a alguém especial, encontre o bouquet artesanal perfeito, feito pelos nossos artesãos no Porto.",
     "btn_custom": "Crie um Bouquet Personalizado",
-    "btn_shop": "Arranjos Prontos"
+    "btn_shop": "Arranjos Prontos",
+    "hero_alt": "Bouquet artesanal da Vincent Flowers Porto"
   },
   "about": {
     "title": "A Nossa História",
@@ -25,7 +56,12 @@
     "desc1": "A Vincent Flowers Porto é uma dupla de mãe e filha a criar em harmonia com a natureza.",
     "desc2": "Acreditamos que a natureza é sempre perfeitamente equilibrada na sua beleza; o nosso trabalho consiste apenas em juntar os seus elementos. Sem papel de embrulho berrante, sem flores artificiais — apenas composições elegantes à semelhança das que se encontram na natureza.",
     "follow": "Acompanhe o Nosso Estúdio",
-    "follow_desc": "Siga-nos no Instagram"
+    "follow_desc": "Siga-nos no Instagram",
+    "founder_alt": "Retrato das fundadoras da Vincent Flowers Porto",
+    "studio_alt": "Detalhe do estúdio da Vincent Flowers Porto",
+    "view_profile": "Ver Perfil",
+    "instagram_post_alt": "Publicação do Instagram da Vincent Flowers Porto",
+    "instagram_simulated_note": "Feed em direto simulado. Ligue a sua conta para usar um widget em tempo real."
   },
   "b2b": {
     "title": "Negócios e Hotelaria",
@@ -43,7 +79,10 @@
     "form_email": "Endereço de E-mail",
     "form_phone": "Número de Telefone",
     "form_msg": "Descreva o seu espaço e as suas necessidades...",
-    "btn_send": "Enviar Pedido"
+    "btn_send": "Enviar Pedido",
+    "submit_error": "Ocorreu um erro. Por favor, tente novamente.",
+    "inquiry_sent": "Pedido enviado",
+    "inquiry_sent_desc": "Obrigado. Entraremos em contacto em breve para falar sobre as suas necessidades."
   },
   "events": {
     "desc1": "Precisa do arranjo floral perfeito para o seu dia especial? Deixe-nos ajudar a preencher o seu casamento não só com memórias bonitas, mas também com flores deslumbrantes.",
@@ -60,7 +99,10 @@
     "form_phone": "Número de Telefone",
     "form_date": "Data Preferencial do Evento",
     "form_location": "Localização do Evento",
-    "btn_send": "Entrar em Contacto"
+    "btn_send": "Entrar em Contacto",
+    "submit_error": "Ocorreu um erro. Por favor, tente novamente.",
+    "inquiry_sent": "Pedido recebido",
+    "inquiry_sent_desc": "Obrigado. Entraremos em contacto em breve para agendar a sua consulta."
   },
   "faq": {
     "title": "Perguntas Frequentes",
@@ -111,12 +153,12 @@
     "min_reached": "Mínimo atingido.",
     "step2": "2. Escolher o Modo de Montagem",
     "step2_subtitle": "Como gostaria que as suas flores fossem preparadas?",
-    "bouquet_title": "Criar um Bouquet (taxa de +20%)",
+    "bouquet_title": "Criar um Bouquet (taxa de +25%)",
     "bouquet_desc": "Arranjado profissionalmente pelos nossos floristas.",
     "bunch_title": "Encomendar um Ramo (Sem taxa)",
     "bunch_desc": "Caules soltos para que os possa arranjar em casa.",
     "info_bouquet_title": "Criar um Bouquet",
-    "info_bouquet_desc": "Um arranjo estruturado e atado à mão, criado pelos nossos floristas, pronto para colocar numa jarra. (Taxa de montagem de +20% aplicada ao preço do caule)",
+    "info_bouquet_desc": "Um arranjo estruturado e atado à mão, criado pelos nossos floristas, pronto para colocar numa jarra. (Taxa de montagem de +25% aplicada ao preço do caule)",
     "info_bunch_title": "Encomendar um Ramo",
     "info_bunch_desc": "Caules soltos elegantemente envolvidos em papel, perfeitos para serem arranjados em sua casa.",
     "select": "Selecionar",
@@ -125,6 +167,12 @@
     "tab_pickup": "Recolha na loja",
     "delivery_info": "A entrega pode ser feita diretamente pela nossa loja ou através de parceiros de confiança como a Uber ou a Bolt. A taxa de entrega é calculada com base na distância quando o pedido for concluído.",
     "pickup_info": "Levante a sua encomenda diretamente na nossa loja na Rua de Tanger 1544 Porto. Aberto 7 dias por semana: 09:00 - 18:00.",
+    "buyer_section_title": "Dados do Comprador (os seus dados)",
+    "buyer_section_note": "Este é você, a pessoa que faz a encomenda — entraremos em contacto para confirmar.",
+    "buyer_form_name": "O Seu Nome Completo",
+    "buyer_form_email": "O Seu Endereço de E-mail",
+    "buyer_form_phone": "O Seu Número de Telefone",
+    "recipient_section_title": "Dados do Destinatário (quem recebe as flores)",
     "form_name": "Nome Completo",
     "form_email": "Endereço de E-mail",
     "form_phone": "Número de Telefone",
@@ -136,7 +184,13 @@
     "btn_delivery": "Agendar Entrega",
     "btn_pickup": "Agendar Levantamento",
     "fast_contact": "Precisa disto mas rápido ou tem dúvidas?",
-    "get_in_touch": "Fale connosco via:"
+    "get_in_touch": "Fale connosco via:",
+    "loading": "A carregar...",
+    "order_received": "Pedido Recebido",
+    "order_received_desc": "Obrigado, {{name}}. Enviámos uma resposta automática para {{email}}.",
+    "submit_error": "Ocorreu um erro ao enviar a sua encomenda. Por favor, tente novamente ou contacte-nos diretamente.",
+    "time_err_required": "Por favor, selecione uma data.",
+    "time_err_notice": "É necessário um mínimo de 1 dia útil antes da entrega/levantamento."
   },
   "sub": {
     "title": "Subscrições Florais",
@@ -146,6 +200,12 @@
     "step2": "2. Frequência",
     "deliveries_per_month": "entregas por mês",
     "step3": "3. Detalhes do Subscritor",
+    "buyer_section_title": "Dados do Comprador (os seus dados)",
+    "buyer_section_note": "Este é você, a pessoa que subscreve — entraremos em contacto para confirmar a faturação.",
+    "buyer_form_name": "O Seu Nome Completo",
+    "buyer_form_email": "O Seu Endereço de E-mail",
+    "buyer_form_phone": "O Seu Número de Telefone",
+    "recipient_section_title": "Dados do Destinatário (quem recebe as flores)",
     "form_name": "Nome Completo",
     "form_email": "Endereço de E-mail",
     "form_phone": "Número de Telefone",
@@ -153,7 +213,12 @@
     "estimated_cost": "Custo Estimado",
     "per_month": "/ mês",
     "btn_subscribe": "Subscrever",
-    "past_arrangements": "Arranjos Anteriores"
+    "past_arrangements": "Arranjos Anteriores",
+    "closed_title": "Temporariamente Encerrado",
+    "loading": "A carregar...",
+    "requested_title": "Subscrição Pedida",
+    "requested_desc": "Entraremos em contacto brevemente para finalizar os detalhes de faturação.",
+    "submit_error": "Ocorreu um erro ao enviar o seu pedido. Por favor, tente novamente ou contacte-nos diretamente."
   },
   "shop": {
     "title": "Coleções Prontas",
@@ -170,6 +235,12 @@
     "tab_pickup": "Recolha na loja",
     "delivery_info": "A entrega pode ser feita diretamente pela nossa loja ou através de parceiros de confiança como a Uber ou a Bolt. A taxa de entrega é calculada com base na distância quando o pedido for concluído.",
     "pickup_info": "Levante a sua encomenda diretamente na nossa loja na Rua de Tanger 1544 Porto. Aberto 7 dias por semana: 09:00 - 18:00.",
+    "buyer_section_title": "Dados do Comprador (os seus dados)",
+    "buyer_section_note": "Este é você, a pessoa que faz a encomenda — entraremos em contacto para confirmar.",
+    "buyer_form_name": "O Seu Nome Completo",
+    "buyer_form_email": "O Seu Endereço de E-mail",
+    "buyer_form_phone": "O Seu Número de Telefone",
+    "recipient_section_title": "Dados do Destinatário (quem recebe as flores)",
     "form_name": "Nome Completo",
     "form_email": "Endereço de E-mail",
     "form_phone": "Número de Telefone",
@@ -181,7 +252,17 @@
     "btn_pickup": "Agendar Levantamento",
     "order_received": "Pedido Recebido",
     "order_received_desc": "Obrigado! O seu bouquet pronto será preparado.",
+    "time_err_required": "Por favor, selecione uma data.",
     "time_err_bounds": "Apenas entre as 09:00 e as 18:00.",
-    "time_err_notice": "Requer aviso mínimo de 5 horas úteis."
+    "time_err_notice": "Requer aviso mínimo de 5 horas úteis.",
+    "loading": "A carregar...",
+    "submit_error": "Ocorreu um erro ao enviar a sua encomenda. Por favor, tente novamente ou contacte-nos diretamente."
+  },
+  "notfound": {
+    "title": "Página não encontrada | Vincent Flowers Porto",
+    "heading": "Esta página não existe",
+    "desc": "O endereço que seguiu pode estar desatualizado ou a página pode ter sido movida. O resto do site continua no mesmo sítio.",
+    "back_home": "Voltar ao início",
+    "browse_shop": "Ver ramos"
   }
 }

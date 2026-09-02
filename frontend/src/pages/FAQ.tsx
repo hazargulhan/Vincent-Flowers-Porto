@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import Seo from '../components/Seo'
 
 export default function FAQ() {
   const { t } = useTranslation()
@@ -20,6 +21,11 @@ export default function FAQ() {
 
   return (
     <div className="container page-section" style={{ maxWidth: '800px' }}>
+      <Seo
+        title={t('seo.faq_title')}
+        description={t('seo.faq_desc')}
+        path="/faq"
+      />
       <h1 style={{ textAlign: 'center', marginBottom: '4rem' }}>{t('faq.title')}</h1>
       
       <div style={{ display: 'flex', flexDirection: 'column', gap: '4rem' }}>

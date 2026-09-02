@@ -9,3 +9,8 @@ enabled = true
 binding = "VINCENT_INVENTORY"
 id = "f1e6af9a68a94d7e9cfc13e09bf812e9"
 preview_id = "35bf31b0a19d44f9814519f464d279c5"
+
+# Created once via: wrangler r2 bucket create vincent-flowers-media
+[[r2_buckets]]
+binding = "VINCENT_MEDIA"
+bucket_name = "vincent-flowers-media"

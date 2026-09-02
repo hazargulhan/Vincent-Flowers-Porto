@@ -1,4 +1,5 @@
 import { Camera } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 interface InstagramPost {
   id: string;
@@ -16,6 +17,7 @@ const MOCK_POSTS: InstagramPost[] = [
 ];
 
 export default function InstagramFeed() {
+  const { t } = useTranslation();
   return (
     <div className="instagram-widget" style={{ marginTop: '2rem' }}>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1.5rem', borderBottom: '1px solid var(--border-color)', paddingBottom: '1rem' }}>
@@ -27,25 +29,25 @@ export default function InstagramFeed() {
           </div>
           <div>
             <h3 style={{ margin: 0, fontSize: '1.1rem' }}>@vincent_flowers_porto</h3>
-            <span style={{ fontSize: '0.85rem', color: '#666' }}>Follow us for daily inspiration</span>
+            <span style={{ fontSize: '0.85rem', color: '#666' }}>{t('about.follow_desc')}</span>
           </div>
         </div>
-        <a 
-          href="https://www.instagram.com/vincent_flowers_porto/" 
-          target="_blank" 
+        <a
+          href="https://www.instagram.com/vincent_flowers_porto/"
+          target="_blank"
           rel="noreferrer"
           style={{ fontSize: '0.9rem', color: 'var(--text-color)', border: '1px solid var(--text-color)', padding: '0.4rem 1rem', textDecoration: 'none' }}
         >
-          View Profile
+          {t('about.view_profile')}
         </a>
       </div>
 
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '0.5rem' }}>
         {MOCK_POSTS.map((post) => (
           <a key={post.id} href={post.url} target="_blank" rel="noreferrer" style={{ display: 'block', aspectRatio: '1/1', overflow: 'hidden', border: '1px solid var(--border-color)' }}>
-            <img 
-              src={post.image} 
-              alt="Instagram Post" 
+            <img
+              src={post.image}
+              alt={t('about.instagram_post_alt')}
               style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.3s' }}
               onMouseOver={(e) => (e.currentTarget.style.transform = 'scale(1.05)')}
               onMouseOut={(e) => (e.currentTarget.style.transform = 'scale(1)')}
@@ -53,9 +55,9 @@ export default function InstagramFeed() {
           </a>
         ))}
       </div>
-      
+
       <p style={{ marginTop: '1.5rem', fontSize: '0.85rem', color: '#888', textAlign: 'center' }}>
-        Live feed simulated. Connect your account to use a real-time widget.
+        {t('about.instagram_simulated_note')}
       </p>
     </div>
   );

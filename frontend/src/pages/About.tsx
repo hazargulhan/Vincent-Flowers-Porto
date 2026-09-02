@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import ImageModal from '../components/ImageModal'
 import { useTranslation } from 'react-i18next'
+import Seo from '../components/Seo'
 
 export default function About() {
   const { t } = useTranslation()
@@ -8,6 +9,11 @@ export default function About() {
 
   return (
     <div className="container page-section">
+      <Seo
+        title={t('seo.about_title')}
+        description={t('seo.about_desc')}
+        path="/about"
+      />
       <h1>{t('about.title')}</h1>
       <div className="grid" style={{ gap: '4rem', marginTop: '2rem' }}>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
@@ -15,13 +21,13 @@ export default function About() {
              style={{ background: '#f0f0f0', height: '400px', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden', cursor: 'pointer' }}
              onClick={() => setLightboxImg('/images/About/IMG_5305.webp')}
           >
-            <img src="/images/About/IMG_5305.webp" alt="Founder Portrait" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+            <img src="/images/About/IMG_5305.webp" alt={t('about.founder_alt')} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
           </div>
           <div 
              style={{ background: '#f0f0f0', height: '400px', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden', cursor: 'pointer' }}
              onClick={() => setLightboxImg('/images/landing-hero.jpg')}
           >
-            <img src="/images/landing-hero.jpg" alt="Studio Detail" style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 25%' }} />
+            <img src="/images/landing-hero.jpg" alt={t('about.studio_alt')} style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 25%' }} />
           </div>
         </div>
         <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>

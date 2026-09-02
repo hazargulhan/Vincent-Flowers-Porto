@@ -5,6 +5,68 @@
   --accent-color: #2b2b2b;
 }
 
+.delivery-date-picker .rdp-root {
+  --rdp-accent-color: var(--text-color);
+  --rdp-today-color: var(--accent-color);
+  font-family: "Marcellus", serif;
+}
+.delivery-date-picker .rdp-day_button:hover:not([disabled]) {
+  background-color: var(--border-color);
+}
+
+/* --- Closure / holiday notice --------------------------------------------
+   Intentionally unadorned: a thin left rule and a quiet uppercase label,
+   matching the callout cards on the B2B page. No emoji, no tinted panel,
+   no rounded corners — the rest of the site is square-cornered.           */
+.closure-notice {
+  margin: 2rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.closure-notice__item {
+  border-left: 1px solid var(--text-color);
+  padding-left: 1.25rem;
+}
+
+/* Not started yet — same shape, lighter rule. */
+.closure-notice__item--upcoming {
+  border-left-color: var(--border-color);
+}
+
+.closure-notice__label {
+  display: block;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 0.72rem;
+  color: #888;
+  margin-bottom: 0.4rem;
+}
+
+.closure-notice__message {
+  margin: 0 0 0.35rem 0;
+}
+
+.closure-notice__dates {
+  display: block;
+  font-size: 0.85rem;
+  color: #666;
+}
+
+.closure-notice--compact {
+  margin: 0;
+  gap: 0.9rem;
+}
+
+.closure-notice--compact .closure-notice__message {
+  font-size: 0.85rem;
+}
+
+.closure-notice--compact .closure-notice__dates {
+  font-size: 0.78rem;
+}
+
 * {
   box-sizing: border-box;
 }

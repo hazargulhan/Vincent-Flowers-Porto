@@ -1,0 +1,3 @@
+# Cloudflare Pages serves index.html for unmatched paths anyway, but the SPA
+# depends on it for every deep link, so say so rather than relying on a default.
+/*    /index.html   200

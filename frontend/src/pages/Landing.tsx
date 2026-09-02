@@ -1,12 +1,40 @@
 import { Link } from 'react-router-dom'
 import { ArrowRight } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
+import { Helmet } from 'react-helmet-async'
+import Seo from '../components/Seo'
 
 export default function Landing() {
   const { t } = useTranslation()
 
   return (
     <div className="landing-page">
+      <Seo
+        title={t('seo.landing_title')}
+        description={t('seo.landing_desc')}
+        path="/"
+      />
+      <Helmet>
+        <script type="application/ld+json">
+          {JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'Florist',
+            name: 'Vincent Flowers Porto',
+            image: 'https://vincentflowersporto.com/images/logo.webp',
+            url: 'https://vincentflowersporto.com',
+            telephone: '+351911119351',
+            email: 'vincent.flowers.porto@gmail.com',
+            address: {
+              '@type': 'PostalAddress',
+              streetAddress: 'Rua de Tanger 1544',
+              postalCode: '4150-722',
+              addressLocality: 'Porto',
+              addressCountry: 'PT',
+            },
+            openingHours: 'Mo-Su 09:00-18:00',
+          })}
+        </script>
+      </Helmet>
       <section className="hero-section container landing-hero">
         <div className="hero-text-content">
           <h1 className="hero-title">{t('landing.title')}</h1>
@@ -28,10 +56,13 @@ export default function Landing() {
           </div>
         </div>
         <div className="hero-image-content" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-          <img 
-            src="/images/About/IMG_5663.JPG" 
-            alt="Artisanal Bouquet" 
-            style={{ width: '95%', minHeight: '400px', maxHeight: '85vh', objectFit: 'cover', borderRadius: '8px' }} 
+          <img
+            src="/images/About/IMG_5663.webp"
+            alt={t('landing.hero_alt')}
+            width={1400}
+            height={2491}
+            fetchPriority="high"
+            style={{ width: '95%', height: 'auto', minHeight: '400px', maxHeight: '85vh', objectFit: 'cover', borderRadius: '8px' }}
           />
         </div>
       </section>

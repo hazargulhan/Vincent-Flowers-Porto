@@ -1,28 +1,33 @@
 import { useState, useMemo, useEffect, useRef } from 'react'
 import ImageModal from '../components/ImageModal'
+import PhoneInput from '../components/PhoneInput'
+import DeliveryDatePicker from '../components/DeliveryDatePicker'
+import ClosureNotice from '../components/ClosureNotice'
+import { useClosures } from '../hooks/useClosures'
+import { minDeliveryDate, toIsoDate } from '../lib/dates'
 import { useTranslation } from 'react-i18next'
-
-export interface Bouquet {
-  title: string
-  price: number
-  img: string
-  available: boolean
-}
+import type { Bouquet } from '../types/catalog'
+import { apiUrl, mediaUrl } from '../lib/api'
+import Seo from '../components/Seo'
 
 export default function Shop() {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   const [loading, setLoading] = useState(true)
   const [lightboxImg, setLightboxImg] = useState<string | null>(null);
   const [sortBy, setSortBy] = useState('none')
   const [selectedBouquet, setSelectedBouquet] = useState<{title: string, price: number} | null>(null)
   const [deliveryMode, setDeliveryMode] = useState<'delivery' | 'pickup'>('delivery')
-  const [formData, setFormData] = useState({ name: '', email: '', phone: '', address: '', pickupDate: '', pickupSlot: 'Morning (10:00 - 13:00)', city: 'Porto' })
+  const [recipient, setRecipient] = useState({ name: '', email: '', phoneDialCode: '+351', phoneNumber: '', address: '', pickupDate: '', pickupSlot: 'Morning (10:00 - 13:00)', city: 'Porto' })
+  const [buyer, setBuyer] = useState({ name: '', email: '', phoneDialCode: '+351', phoneNumber: '' })
   const [submitted, setSubmitted] = useState(false)
+  const [submitError, setSubmitError] = useState('')
+  const [submitting, setSubmitting] = useState(false)
   const [timeError, setTimeError] = useState('')
   const step2Ref = useRef<HTMLDivElement>(null)
-  
+
   const [bouquets, setBouquets] = useState<Bouquet[]>([])
 
+  const { closures, closureForDate, closureMessage, loading: closuresLoading } = useClosures()
 
   const sortedBouquets = [...bouquets].sort((a, b) => {
     if (sortBy === 'price-asc') return a.price - b.price
@@ -30,18 +35,10 @@ export default function Shop() {
     return 0
   })
 
-  const minDate = useMemo(() => {
-    const d = new Date()
-    d.setDate(d.getDate() + 1)
-    return new Date(d.getTime() - d.getTimezoneOffset() * 60000).toISOString().split('T')[0]
-  }, [])
+  const minDateObj = useMemo(() => minDeliveryDate(), [])
 
   useEffect(() => {
-    const apiUrl = window.location.hostname === 'localhost' 
-      ? 'http://localhost:8787/api/catalog' 
-      : 'https://vincent-flowers-backend.vincent-flowers-porto.workers.dev/api/catalog';
-      
-    fetch(apiUrl)
+    fetch(apiUrl('/api/catalog'))
       .then(res => res.json())
       .then(data => {
         if (data && data.shopBouquets) {
@@ -56,49 +53,65 @@ export default function Shop() {
       })
   }, [])
 
-
   const validateTime = (dateStr: string) => {
-    if (!dateStr) return t('shop.time_err_bounds')
-    const d = new Date(dateStr)
-    const tomorrow = new Date()
-    tomorrow.setDate(tomorrow.getDate() + 1)
-    tomorrow.setHours(0,0,0,0)
-    if (d < tomorrow) return t('shop.time_err_notice')
+    if (!dateStr) return t('shop.time_err_required')
+    const minIso = toIsoDate(minDateObj)
+    if (dateStr < minIso) return t('shop.time_err_notice')
+    const closure = closureForDate(dateStr)
+    if (closure) return closureMessage(closure, i18n.language)
     return ""
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    if (submitting) return
     if (!selectedBouquet) return
-    const error = validateTime(formData.pickupDate)
+    const error = validateTime(recipient.pickupDate)
     if (error) { setTimeError(error); return }
     setTimeError('')
-    setSubmitted(true)
-    
+    setSubmitError('')
+    setSubmitting(true)
+
     try {
-      const apiUrl = window.location.hostname === 'localhost' 
-        ? 'http://localhost:8787/api/order' 
-        : 'https://vincent-flowers-backend.vincent-flowers-porto.workers.dev/api/order';
-      
-      const payloadFormData = {
-        ...formData,
-        pickupTime: formData.pickupDate ? `${formData.pickupDate} - ${formData.pickupSlot}` : ''
+      const recipientPayload = {
+        name: recipient.name,
+        email: recipient.email,
+        phone: `${recipient.phoneDialCode} ${recipient.phoneNumber}`.trim(),
+        address: recipient.address,
+        city: recipient.city,
+        pickupTime: recipient.pickupDate ? `${recipient.pickupDate} - ${recipient.pickupSlot}` : ''
+      }
+      const buyerPayload = {
+        name: buyer.name,
+        email: buyer.email,
+        phone: `${buyer.phoneDialCode} ${buyer.phoneNumber}`.trim(),
       }
 
-      await fetch(apiUrl, {
+      const res = await fetch(apiUrl('/api/order'), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ 
+        body: JSON.stringify({
           type: 'shop',
           mode: 'Shop Bouquet',
-          deliveryMode, 
-          customer: payloadFormData, 
+          deliveryMode,
+          customer: recipientPayload,
+          buyer: buyerPayload,
+          deliveryDate: recipient.pickupDate,
           total: selectedBouquet.price,
           configuration: [selectedBouquet]
         })
       })
+      const data = await res.json().catch(() => null)
+      if (res.ok && data?.success) {
+        setSubmitted(true)
+      } else {
+        setSubmitError(data?.message || t('shop.submit_error'))
+      }
     } catch (err) {
       console.error('Order failed:', err)
+      setSubmitError(t('shop.submit_error'))
+    } finally {
+      setSubmitting(false)
     }
   }
 
@@ -114,18 +127,25 @@ export default function Shop() {
   if (loading) {
     return (
       <div className="container page-section" style={{ textAlign: 'center', padding: '4rem 0' }}>
-        <h2>Loading...</h2>
+        <h2>{t('shop.loading')}</h2>
       </div>
     )
   }
 
   return (
     <div className="container page-section">
+      <Seo
+        title={t('seo.shop_title')}
+        description={t('seo.shop_desc')}
+        path="/shop"
+      />
       <h1>{t('shop.title')}</h1>
       <p>{t('shop.subtitle')}</p>
 
+      <ClosureNotice closures={closures} closureMessage={closureMessage} />
+
       <div style={{ marginTop: '3rem', display: 'flex', flexDirection: 'column', gap: '4rem' }}>
-        
+
         {/* STEP 1 */}
         <div className="step-section">
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid var(--border-color)', paddingBottom: '1rem' }}>
@@ -148,11 +168,11 @@ export default function Shop() {
                   setSelectedBouquet(b);
                   setTimeout(() => step2Ref.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 100);
                 }}>
-                    <div 
+                    <div
                        style={{ width: '100%', aspectRatio: '3 / 5', marginBottom: '1rem', overflow: 'hidden' }}
-                       onClick={(e) => { e.stopPropagation(); setLightboxImg((b as any).img); }}
+                       onClick={(e) => { e.stopPropagation(); setLightboxImg(mediaUrl(b.img)); }}
                     >
-                      <img src={(b as any).img} alt={b.title} style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center', cursor: 'zoom-in' }} />
+                      <img src={mediaUrl(b.img)} alt={b.title} style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center', cursor: 'zoom-in' }} />
                     </div>
                     <div style={{ flex: '1', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
                       <div>
@@ -172,7 +192,7 @@ export default function Shop() {
         {/* STEP 2 */}
         <div ref={step2Ref} className={`step-section ${!selectedBouquet ? 'frozen-section' : ''}`}>
           <h2 style={{ borderBottom: '1px solid var(--border-color)', paddingBottom: '1rem', marginBottom: '2rem' }}>{t('shop.step2')}</h2>
-          
+
           <div className="delivery-toggle mode-buttons" style={{ marginBottom: '1rem' }}>
             <button className={`toggle-btn ${deliveryMode === 'delivery' ? 'active' : ''}`} onClick={() => setDeliveryMode('delivery')}>{t('shop.tab_delivery')}</button>
             <button className={`toggle-btn ${deliveryMode === 'pickup' ? 'active' : ''}`} onClick={() => setDeliveryMode('pickup')}>{t('shop.tab_pickup')}</button>
@@ -187,49 +207,70 @@ export default function Shop() {
           </div>
 
           <form onSubmit={handleSubmit} className="delivery-form" style={{ maxWidth: '600px' }}>
-            <input type="text" placeholder={t('shop.form_name')} required value={formData.name} onChange={e => setFormData({...formData, name: e.target.value})} />
-            <input type="email" placeholder={t('shop.form_email')} required value={formData.email} onChange={e => setFormData({...formData, email: e.target.value})} />
-            <input type="tel" placeholder={t('shop.form_phone')} required value={formData.phone} onChange={e => setFormData({...formData, phone: e.target.value})} />
-            
+            <h3 style={{ marginTop: 0, marginBottom: '0.5rem' }}>{t('shop.buyer_section_title')}</h3>
+            <small style={{ display: 'block', marginBottom: '0.8rem', color: '#666' }}>{t('shop.buyer_section_note')}</small>
+            <input type="text" placeholder={t('shop.buyer_form_name')} required value={buyer.name} onChange={e => setBuyer({...buyer, name: e.target.value})} />
+            <input type="email" placeholder={t('shop.buyer_form_email')} required value={buyer.email} onChange={e => setBuyer({...buyer, email: e.target.value})} />
+            <PhoneInput
+              dialCode={buyer.phoneDialCode}
+              number={buyer.phoneNumber}
+              onDialCodeChange={dc => setBuyer({...buyer, phoneDialCode: dc})}
+              onNumberChange={n => setBuyer({...buyer, phoneNumber: n})}
+              placeholder={t('shop.buyer_form_phone')}
+            />
+
+            <h3 style={{ marginTop: '2rem', marginBottom: '0.5rem' }}>{t('shop.recipient_section_title')}</h3>
+            <input type="text" placeholder={t('shop.form_name')} required value={recipient.name} onChange={e => setRecipient({...recipient, name: e.target.value})} />
+            <input type="email" placeholder={t('shop.form_email')} required value={recipient.email} onChange={e => setRecipient({...recipient, email: e.target.value})} />
+            <PhoneInput
+              dialCode={recipient.phoneDialCode}
+              number={recipient.phoneNumber}
+              onDialCodeChange={dc => setRecipient({...recipient, phoneDialCode: dc})}
+              onNumberChange={n => setRecipient({...recipient, phoneNumber: n})}
+              placeholder={t('shop.form_phone')}
+            />
+
             {deliveryMode === 'delivery' && (
               <>
-                <select required value={formData.city} onChange={e => setFormData({...formData, city: e.target.value})}>
+                <select required value={recipient.city} onChange={e => setRecipient({...recipient, city: e.target.value})}>
                   <option value="Porto">Porto</option>
                   <option value="Gaia">Gaia</option>
                   <option value="Maia">Maia</option>
                   <option value="Matosinhos">Matosinhos</option>
                 </select>
-                <textarea placeholder={t('shop.form_address')} rows={3} required value={formData.address} onChange={e => setFormData({...formData, address: e.target.value})}></textarea>
+                <textarea placeholder={t('shop.form_address')} rows={3} required value={recipient.address} onChange={e => setRecipient({...recipient, address: e.target.value})}></textarea>
               </>
             )}
-            
+
             <h3 style={{ marginTop: '1rem', marginBottom: '0.5rem' }}>{t('shop.preferred_time')}</h3>
             <small style={{ display: 'block', marginBottom: '1rem' }}>{t('shop.time_warning')}</small>
             <div style={{ display: 'flex', gap: '1rem', flexDirection: 'column' }}>
-              <input 
-                type="date" 
-                min={minDate} 
-                required 
-                placeholder="dd/mm/yyyy"
-                value={formData.pickupDate} 
-                onClick={(e) => e.currentTarget.showPicker && e.currentTarget.showPicker()}
-                onChange={e => { setFormData({...formData, pickupDate: e.target.value}); setTimeError(''); }} 
+              <DeliveryDatePicker
+                value={recipient.pickupDate}
+                onChange={(value) => { setRecipient({...recipient, pickupDate: value}); setTimeError(''); }}
+                minDate={minDateObj}
+                closures={closures}
+                closureMessage={closureMessage}
+                loading={closuresLoading}
               />
-              <select 
-                required 
-                value={formData.pickupSlot} 
-                onChange={e => setFormData({...formData, pickupSlot: e.target.value})}
+              <select
+                required
+                value={recipient.pickupSlot}
+                onChange={e => setRecipient({...recipient, pickupSlot: e.target.value})}
               >
                 <option value="Morning (10:00 - 13:00)">Morning (10:00 - 13:00)</option>
-                <option value="Afternoon (14:00 - 17:30)">Afternoon (14:00 - 17:30)</option>
+                <option value="Afternoon (14:00 - 20:00)">Afternoon (14:00 - 20:00)</option>
               </select>
             </div>
             {timeError && <div style={{ color: 'red', marginTop: '0.5rem' }}>{timeError}</div>}
-            
+            {submitError && <div style={{ color: 'red', marginTop: '0.5rem' }}>{submitError}</div>}
+
             <div style={{ marginTop: '2rem', padding: '1.5rem', border: '1px solid var(--border-color)', background: 'transparent', color: 'var(--text-color)', textAlign: 'center' }}>
                 <h3 style={{ margin: 0, paddingBottom: '1rem', borderBottom: '1px solid var(--border-color)' }}>{t('shop.final_total')}: €{selectedBouquet?.price.toFixed(2) || '0.00'}</h3>
-                <button type="submit" style={{ width: '100%', padding: '1rem', marginTop: '1rem', background: 'transparent', color: 'var(--text-color)', fontWeight: 'bold', border: '1px solid var(--text-color)' }}>
-                  {deliveryMode === 'delivery' ? t('shop.btn_delivery') : t('shop.btn_pickup')}
+                <button type="submit" disabled={submitting} style={{ width: '100%', padding: '1rem', marginTop: '1rem', background: 'transparent', color: 'var(--text-color)', fontWeight: 'bold', border: '1px solid var(--text-color)' }}>
+                  {submitting
+                    ? t('common.sending')
+                    : deliveryMode === 'delivery' ? t('shop.btn_delivery') : t('shop.btn_pickup')}
                 </button>
             </div>
           </form>

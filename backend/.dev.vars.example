@@ -1,0 +1,14 @@
+# Copy to `.dev.vars` (git-ignored) and fill in real values for local development.
+# In production these are Worker secrets: `wrangler secret put <NAME>`.
+
+# Resend API key. Order notification emails fail without it — the order is still
+# stored and the admin Orders list flags it, but nobody is notified.
+RESEND_API_KEY=re_xxxxxxxxxxxxxxxxxxxxxxxx
+
+# Password for /admin.
+ADMIN_PASSWORD=choose-a-long-random-password
+
+# Signing key for admin session tokens. Optional but strongly recommended: without it
+# the Worker signs tokens with ADMIN_PASSWORD, so rotating the password invalidates
+# every session and a leaked token becomes a hint about the password.
+ADMIN_TOKEN_SECRET=another-long-random-string

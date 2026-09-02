@@ -1,8 +1,8 @@
-import { useState } from 'react'
-// Version 1.0.1 - Triggering auto-deploy
+import { useState, useEffect } from 'react'
 import { Routes, Route, Link, useLocation } from 'react-router-dom'
 import { Menu, X, MessageCircle } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
+import type { TFunction } from 'i18next'
 import './App.css'
 
 import Landing from './pages/Landing'
@@ -14,6 +14,8 @@ import About from './pages/About'
 import Admin from './pages/Admin'
 import FAQ from './pages/FAQ'
 import B2B from './pages/B2B'
+import NotFound from './pages/NotFound'
+import { apiUrl } from './lib/api'
 
 function App() {
   const location = useLocation()
@@ -25,12 +27,16 @@ function App() {
     i18n.changeLanguage(newLang);
   }
 
+  useEffect(() => {
+    document.documentElement.lang = i18n.language.startsWith('pt') ? 'pt' : 'en'
+  }, [i18n.language])
+
   return (
     <div className="app-container">
       <header className="app-header">
         <div className="container nav-container" style={{ display: 'flex', alignItems: 'center' }}>
           <Link to="/" className="logo" style={{ display: 'flex', alignItems: 'center', gap: '0.25rem', flex: 1 }} onClick={() => setMobileMenuOpen(false)}>
-            <img src="/images/logo.webp" alt="Logo" className="nav-logo" />
+            <img src="/images/logo.webp" alt={t('nav.logo_alt')} className="nav-logo" />
             <span className="logo-text">Vincent Flowers Porto</span>
           </Link>
           
@@ -67,6 +73,7 @@ function App() {
           <Route path="/about" element={<About />} />
           <Route path="/faq" element={<FAQ />} />
           <Route path="/admin" element={<Admin />} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </main>
 
@@ -74,7 +81,6 @@ function App() {
         <div className="container footer-content">
           <div>
             <h3>{t('footer.contact_us')}</h3>
-            <p>Rua de Tanger 1544, 4150-722 Porto</p>
             <p style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', flexWrap: 'wrap' }}>
               {t('footer.phone')}: <MessageCircle size={16} /> +351- 911-119 - 351
             </p>
@@ -96,38 +102,42 @@ function App() {
   )
 }
 
-function FooterForm({ t }: { t: any }) {
+function FooterForm({ t }: { t: TFunction }) {
   const [email, setEmail] = useState('')
   const [message, setMessage] = useState('')
   const [submitted, setSubmitted] = useState(false)
   const [loading, setLoading] = useState(false)
+  const [error, setError] = useState('')
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true)
+    setError('')
     try {
-      const apiUrl = window.location.hostname === 'localhost' 
-        ? 'http://localhost:8787/api/order' 
-        : 'https://vincent-flowers-backend.vincent-flowers-porto.workers.dev/api/order';
-      
-      await fetch(apiUrl, {
+      const res = await fetch(apiUrl('/api/order'), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ 
+        body: JSON.stringify({
           type: 'footer',
           customer: { email },
           message
         })
       })
-      setSubmitted(true)
+      const data = await res.json().catch(() => null)
+      if (res.ok && data?.success) {
+        setSubmitted(true)
+      } else {
+        setError(t('footer.msg_error') || 'Message failed to send. Please try again.')
+      }
     } catch (err) {
       console.error('Footer message failed:', err)
+      setError(t('footer.msg_error') || 'Message failed to send. Please try again.')
     } finally {
       setLoading(false)
     }
   }
 
-  if (submitted) return <p style={{ color: 'var(--accent-color)' }}>{t('footer.msg_sent') || 'Message sent!'}</p>
+  if (submitted) return <p style={{ color: 'var(--accent-color)' }}>{t('footer.msg_sent')}</p>
 
   return (
     <form onSubmit={handleSubmit} style={{display: 'flex', flexDirection: 'column', gap: '0.5rem'}}>
@@ -145,7 +155,8 @@ function FooterForm({ t }: { t: any }) {
         value={message}
         onChange={e => setMessage(e.target.value)}
       ></textarea>
-      <button type="submit" disabled={loading}>{loading ? t('footer.sending') || 'Sending...' : t('footer.send')}</button>
+      {error && <span style={{ color: 'red', fontSize: '0.85rem' }}>{error}</span>}
+      <button type="submit" disabled={loading}>{loading ? t('common.sending') : t('footer.send')}</button>
     </form>
   )
 }

@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "wrangler dev",
     "dev:network": "wrangler dev --ip 0.0.0.0",
-    "deploy": "wrangler deploy"
+    "deploy": "wrangler deploy",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "hono": "^4.0.0",
