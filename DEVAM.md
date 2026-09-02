@@ -83,8 +83,12 @@ backend ve eski frontend çalışıyor.
 - [x] **ADIM 10 — Tamamlandı:** Görsel optimizasyonu yapıldı: 11.4 MB atıl dosya silindi, 4 PNG WebP'ye dönüştürüldü, 81 görsel optimize edildi (klasör boyutu 101.8 MB'tan 21.2 MB'a indi).
 - [x] **ADIM 11 — Tamamlandı:** Sayfa içi tüm görsellere `loading="lazy"` ve `decoding="async"` eklendi; `Admin` sayfası `React.lazy` ile kod bölünmesine (code-splitting) uğratılarak ilk JS paketi 500 KB altına düşürüldü.
 
-### Sıradaki Aşama (Kullanıcının Seçtiği)
-- [ ] **Aşama 2:** Admin Panelinin Telefona Uyumu (Responsive Tasarım) & Portekizce Dil Desteği
+- [x] **ADIM 12 — Tamamlandı:** Sekme ikonu (Favicon) düzeltildi. Mor Vite şimşek ikonu kaldırılarak yerine logonun multi-resolution ICO, PNG ve apple-touch formatları yerleştirildi.
+- [x] **ADIM 13 — Tamamlandı:** Admin paneli telefona tam uyumlu (responsive) hale getirildi (siparişler için mobil kart görünümü, kaydırmasız renk varyantları ve esnek butonlar).
+- [x] **ADIM 14 — Tamamlandı:** Admin paneline ve sipariş geçmişine tam Portekizce dil desteği eklendi; panelin sağ üstüne anlık dil değiştirici (EN | PT) yerleştirildi.
+
+### Canlı Doğrulama (Kullanıcı Tarafı)
+- [ ] Kullanıcı telefondan veya bilgisayardan `https://vincentflowersporto.com/admin` adresine girip sekme logosunu, mobil kart düzenini ve Portekizce dil seçeneğini doğrulayacak.
 
 ---
 

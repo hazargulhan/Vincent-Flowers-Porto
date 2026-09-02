@@ -17,14 +17,13 @@ Siz teknik biri değilsiniz. Bu yüzden:
 
 ---
 
-## ŞU AN DURUM (FOTOĞRAFLAR VE HIZ İYİLEŞTİRMESİ CANLIDA 🎉)
+## ŞU AN DURUM (AŞAMA 2 VE MARKA LOGOSU CANLIDA 🎉)
 
-Fotoğraf depolama ve web sitesi hızlandırma paketi başarıyla tamamlandı ve canlıya yayınlandı:
+İkinci aşama ve favicon geliştirmeleri tamamlandı ve canlıya yayınlandı:
 
-- **Kapanış Uyarısı:** Tepedeki siyah şerit kaldırıldı; aşağıdaki kutunun solundaki kalın siyah hat kaldırılarak zarif, yumuşak bir çerçeveye dönüştürüldü.
-- **Cloudflare R2 Depolaması:** 62 adet çiçek ve buket fotoğrafı GitHub adreslerinden kurtarılarak Cloudflare'in güvenli R2 depolama sistemine taşındı. Fotoğraflar artık 1 yıl süreli önbellekle anında açılıyor.
-- **Görsel Boyutları (101.8 MB ➔ 21.2 MB):** 11.4 MB'lık kullanılmayan büyük fotoğraf silindi, 4 PNG WebP formatına çevrildi ve 81 adet yüksek çözünürlüklü fotoğraf gözle fark edilmeyecek kalitede %80 küçültüldü.
-- **Site Açılış Hızı:** Görsellere gecikmeli yükleme (`lazy-loading`) eklendi, Admin paneli ziyaretçilerin ana paketinden ayrılarak ilk sayfa yükleme hızı ciddi şekilde artırıldı.
+- **Sekme Logosu (Favicon):** Mor şimşek simgesi tamamen kaldırıldı. Tarayıcı sekmelerinde artık Vincent Flowers Porto'nun kendi zarif çiçek logosu yer alıyor.
+- **Admin Panelinin Telefona Uyumu (Mobile Responsive):** Sipariş listesi telefon ekranlarında sağa-sola taşmayacak şekilde kart düzenine geçirildi. Renk varyantları ve kapatma tarihleri artık küçük ekranlarda parmakla rahatça düzenlenebiliyor.
+- **Portekizce Desteği:** Admin paneli ve sipariş detayları tamamen çift dilli (İngilizce ve Portekizce) hale getirildi. Sağ üstteki **EN | PT** butonlarıyla tek tıkla dil değiştirilebiliyor.
 
 ### Tamamlanan İşler
 - [x] Fotoğraf depolama kovası (`vincent-flowers-media`) oluşturuldu.
@@ -37,6 +36,9 @@ Fotoğraf depolama ve web sitesi hızlandırma paketi başarıyla tamamlandı ve
 - [x] Görseller optimize edildi (101.8 MB'tan 21.2 MB'a indirildi).
 - [x] Gecikmeli görsel yükleme ve Admin kod ayrıştırması (code-splitting) tamamlandı.
 - [x] Resend e-posta DNS anahtarı kontrol edildi (aktif).
+- [x] Sekme logosu (Favicon) marka logosuyla değiştirildi.
+- [x] Admin paneli mobil uyumlu (responsive) hale getirildi.
+- [x] Admin paneline Portekizce dil desteği ve dil seçici (EN / PT) eklendi.
 
 ---
 
