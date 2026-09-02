@@ -35,3 +35,6 @@ yarn-error.log*
 
 # Claude Code workspace settings
 .claude/
+
+# Temporary scratch scripts and data
+scratch/

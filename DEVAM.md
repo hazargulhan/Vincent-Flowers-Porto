@@ -45,12 +45,11 @@ Detaylı kurulum/çalıştırma bilgisi için `README.md`.
 | Cloudflare hesabı | `vincent.flowers.porto@gmail.com` — Account ID `3c2a3d9cf4b7a29183669f8ef6f334d2` |
 | Worker adı | `vincent-flowers-backend` |
 | Canlı API adresi | `https://vincent-flowers-backend.vincent-flowers-porto.workers.dev` |
-| KV namespace (canlı) | `f1e6af9a68a94d7e9cfc13e09bf812e9` — içinde gerçek katalog var (49 çiçek türü) |
+| KV namespace (canlı) | `f1e6af9a68a94d7e9cfc13e09bf812e9` — içinde gerçek katalog (49 çiçek türü), kapanışlar ve dinamik ayarlar var |
 | KV namespace (preview) | `35bf31b0a19d44f9814519f464d279c5` |
-| R2 kovası | `vincent-flowers-media` — 2026-09-02'de oluşturuldu, boş |
+| R2 kovası | `vincent-flowers-media` — 62 çiçek ve buket fotoğrafı yüklü, 1 yıl önbellekli aktif |
 | GitHub deposu | `hazargulhan/Vincent-Flowers-Porto` (hesap: `hazarglhn@gmail.com`) |
-| Çalışma dalı | `order-persistence-and-launch-fixes` — push edildi, `main`'e **henüz** merge edilmedi |
-| Commit | `3668747` |
+| Çalışma dalı | `main` — güncel, tüm değişiklikler merge edildi ve commit/push yapıldı |
 
 **Dikkat:** GitHub hesabı (`hazarglhn@gmail.com`) ile Cloudflare hesabı
 (`vincent.flowers.porto@gmail.com`) **farklı**. Bu normal, kullanıcı böyle istedi.
@@ -59,39 +58,33 @@ Detaylı kurulum/çalıştırma bilgisi için `README.md`.
 
 ## 3. ŞU AN NEREDEYİZ
 
-**Canlı sitede henüz hiçbir şey değişmedi.** Tek bir deploy yapılmadı. Canlıda hâlâ eski
-backend ve eski frontend çalışıyor.
+**Tüm sistemler canlıda sorunsuz çalışıyor ve deploy edildi.** (Workers ve Pages güncel).
 
 ### Tamamlananlar
 
-- [x] Tüm kod değişiklikleri yapıldı (aşağıda "Bu turda ne değişti")
-- [x] `npm run build`, `npm run lint`, `tsc --noEmit` — üçü de temiz
-- [x] Yerel ortamda (`wrangler dev` + Vite) uçtan uca test edildi, tarayıcıda doğrulandı
-- [x] Commit atıldı ve `order-persistence-and-launch-fixes` dalı GitHub'a push edildi
-- [x] Doğru Cloudflare hesabına giriş yapıldı, kaynaklar doğrulandı
-- [x] R2 etkinleştirildi ve `vincent-flowers-media` kovası oluşturuldu
-- [x] **ADIM 1 — Kullanıcı yaptı:** `ADMIN_PASSWORD` secret olarak tanımlandı
-- [x] **ADIM 2 — Kullanıcı yaptı:** `ADMIN_TOKEN_SECRET` secret olarak tanımlandı
-- [x] **ADIM 3 — Tamamlandı:** backend deploy yapıldı (`vincent-flowers-backend`)
-- [x] **ADIM 4 — Tamamlandı:** canlı backend doğrulandı (katalogda 49 çiçek tam, /api/admin/orders 401 korumalı)
+- [x] **ADIM 1 & 2:** Admin secret'ları (`ADMIN_PASSWORD`, `ADMIN_TOKEN_SECRET`) güvenli kasaya taşındı.
+- [x] **ADIM 3 & 4:** Backend deploy edildi ve 49 çiçek ile doğrulandı.
+- [x] **ADIM 5 & 6:** Frontend Cloudflare Pages'e deploy edildi (`vincentflowersporto.com`).
+- [x] **ADIM 7:** Resend DKIM DNS kaydı Cloudflare üzerinde doğrulandı.
+- [x] **ADIM 8:** Kapanış uyarısı sadeleştirildi (üst siyah şerit kaldırıldı, sol şerit yumuşatıldı).
+- [x] **ADIM 9:** 62 adet çiçek ve buket fotoğrafı Cloudflare R2'ye aktarıldı, KV kataloğu R2 URL'leri ile güncellendi.
+- [x] **ADIM 10:** Görsel optimizasyonu yapıldı: 11.4 MB atıl dosya silindi, WebP formatına çevrildi, 81 görsel optimize edildi (101.8 MB -> 21.2 MB).
+- [x] **ADIM 11:** Sayfa içi tüm görsellere `loading="lazy"` ve `decoding="async"` eklendi; Admin sayfası `React.lazy` ile kod ayrıştırmasına uğratıldı (ilk JS paketi 500 KB altına düşürüldü).
+- [x] **ADIM 12:** Sekme ikonu (Favicon) düzeltildi. Mor Vite şimşek ikonu yerine logonun çoklu boyutlu ICO ve PNG formatları yerleştirildi.
+- [x] **ADIM 13:** Admin paneli telefona tam uyumlu (responsive) hale getirildi (siparişler için mobil kart görünümü, kaydırmasız renk varyantları ve esnek butonlar).
+- [x] **ADIM 14:** Admin paneline ve sipariş geçmişine tam Portekizce dil desteği eklendi (üst menüdeki global dil seçicisi ile entegre).
+- [x] **ADIM 15:** İşletme fiyatları ve ayarları (Abonelikler, minimum sepet tutarı, buket montaj ücreti, teslimat şehirleri ve çalışma saatleri) Cloudflare KV'ye bağlandı, Admin panelinde "Business Settings" kartı eklendi ve tüm sitede dinamik senkronize edildi.
 
-- [x] **ADIM 5 — Tamamlandı:** dalı `main`'e merge + push yapıldı ve frontend Cloudflare Pages'e deploy edildi (`d82c3292`)
-- [x] **ADIM 6 — Tamamlandı:** canlı site doğrulandı (404 yönlendirmesi, robots.txt, sitemap.xml, admin rotası ve yeni bundle aktif)
-- [x] **ADIM 7 — Kontrol edildi:** Resend DKIM DNS kaydı Cloudflare üzerinde aktif (`resend._domainkey.vincentflowersporto.com`)
-- [x] **ADIM 8 — Tamamlandı:** Kapanış uyarısı sadeleştirildi (siyah üst şerit kaldırıldı, uyarı kutusunun solundaki kalın siyah şerit yumuşatıldı).
-- [x] **ADIM 9 — Tamamlandı:** 62 adet çiçek ve buket fotoğrafı Cloudflare R2'ye (`vincent-flowers-media`) yüklendi, KV kataloğu GitHub URL'lerinden arındırılıp R2'ye bağlandı.
-- [x] **ADIM 10 — Tamamlandı:** Görsel optimizasyonu yapıldı: 11.4 MB atıl dosya silindi, 4 PNG WebP'ye dönüştürüldü, 81 görsel optimize edildi (klasör boyutu 101.8 MB'tan 21.2 MB'a indi).
-- [x] **ADIM 11 — Tamamlandı:** Sayfa içi tüm görsellere `loading="lazy"` ve `decoding="async"` eklendi; `Admin` sayfası `React.lazy` ile kod bölünmesine (code-splitting) uğratılarak ilk JS paketi 500 KB altına düşürüldü.
-
-- [x] **ADIM 12 — Tamamlandı:** Sekme ikonu (Favicon) düzeltildi. Mor Vite şimşek ikonu kaldırılarak yerine logonun multi-resolution ICO, PNG ve apple-touch formatları yerleştirildi.
-- [x] **ADIM 13 — Tamamlandı:** Admin paneli telefona tam uyumlu (responsive) hale getirildi (siparişler için mobil kart görünümü, kaydırmasız renk varyantları ve esnek butonlar).
-- [x] **ADIM 14 — Tamamlandı:** Admin paneline ve sipariş geçmişine tam Portekizce dil desteği eklendi (üst bar genel dil seçicisi ile entegre).
-- [x] **ADIM 15 — Tamamlandı:** İşletme fiyatları ve ayarları (Abonelikler, minimum sepet tutarı, buket montaj ücreti, teslimat şehirleri ve çalışma saatleri) Cloudflare KV'ye bağlandı ve Admin panelinde yönetilebilir hale getirildi; ön yüzde dinamik senkronize edildi.
-
-### Canlı Doğrulama (Kullanıcı Tarafı)
-- [ ] Kullanıcı telefondan veya bilgisayardan `https://vincentflowersporto.com/admin` adresine girip sekme logosunu, mobil kart düzenini, Portekizce dil seçeneğini ve yeni "İşletme Ayarları" (Business Settings) bölümünü test edecek.
-
----
+### Gelecek Oturumda Yapılabilecekler (Aday İşler)
+1. **Events (Düğün & Etkinlik) Sayfası SEO İyileştirmesi:**
+   - Sayfada Google'ın baktığı `<h1>` başlığı ve Porto odaklı arama metinleri eklenebilir.
+2. **Form & Modal Erişilebilirliği:**
+   - Form alanlarına `<label>` etiketleri eklenmesi (otomatik doldurma ve erişilebilirlik için).
+   - Fotoğraf büyütme pencerelerine (lightbox modal) `Escape` tuşu ile kapatma desteği.
+3. **Canlıda Uçtan Uca Sipariş Doğrulaması:**
+   - Canlı siteden test siparişi verilerek admin panelindeki yeni kart görünümünün ve bildirim e-postasının kontrol edilmesi.
+4. **Otomatik Test Paketi (Vitest):**
+   - Fiyat hesaplama, tarih doğrulama ve kapatma dönemi kuralları için birim testler yazılması.
 
 ## 4. Adımların ayrıntısı
 
