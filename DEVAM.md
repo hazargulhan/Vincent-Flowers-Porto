@@ -79,7 +79,7 @@ Detaylı kurulum/çalıştırma bilgisi için `README.md`.
 - [x] **ADIM 18:** Admin paneli Build Your Own çiçek kartlarındaki taşma ve "Delete Type" butonunun sığmama sorunu düzeltildi (Görsel ve URL alanı tam genişliğe alındı; mobilde çiçek adı, aktiflik anahtarı ve Delete Type butonu esnek satırlara ayrılarak taşmalar önlendi).
 - [x] **ADIM 19:** GitHub Actions CI/CD iş akışı (`.github/workflows/deploy.yml`) kuruldu. `main` dalına her push işleminde backend tip kontrolü, frontend lint ve build testleri koşuyor; ardından Cloudflare Pages'e (`vincent-flowers-porto`) otomatik dağıtım yapılıyor.
 - [x] **ADIM 20:** Çerez Bildirimi & Gizlilik Politikası (AB / GDPR - RGPD Uyumu) tamamlandı (`CookieBanner.tsx`, `/privacy` sayfası, iki dilli EN/PT çeviriler, alt bilgi telif hakkı ve çerez tercihleri paneli).
-- [x] **ADIM 21:** Otomatik Test Paketi (Vitest) entegre edildi (`pricing.test.ts`, `dates.test.ts`, `api.test.ts`). 22 adet birim testi yazıldı ve GitHub Actions CI/CD hattına `npm test` adımı olarak eklendi.
+- [x] **ADIM 21:** Otomatik Test Paketi (Vitest) entegre edildi (`pricing.test.ts`, `dates.test.ts`, `api.test.ts`, `locale.test.ts`). 29 adet birim testi yazıldı ve GitHub Actions CI/CD hattına `npm test` adımı olarak eklendi.
 - [x] **ADIM 22:** Portekizce İçin Ayrı URL Yapısı (/pt/...) ve Hreflang Çok Dilli SEO Altyapısı tamamlandı (`locale.ts`, `locale.test.ts`, `Seo.tsx`, `App.tsx`, `sitemap.xml`). Google için iki dilli indeksleme, canonical ve dil değiştirici entegre edildi.
 
 ### Gelecek Oturumda Yapılabilecekler (Aday İşler)
