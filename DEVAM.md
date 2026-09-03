@@ -143,18 +143,15 @@ Deploy sonrası çıkan adresin `.env.production` içindekiyle **aynı** olması
 
 ### ADIM 5 — Frontend yayını
 
-Backend doğrulandıktan **sonra** yapılmalı. Sebebi: Pages `main` dalına bağlı ve otomatik
-build alıyor. `main`'e önce push edersen yeni admin paneli eski backend'e bağlanır ve
-sipariş listesi kırık görünür.
+Backend doğrulandıktan **sonra** yapılmalı. 
 
-```
-git checkout main && git merge order-persistence-and-launch-fixes && git push origin main
+```bash
+cd frontend && npm run build
+cd frontend && npx wrangler pages deploy dist --project-name=vincent-flowers-porto --branch=main
+git push origin main
 ```
 
-Push sonrası Cloudflare Pages otomatik build alır (2-3 dakika). Pages ayarları
-kontrol edilmeli: kök dizin `frontend`, build komutu `npm run build`, çıktı `dist`.
-Pages'e ayrıca ortam değişkeni eklemeye gerek yok — `.env.production` depoda duruyor ve
-Vite build sırasında onu okuyor.
+**Önemli Not:** Cloudflare Pages projesinde doğrudan Git Provider bağlı değildir (`Git Provider: No`). Bu nedenle sadece `git push` yapmak canlı siteyi otomatik güncellemez; mutlaka `wrangler pages deploy dist --project-name=vincent-flowers-porto --branch=main` komutu ile `dist` klasörü Cloudflare Pages'e yüklenmelidir. Ardından kod GitHub'a push edilmelidir.
 
 ### ADIM 6 — Canlı site doğrulaması
 
