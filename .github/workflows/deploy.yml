@@ -66,8 +66,9 @@ jobs:
           npm run build
 
       - name: Deploy to Cloudflare Pages
-        run: |
-          TOKEN=$(echo "${{ secrets.CFLARE_API_TOKEN_VF }}" | tr -d '\r\n ')
-          CLOUDFLARE_API_TOKEN="$TOKEN" npx wrangler pages deploy frontend/dist --project-name=vincent-flowers-porto --branch=main
         env:
+          RAW_TOKEN: ${{ secrets.CFLARE_API_TOKEN_VF }}
           CLOUDFLARE_ACCOUNT_ID: 3c2a3d9cf4b7a29183669f8ef6f334d2
+        run: |
+          CLEAN_TOKEN=$(echo "$RAW_TOKEN" | sed -e 's/^[Bb]earer //' -e 's/["'\'']//g' | tr -d '\r\n ')
+          CLOUDFLARE_API_TOKEN="$CLEAN_TOKEN" npx wrangler pages deploy frontend/dist --project-name=vincent-flowers-porto --branch=main
