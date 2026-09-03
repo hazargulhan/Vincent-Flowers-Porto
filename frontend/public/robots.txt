@@ -3,3 +3,4 @@ Allow: /
 Disallow: /admin
 
 Sitemap: https://vincentflowersporto.com/sitemap.xml
+# LLMs-Txt: https://vincentflowersporto.com/llms.txt

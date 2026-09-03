@@ -24,8 +24,12 @@ export default function Landing() {
           {JSON.stringify({
             '@context': 'https://schema.org',
             '@type': 'Florist',
+            '@id': 'https://vincentflowersporto.com/#florist',
             name: 'Vincent Flowers Porto',
+            alternateName: ['Vincent Flowers', 'Vincent Flowers Porto Atelier'],
+            description: 'Artisan floral studio in Porto, Portugal offering custom flower bouquets, curated arrangements, flower subscriptions, and event florals.',
             image: 'https://vincentflowersporto.com/images/logo.webp',
+            logo: 'https://vincentflowersporto.com/images/logo.webp',
             url: 'https://vincentflowersporto.com',
             telephone: '+351911119351',
             email: 'vincent.flowers.porto@gmail.com',
@@ -34,9 +38,69 @@ export default function Landing() {
               streetAddress: 'Rua de Tanger 1544',
               postalCode: '4150-722',
               addressLocality: 'Porto',
-              addressCountry: 'PT',
+              addressRegion: 'Porto',
+              addressCountry: 'PT'
             },
-            openingHours: 'Mo-Su 09:00-18:00',
+            geo: {
+              '@type': 'GeoCoordinates',
+              latitude: 41.1643,
+              longitude: -8.6601
+            },
+            openingHoursSpecification: [
+              {
+                '@type': 'OpeningHoursSpecification',
+                dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+                opens: '09:00',
+                closes: '18:00'
+              }
+            ],
+            priceRange: '€€',
+            currenciesAccepted: 'EUR',
+            paymentAccepted: 'MB WAY, Bank Transfer',
+            areaServed: [
+              { '@type': 'City', name: 'Porto' },
+              { '@type': 'City', name: 'Vila Nova de Gaia' },
+              { '@type': 'City', name: 'Matosinhos' },
+              { '@type': 'City', name: 'Maia' },
+              { '@type': 'City', name: 'Gondomar' }
+            ],
+            sameAs: [
+              'https://www.instagram.com/vincent_flowers_porto/'
+            ],
+            hasOfferCatalog: {
+              '@type': 'OfferCatalog',
+              name: 'Floral Products & Services',
+              itemListElement: [
+                {
+                  '@type': 'Offer',
+                  itemOffered: {
+                    '@type': 'Service',
+                    name: 'Custom Bouquet Builder'
+                  }
+                },
+                {
+                  '@type': 'Offer',
+                  itemOffered: {
+                    '@type': 'Product',
+                    name: 'Curated Artisan Bouquets'
+                  }
+                },
+                {
+                  '@type': 'Offer',
+                  itemOffered: {
+                    '@type': 'Service',
+                    name: 'Fresh Flower Subscriptions'
+                  }
+                },
+                {
+                  '@type': 'Offer',
+                  itemOffered: {
+                    '@type': 'Service',
+                    name: 'Wedding & Event Florals'
+                  }
+                }
+              ]
+            }
           })}
         </script>
       </Helmet>

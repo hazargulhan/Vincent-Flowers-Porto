@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import { Helmet } from 'react-helmet-async'
 import Seo from '../components/Seo'
 
 export default function FAQ() {
@@ -19,6 +20,77 @@ export default function FAQ() {
     }
   }, [location]);
 
+  const faqSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: t('faq.delivery'),
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: `${t('faq.delivery_desc1')} ${t('faq.delivery_desc2')}`
+        }
+      },
+      {
+        '@type': 'Question',
+        name: t('faq.q1'),
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: t('faq.a1')
+        }
+      },
+      {
+        '@type': 'Question',
+        name: t('faq.q2'),
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: t('faq.a2')
+        }
+      },
+      {
+        '@type': 'Question',
+        name: t('faq.q3'),
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: t('faq.a3')
+        }
+      },
+      {
+        '@type': 'Question',
+        name: t('faq.q4'),
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: t('faq.a4')
+        }
+      },
+      {
+        '@type': 'Question',
+        name: t('faq.q5'),
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: t('faq.a5')
+        }
+      },
+      {
+        '@type': 'Question',
+        name: t('faq.q6'),
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: t('faq.a6')
+        }
+      },
+      {
+        '@type': 'Question',
+        name: t('faq.returns'),
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: `${t('faq.returns_1')} ${t('faq.returns_2')} ${t('faq.returns_3')}`
+        }
+      }
+    ]
+  }
+
   return (
     <div className="container page-section" style={{ maxWidth: '800px' }}>
       <Seo
@@ -26,6 +98,11 @@ export default function FAQ() {
         description={t('seo.faq_desc')}
         path="/faq"
       />
+      <Helmet>
+        <script type="application/ld+json">
+          {JSON.stringify(faqSchema)}
+        </script>
+      </Helmet>
       <h1 style={{ textAlign: 'center', marginBottom: '4rem' }}>{t('faq.title')}</h1>
       
       <div style={{ display: 'flex', flexDirection: 'column', gap: '4rem' }}>

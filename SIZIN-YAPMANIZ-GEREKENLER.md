@@ -46,6 +46,7 @@ Son yapılan iyileştirmeler:
 - [x] **Çerez Bildirimi & Gizlilik Politikası:** GDPR/RGPD uyumlu çerez bandı ve `/privacy` sayfası canlıya alındı.
 - [x] **Otomatik Test Paketi (Vitest):** Fiyatlandırma, tarih ve URL yardımcıları için 29 adet otomatik test yazıldı.
 - [x] **Portekizce Ayrı URL Yapısı (/pt/...) & Hreflang SEO:** Google yerel aramaları için iki dilli indeksleme tamamlandı.
+- [x] **Yapay Zekâ Aramaları (GEO / LLMs) & Zengin Yapısal Veri:** `llms.txt` rehber dosyası oluşturuldu, Google ve yapay zekâ botları (ChatGPT, Perplexity, Gemini) için zengin çiçekçi ve SSS şemaları eklendi.
 
 ---
 
