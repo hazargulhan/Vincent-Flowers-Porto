@@ -66,8 +66,8 @@ jobs:
           npm run build
 
       - name: Deploy to Cloudflare Pages
-        uses: cloudflare/wrangler-action@v3
-        with:
-          apiToken: ${{ secrets.CFLARE_API_TOKEN_VF || secrets.CLOUDFLARE_API_TOKEN }}
-          accountId: 3c2a3d9cf4b7a29183669f8ef6f334d2
-          command: pages deploy frontend/dist --project-name=vincent-flowers-porto --branch=main
+        run: |
+          TOKEN=$(echo "${{ secrets.CFLARE_API_TOKEN_VF }}" | tr -d '\r\n ')
+          CLOUDFLARE_API_TOKEN="$TOKEN" npx wrangler pages deploy frontend/dist --project-name=vincent-flowers-porto --branch=main
+        env:
+          CLOUDFLARE_ACCOUNT_ID: 3c2a3d9cf4b7a29183669f8ef6f334d2
