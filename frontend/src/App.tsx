@@ -14,10 +14,12 @@ import About from './pages/About'
 import FAQ from './pages/FAQ'
 import B2B from './pages/B2B'
 import NotFound from './pages/NotFound'
+import CookieBanner from './components/CookieBanner'
 import { apiUrl } from './lib/api'
 
-// Code-split admin so initial bundle size stays minimal for shoppers
+// Code-split admin and privacy so initial bundle size stays minimal for shoppers
 const Admin = lazy(() => import('./pages/Admin'))
+const Privacy = lazy(() => import('./pages/Privacy'))
 
 function App() {
   const location = useLocation()
@@ -80,6 +82,14 @@ function App() {
             <Route path="/about" element={<About />} />
             <Route path="/faq" element={<FAQ />} />
             <Route
+              path="/privacy"
+              element={
+                <Suspense fallback={<div className="container page-section" style={{ padding: '4rem 0', textAlign: 'center' }}>Loading...</div>}>
+                  <Privacy />
+                </Suspense>
+              }
+            />
+            <Route
               path="/admin"
               element={
                 <Suspense fallback={<div className="container page-section" style={{ padding: '4rem 0', textAlign: 'center' }}>Loading...</div>}>
@@ -105,13 +115,30 @@ function App() {
               <p><Link to="/faq#delivery">Delivery Information</Link></p>
               <p><Link to="/faq#care">Flower Care Guide</Link></p>
               <p><Link to="/faq#returns">Returns Policy</Link></p>
+              <p><Link to="/privacy">{t('footer.privacy_policy')}</Link></p>
             </div>
             <div>
               <h3>{t('footer.quick_msg')}</h3>
               <FooterForm t={t} />
             </div>
           </div>
+
+          <div className="container" style={{ borderTop: '1px solid var(--border-color)', marginTop: '2.5rem', paddingTop: '1.5rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1rem', fontSize: '0.85rem', color: '#666' }}>
+            <span>© {new Date().getFullYear()} Vincent Flowers Porto. {t('footer.rights_reserved')}</span>
+            <div style={{ display: 'flex', gap: '1.5rem', alignItems: 'center', flexWrap: 'wrap' }}>
+              <Link to="/privacy" style={{ color: 'inherit' }}>{t('footer.privacy_policy')}</Link>
+              <button
+                type="button"
+                onClick={() => window.dispatchEvent(new CustomEvent('vfp_open_cookie_banner'))}
+                style={{ background: 'none', border: 'none', color: 'inherit', cursor: 'pointer', padding: 0, fontSize: 'inherit', textDecoration: 'underline', textUnderlineOffset: '3px' }}
+              >
+                {t('footer.cookie_preferences')}
+              </button>
+            </div>
+          </div>
         </footer>
+
+        <CookieBanner />
       </div>
   )
 }

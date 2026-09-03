@@ -17,13 +17,13 @@ Siz teknik biri değilsiniz. Bu yüzden:
 
 ---
 
-## ŞU AN DURUM (EVENTS SEO, ERİŞİLEBİLİRLİK VE MOBİL ADMIN DÜZELTMESİ TAMAMLANDI 🎉)
+## ŞU AN DURUM (ÇEREZ BİLDİRİMİ VE GİZLİLİK POLİTİKASI TAMAMLANDI 🎉)
 
 Son yapılan iyileştirmeler:
-- **Admin Paneli Mobil Taşma Düzeltmesi:** "Make Your Own" çiçek türü kutularında "Delete Type" / "Eliminar Tipo" butonunun kutudan taşması ve görsel kutusunu sıkıştırması düzeltildi. Mobilde çiçek adı, aktiflik anahtarı ve silme butonu ekran genişliğine göre ferahça hizalanıyor.
-- **Events (Düğün & Etkinlik) SEO Güçlendirmesi:** Google'ın sayfayı tanıması için eksik olan ana başlık (`<h1>`) ve Porto yerel arama kelimelerini içeren alt başlık iki dilde (İngilizce ve Portekizce) eklendi.
-- **Fotoğraf Büyütme (Lightbox) Kolaylığı:** Sitede herhangi bir fotoğrafa tıklandığında açılan büyük önizleme penceresi artık klavyeden `Escape` (Esc) tuşuna basıldığında anında kapanıyor.
-- **Form Otomatik Doldurma ve Erişilebilirlik:** Sipariş, B2B, Events ve alt kısımdaki formlara tarayıcıların otomatik doldurma (isim, e-posta, telefon, adres) yeteneklerini hızlandıracak ve görme engelli ekran okuyucularının formları rahatça okumasını sağlayacak etiketler eklendi.
+- **Çerez Onay Bildirimi (Cookie Banner):** Sitede altta yüzen, zarif ve kullanıcıyı rahatsız etmeyen çerez onay çubuğu eklendi. Yalnızca sepet, dil ve güvenlik için gerekli verilerin saklandığı belirtiliyor ("Kabul Et" ve "Yalnızca Gerekli Olanlar" butonları).
+- **GDPR / RGPD Uyumlu Gizlilik Politikası Sayfası:** `/privacy` adresinde iki dilde (İngilizce ve Portekizce) kapsamlı, Porto yerel veri koruma mevzuatına tam uyumlu bir politika sayfası oluşturuldu.
+- **Alt Bilgi (Footer) Güncellemesi:** Sitenin en altına telif hakkı satırı, Gizlilik Politikası linki ve kullanıcının istediği zaman çerez ayarlarını değiştirebilmesini sağlayan buton eklendi.
+- **GitHub Actions ile Otomatik Dağıtım:** Yapılan tüm geliştirmeler otomatik testlerden geçerek canlıya yüklendi.
 
 ### Tamamlanan İşler
 - [x] Fotoğraf depolama kovası (`vincent-flowers-media`) oluşturuldu.
@@ -43,7 +43,8 @@ Son yapılan iyileştirmeler:
 - [x] Events sayfası SEO ana başlığı (`<h1>`) ve Porto düğün/etkinlik metinleri eklendi.
 - [x] Fotoğraf büyütme pencerelerine `Escape` tuşu ve site geneli formlara erişilebilirlik etiketleri eklendi.
 - [x] Admin panelinde "Make Your Own" çiçek kartlarındaki mobil taşma ve "Delete Type" buton sıkışması giderildi.
-- [x] **GitHub Actions ile Otomatik Dağıtım Kurulumu:** Cloudflare API anahtarı (`CFLARE_API_TOKEN_VF`) GitHub'a başarıyla tanımlandı.
+- [x] **GitHub Actions ile Otomatik Dağıtım:** Cloudflare API anahtarı (`CFLARE_API_TOKEN_VF`) bağlandı ve otomatik canlıya alma başarıyla test edildi.
+- [x] **Çerez Bildirimi & Gizlilik Politikası:** GDPR/RGPD uyumlu çerez bandı ve `/privacy` sayfası canlıya alındı.
 
 ---
 

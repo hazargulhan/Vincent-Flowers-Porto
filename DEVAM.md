@@ -78,15 +78,14 @@ Detaylı kurulum/çalıştırma bilgisi için `README.md`.
 - [x] **ADIM 17:** Site geneli Form ve Modal erişilebilirliği tamamlandı (Tüm fotoğraf büyütme pencerelerine klavyeden `Escape` tuşu desteği, mobil menü butonuna ve tüm sipariş/iletişim formlarına ekran okuyucu ve otomatik doldurma etiketleri eklendi).
 - [x] **ADIM 18:** Admin paneli Build Your Own çiçek kartlarındaki taşma ve "Delete Type" butonunun sığmama sorunu düzeltildi (Görsel ve URL alanı tam genişliğe alındı; mobilde çiçek adı, aktiflik anahtarı ve Delete Type butonu esnek satırlara ayrılarak taşmalar önlendi).
 - [x] **ADIM 19:** GitHub Actions CI/CD iş akışı (`.github/workflows/deploy.yml`) kuruldu. `main` dalına her push işleminde backend tip kontrolü, frontend lint ve build testleri koşuyor; ardından Cloudflare Pages'e (`vincent-flowers-porto`) otomatik dağıtım yapılıyor.
+- [x] **ADIM 20:** Çerez Bildirimi & Gizlilik Politikası (AB / GDPR - RGPD Uyumu) tamamlandı (`CookieBanner.tsx`, `/privacy` sayfası, iki dilli EN/PT çeviriler, alt bilgi telif hakkı ve çerez tercihleri paneli).
 
 ### Gelecek Oturumda Yapılabilecekler (Aday İşler)
 1. **Canlıda Uçtan Uca Sipariş Doğrulaması:**
    - Canlı siteden test siparişi verilerek admin panelindeki yeni kart görünümünün ve bildirim e-postasının kontrol edilmesi.
 2. **Otomatik Test Paketi (Vitest):**
    - Fiyat hesaplama, tarih doğrulama ve kapatma dönemi kuralları için birim testler yazılması.
-3. **Çerez Bildirimi & Gizlilik Politikası (GDPR / AB Uyumu):**
-   - Portekiz ve AB mevzuatına uygun çerez uyarısı ve gizlilik sayfası eklenmesi.
-4. **Portekizce için Ayrı URL Yapısı (SEO):**
+3. **Portekizce için Ayrı URL Yapısı (SEO):**
    - Portekizce sayfaların Google'da ayrı indekslenmesi ve yerel aramalarda üst sıralara çıkması için altyapı.
 
 ## 4. Adımların ayrıntısı

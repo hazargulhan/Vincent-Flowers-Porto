@@ -24,7 +24,9 @@
     "about_title": "Our Story | Vincent Flowers Porto",
     "about_desc": "Meet the mother-daughter duo behind Vincent Flowers Porto and our nature-first approach to floral design.",
     "faq_title": "FAQ | Vincent Flowers Porto",
-    "faq_desc": "Delivery information, flower care tips, and answers to frequently asked questions."
+    "faq_desc": "Delivery information, flower care tips, and answers to frequently asked questions.",
+    "privacy_title": "Privacy & Cookie Policy | Vincent Flowers Porto",
+    "privacy_desc": "Learn how Vincent Flowers Porto protects your personal data, ensures GDPR/RGPD compliance, and uses essential storage."
   },
   "nav": {
     "make": "Make your own",
@@ -41,7 +43,10 @@
     "quick_msg": "Quick Message",
     "send": "Send",
     "msg_error": "Message failed to send. Please try again.",
-    "msg_sent": "Message sent!"
+    "msg_sent": "Message sent!",
+    "privacy_policy": "Privacy & Cookie Policy",
+    "cookie_preferences": "Cookie Preferences",
+    "rights_reserved": "All rights reserved."
   },
   "landing": {
     "title": "Fresh, Beautiful Flowers for Every Occasion",
@@ -359,5 +364,57 @@
     "settings_hours": "Operating Hours",
     "settings_opening_time": "Opening Time",
     "settings_closing_time": "Closing Time"
+  },
+  "cookies": {
+    "title": "We respect your privacy",
+    "message": "We use essential storage to keep your selected flowers in the cart, remember your language choice, and protect the studio from malicious traffic. We never use advertising or tracking cookies.",
+    "accept": "Accept All",
+    "essential": "Essential Only",
+    "learn_more": "Learn More"
+  },
+  "privacy": {
+    "title": "Privacy & Cookie Policy",
+    "last_updated": "Last updated: September 2026",
+    "intro": "At Vincent Flowers Porto, we believe in simplicity, natural beauty, and respecting your privacy. This Privacy and Cookie Policy explains how we collect, use, and protect your personal information in accordance with the European Union General Data Protection Regulation (GDPR) and the Portuguese Data Protection Law (Lei n.º 58/2019 - RGPD).",
+    "controller_title": "1. Data Controller",
+    "controller_desc": "The entity responsible for processing your personal data is Vincent Flowers Porto, operating from Porto, Portugal. If you have any questions or wish to exercise your rights, you can reach us directly at:",
+    "controller_email": "Email: vincent.flowers.porto@gmail.com",
+    "controller_phone": "Phone / WhatsApp: +351 911 119 351",
+    "data_title": "2. What Personal Data We Collect and Why",
+    "data_intro": "We only collect data strictly necessary to fulfill your orders and provide attentive customer service:",
+    "data_orders_title": "Orders & Deliveries:",
+    "data_orders_desc": "Recipient name, delivery address in Greater Porto, contact phone number, preferred delivery date/time, and gift card message. This information is used solely to prepare and safely deliver your floral arrangements.",
+    "data_contact_title": "Customer Contact:",
+    "data_contact_desc": "Your name, email address, and phone number when placing an order or sending an inquiry, used for order confirmations, delivery coordination, and customer support.",
+    "data_events_title": "Wedding, Event & B2B Inquiries:",
+    "data_events_desc": "Details provided in event styling or corporate florist request forms to prepare customized quotes and proposals.",
+    "basis_title": "3. Legal Basis for Processing (GDPR Art. 6)",
+    "basis_contract": "Contractual Performance: Processing your delivery and payment details is necessary to fulfill our sales contract and deliver flowers to you or your gift recipient.",
+    "basis_consent": "Consent: When you voluntarily submit a contact message, event inquiry, or customize cookie preferences.",
+    "basis_legal": "Legal Obligations: Retaining sales and transaction records for tax compliance under Portuguese law.",
+    "third_parties_title": "4. Third-Party Service Providers",
+    "third_parties_desc": "We never sell, rent, or trade your personal information. We only share data with trusted technical infrastructure providers required to operate our service:",
+    "third_parties_cloudflare": "Cloudflare: Provides content delivery (CDN), DDoS security, and cloud storage for flower visualizer assets.",
+    "third_parties_resend": "Resend: Delivers automated transactional order confirmation emails.",
+    "payments_title": "5. Payment Security",
+    "payments_desc": "We do not store or process debit/credit card numbers on our servers. Payments are handled through direct MB WAY or bank transfer, ensuring your financial credentials remain securely between you and your banking institution.",
+    "cookies_title": "6. Cookies & Local Storage",
+    "cookies_desc": "We keep our storage footprint as clean and minimal as our floral designs. We use only strictly necessary local storage and technical cookies:",
+    "cookie_cart_name": "Shopping Cart (cart)",
+    "cookie_cart_desc": "Stores the flower stems, bouquet assembly choice, or ready-made bouquet you have selected so you can complete checkout without losing your choices.",
+    "cookie_lang_name": "Language Preference (i18nextLng)",
+    "cookie_lang_desc": "Remembers whether you prefer English or Portuguese browsing.",
+    "cookie_consent_name": "Cookie Consent (vfp_cookie_consent)",
+    "cookie_consent_desc": "Remembers your cookie consent choice so the banner does not reappear.",
+    "cookie_security_name": "Cloudflare Security (__cf_bm, cf_clearance)",
+    "cookie_security_desc": "Technical tokens used by Cloudflare to protect the site from automated bots and DDoS attacks.",
+    "rights_title": "7. Your Rights Under GDPR / RGPD",
+    "rights_desc": "As an individual residing in the EU, you have full control over your personal data under the General Data Protection Regulation:",
+    "right_access": "Right of Access: You can request a copy of the personal data we hold about you.",
+    "right_rectification": "Right to Rectification: You can ask us to correct inaccurate or incomplete details.",
+    "right_erasure": "Right to Erasure ('Right to be Forgotten'): You can ask us to delete your personal data when it is no longer required for delivery or tax obligations.",
+    "right_restriction": "Right to Restrict or Object: You can restrict or object to certain processing activities.",
+    "rights_contact": "To exercise any of these rights, simply email us at vincent.flowers.porto@gmail.com or message us on WhatsApp at +351 911 119 351. We will respond promptly within 30 days without any fee.",
+    "btn_back_home": "Back to Studio"
   }
 }

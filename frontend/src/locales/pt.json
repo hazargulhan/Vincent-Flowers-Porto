@@ -24,7 +24,9 @@
     "about_title": "A Nossa História | Vincent Flowers Porto",
     "about_desc": "Conheça a dupla mãe e filha por trás da Vincent Flowers Porto e a nossa abordagem inspirada na natureza.",
     "faq_title": "Perguntas Frequentes | Vincent Flowers Porto",
-    "faq_desc": "Informações de entrega, cuidados com as flores e respostas às perguntas mais frequentes."
+    "faq_desc": "Informações de entrega, cuidados com as flores e respostas às perguntas mais frequentes.",
+    "privacy_title": "Política de Privacidade e Cookies | Vincent Flowers Porto",
+    "privacy_desc": "Saiba como a Vincent Flowers Porto protege os seus dados pessoais, assegura a conformidade com o RGPD e utiliza armazenamento essencial."
   },
   "nav": {
     "make": "Crie o Seu",
@@ -41,7 +43,10 @@
     "quick_msg": "Mensagem Rápida",
     "send": "Enviar",
     "msg_error": "Falha ao enviar a mensagem. Por favor, tente novamente.",
-    "msg_sent": "Mensagem enviada!"
+    "msg_sent": "Mensagem enviada!",
+    "privacy_policy": "Política de Privacidade e Cookies",
+    "cookie_preferences": "Preferências de Cookies",
+    "rights_reserved": "Todos os direitos reservados."
   },
   "landing": {
     "title": "Flores Frescas e Lindas para Cada Ocasião",
@@ -359,5 +364,57 @@
     "settings_hours": "Horário de Funcionamento",
     "settings_opening_time": "Hora de Abertura",
     "settings_closing_time": "Hora de Encerramento"
+  },
+  "cookies": {
+    "title": "Valorizamos a sua privacidade",
+    "message": "Utilizamos apenas armazenamento essencial para guardar os artigos do seu carrinho, memorizar a sua escolha de idioma e proteger o atelier contra tráfego malicioso. Nunca utilizamos cookies de publicidade ou rastreamento.",
+    "accept": "Aceitar Todos",
+    "essential": "Apenas Essenciais",
+    "learn_more": "Saber Mais"
+  },
+  "privacy": {
+    "title": "Política de Privacidade e Cookies",
+    "last_updated": "Última atualização: Setembro de 2026",
+    "intro": "Na Vincent Flowers Porto, acreditamos na simplicidade, na beleza natural e no respeito absoluto pela sua privacidade. Esta Política de Privacidade e Cookies explica como recolhemos, utilizamos e protegemos os seus dados pessoais, em conformidade com o Regulamento Geral sobre a Proteção de Dados (RGPD) da União Europeia e a Lei n.º 58/2019 da legislação portuguesa.",
+    "controller_title": "1. Responsável pelo Tratamento de Dados",
+    "controller_desc": "A entidade responsável pelo tratamento dos seus dados pessoais é a Vincent Flowers Porto, a operar a partir do Porto, Portugal. Se tiver alguma dúvida ou pretender exercer os seus direitos, pode contactar-nos diretamente:",
+    "controller_email": "E-mail: vincent.flowers.porto@gmail.com",
+    "controller_phone": "Telefone / WhatsApp: +351 911 119 351",
+    "data_title": "2. Dados Pessoais que Recolhemos e Finalidades",
+    "data_intro": "Recolhemos apenas os dados estritamente necessários para processar as suas encomendas e prestar um atendimento cuidadoso:",
+    "data_orders_title": "Encomendas e Entregas:",
+    "data_orders_desc": "Nome do destinatário, morada de entrega no Grande Porto, número de telefone para contacto, data/hora pretendida e mensagem do cartão de dedicatória. Estes dados são utilizados exclusivamente para preparar e entregar os seus arranjos florais em segurança.",
+    "data_contact_title": "Contacto do Cliente:",
+    "data_contact_desc": "O seu nome, endereço de e-mail e telefone ao fazer uma encomenda ou enviar uma mensagem, utilizados para confirmação de encomendas, coordenação de entrega e apoio ao cliente.",
+    "data_events_title": "Pedidos de Casamentos, Eventos e B2B:",
+    "data_events_desc": "Informações prestadas nos formulários de eventos ou de florista para empresas para elaboração de orçamentos e propostas personalizadas.",
+    "basis_title": "3. Base Legal para o Tratamento (Art. 6.º do RGPD)",
+    "basis_contract": "Execução de Contrato: O tratamento dos dados de entrega e contacto é necessário para cumprir o contrato de compra e venda e realizar a entrega das flores.",
+    "basis_consent": "Consentimento: Quando nos envia voluntariamente uma mensagem de contacto, pedido de orçamento de eventos ou seleciona as preferências de cookies.",
+    "basis_legal": "Obrigação Legal: Manutenção de registos de faturação e transações para efeitos fiscais segundo a lei portuguesa.",
+    "third_parties_title": "4. Prestadores de Serviços e Terceiros",
+    "third_parties_desc": "Nunca vendemos, alugamos ou comercializamos os seus dados pessoais. Apenas partilhamos dados com fornecedores de infraestrutura tecnológica essenciais para o funcionamento do serviço:",
+    "third_parties_cloudflare": "Cloudflare: Fornece distribuição de conteúdos (CDN), proteção de segurança DDoS e armazenamento na nuvem para os recursos visuais das flores.",
+    "third_parties_resend": "Resend: Envia e-mails transacionais automáticos de confirmação de encomenda.",
+    "payments_title": "5. Segurança dos Pagamentos",
+    "payments_desc": "Não armazenamos nem processamos dados de cartões de débito/crédito nos nossos servidores. Os pagamentos são efetuados via MB WAY ou transferência bancária direta, garantindo que as suas credenciais financeiras permanecem protegidas na sua instituição bancária.",
+    "cookies_title": "6. Cookies e Armazenamento Local",
+    "cookies_desc": "Mantemos o armazenamento do nosso site tão limpo e minimalista quanto o design das nossas flores. Utilizamos apenas armazenamento local e cookies estritamente necessários:",
+    "cookie_cart_name": "Carrinho de Compras (cart)",
+    "cookie_cart_desc": "Guarda as hastes de flores, opção de montagem ou bouquet pronto que selecionou para que possa concluir a compra sem perder as escolhas.",
+    "cookie_lang_name": "Preferência de Idioma (i18nextLng)",
+    "cookie_lang_desc": "Memoriza se prefere navegar em Português ou Inglês.",
+    "cookie_consent_name": "Consentimento de Cookies (vfp_cookie_consent)",
+    "cookie_consent_desc": "Memoriza a sua opção de consentimento para que a barra informativa não volte a surgir.",
+    "cookie_security_name": "Segurança Cloudflare (__cf_bm, cf_clearance)",
+    "cookie_security_desc": "Fichas técnicas utilizadas pela Cloudflare para proteger o site contra tráfego malicioso e ataques automatizados.",
+    "rights_title": "7. Os Seus Direitos ao Abrigo do RGPD",
+    "rights_desc": "Como titular de dados na União Europeia, tem direitos garantidos pela legislação de proteção de dados:",
+    "right_access": "Direito de Acesso: Pode solicitar confirmação e cópia dos dados pessoais que guardamos sobre si.",
+    "right_rectification": "Direito de Retificação: Pode solicitar a correção de dados incorretos ou incompletos.",
+    "right_erasure": "Direito ao Apagamento ('Direito a ser Esquecido'): Pode solicitar a eliminação dos seus dados quando já não forem necessários para entrega ou cumprimento fiscal.",
+    "right_restriction": "Direito à Limitação ou Oposição: Pode limitar ou opor-se ao tratamento de determinados dados.",
+    "rights_contact": "Para exercer qualquer um destes direitos, basta enviar-nos um e-mail para vincent.flowers.porto@gmail.com ou mensagem por WhatsApp para +351 911 119 351. Responderemos com brevidade no prazo máximo de 30 dias, sem qualquer custo.",
+    "btn_back_home": "Voltar ao Início"
   }
 }
