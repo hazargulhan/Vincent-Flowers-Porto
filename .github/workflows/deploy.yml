@@ -70,5 +70,13 @@ jobs:
           RAW_TOKEN: ${{ secrets.CFLARE_API_TOKEN_VF }}
           CLOUDFLARE_ACCOUNT_ID: 3c2a3d9cf4b7a29183669f8ef6f334d2
         run: |
-          CLEAN_TOKEN=$(echo "$RAW_TOKEN" | sed -e 's/^[Bb]earer //' -e 's/["'\'']//g' | tr -d '\r\n ')
+          echo "Token char count: ${#RAW_TOKEN}"
+          # If curl command was pasted, extract token after Bearer
+          if [[ "$RAW_TOKEN" =~ Bearer[[:space:]]+([A-Za-z0-9_-]+) ]]; then
+            CLEAN_TOKEN="${BASH_REMATCH[1]}"
+            echo "Extracted Bearer token successfully"
+          else
+            CLEAN_TOKEN=$(echo "$RAW_TOKEN" | tr -d '\r\n "'\''')
+          fi
+          echo "Clean token char count: ${#CLEAN_TOKEN}"
           CLOUDFLARE_API_TOKEN="$CLEAN_TOKEN" npx wrangler pages deploy frontend/dist --project-name=vincent-flowers-porto --branch=main
