@@ -520,19 +520,19 @@ export default function Admin() {
           {catalog.makeYourOwn.map((g, gIdx) => (
             <div key={gIdx} className="admin-flower-card" style={{ background: g.available ? 'transparent' : '#f0f0f0' }}>
               <div className="admin-flower-header">
-                <div className="admin-flower-title-row">
-                  <input
-                    type="text"
-                    value={g.name}
-                    className="admin-flower-name-input"
-                    style={{ fontSize: '1.2rem', fontWeight: 'bold', border: 'none', borderBottom: '1px solid #ccc', background: 'transparent' }}
-                    onChange={e => {
-                      const newCat = {...catalog};
-                      newCat.makeYourOwn[gIdx].name = e.target.value;
-                      setCatalog(newCat);
-                    }}
-                  />
-                  <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.9rem', cursor: 'pointer', whiteSpace: 'nowrap', flexShrink: 0 }}>
+                <input
+                  type="text"
+                  value={g.name}
+                  className="admin-flower-name-input"
+                  placeholder="Flower Name"
+                  onChange={e => {
+                    const newCat = {...catalog};
+                    newCat.makeYourOwn[gIdx].name = e.target.value;
+                    setCatalog(newCat);
+                  }}
+                />
+                <div className="admin-flower-actions-row">
+                  <label className="admin-flower-status-toggle">
                     <input
                       type="checkbox"
                       checked={g.available}
@@ -542,16 +542,16 @@ export default function Admin() {
                         setCatalog(newCat);
                       }}
                     />
-                    {g.available ? t('admin.active') : t('admin.hidden_frozen')}
+                    <span>{g.available ? t('admin.active') : t('admin.hidden_frozen')}</span>
                   </label>
+                  <button
+                    type="button"
+                    onClick={() => deleteFlowerGroup(gIdx)}
+                    className="admin-flower-delete-btn"
+                  >
+                    {t('admin.btn_delete_type')}
+                  </button>
                 </div>
-                <button
-                  type="button"
-                  onClick={() => deleteFlowerGroup(gIdx)}
-                  className="admin-flower-delete-btn"
-                >
-                  {t('admin.btn_delete_type')}
-                </button>
               </div>
 
               <div className="admin-flower-image-section" style={{ display: 'flex', flexDirection: 'column', gap: '0.3rem', marginBottom: '1.5rem' }}>

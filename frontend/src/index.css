@@ -752,34 +752,47 @@ input:focus, select:focus, textarea:focus {
   justify-content: space-between;
   align-items: center;
   margin-bottom: 1.2rem;
-  flex-wrap: wrap;
-  gap: 1rem;
-}
-
-.admin-flower-title-row {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  flex: 1;
-  min-width: 0;
+  gap: 1.2rem;
   flex-wrap: wrap;
 }
 
 .admin-flower-name-input {
-  flex: 1 1 180px;
+  font-size: 1.3rem !important;
+  font-weight: bold;
+  border: none !important;
+  border-bottom: 1px solid #ccc !important;
+  background: transparent !important;
+  flex: 1 1 240px;
   min-width: 0;
+  padding: 0.3rem 0 !important;
+}
+
+.admin-flower-actions-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-shrink: 0;
+}
+
+.admin-flower-status-toggle {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.85rem;
+  cursor: pointer;
+  white-space: nowrap;
 }
 
 .admin-flower-delete-btn {
   color: #c62828;
-  background: transparent;
+  background: #fff;
   border: 1px solid #ef9a9a;
   border-radius: 4px;
   cursor: pointer;
-  padding: 0.35rem 0.75rem;
+  padding: 0.4rem 0.8rem;
   font-size: 0.8rem;
   white-space: nowrap;
-  flex-shrink: 0;
+  font-weight: 500;
   transition: all 0.2s ease;
 }
 
@@ -821,26 +834,29 @@ input:focus, select:focus, textarea:focus {
     flex-direction: column !important;
     align-items: stretch !important;
     gap: 0.8rem !important;
-    margin-bottom: 1rem !important;
-  }
-
-  .admin-flower-title-row {
-    display: flex !important;
-    justify-content: space-between !important;
-    align-items: center !important;
-    gap: 0.6rem !important;
-    width: 100% !important;
+    margin-bottom: 1.2rem !important;
   }
 
   .admin-flower-name-input {
-    width: auto !important;
-    flex: 1 1 auto !important;
+    width: 100% !important;
+    font-size: 1.2rem !important;
+  }
+
+  .admin-flower-actions-row {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    width: 100% !important;
+    gap: 0.6rem !important;
+  }
+
+  .admin-flower-status-toggle {
+    font-size: 0.82rem !important;
   }
 
   .admin-flower-delete-btn {
-    align-self: flex-start !important;
-    margin-top: 0.2rem;
-    padding: 0.4rem 0.8rem !important;
+    padding: 0.35rem 0.7rem !important;
+    font-size: 0.78rem !important;
   }
 
   .admin-variant-grid {
