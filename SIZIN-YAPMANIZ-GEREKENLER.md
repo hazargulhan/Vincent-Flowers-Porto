@@ -45,6 +45,7 @@ Son yapılan iyileştirmeler:
 - [x] Admin panelinde "Make Your Own" çiçek kartlarındaki mobil taşma ve "Delete Type" buton sıkışması giderildi.
 - [x] **GitHub Actions ile Otomatik Dağıtım:** Cloudflare API anahtarı (`CFLARE_API_TOKEN_VF`) bağlandı ve otomatik canlıya alma başarıyla test edildi.
 - [x] **Çerez Bildirimi & Gizlilik Politikası:** GDPR/RGPD uyumlu çerez bandı ve `/privacy` sayfası canlıya alındı.
+- [x] **Otomatik Test Paketi (Vitest):** Fiyatlandırma (%25 buket montajı, minimum sepet), tarih doğrulama ve API yardımcıları için 22 adet otomatik test yazıldı ve her güncellemede otomatik çalışacak şekilde bağlandı.
 
 ---
 

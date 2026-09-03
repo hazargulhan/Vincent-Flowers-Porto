@@ -18,7 +18,9 @@ if (import.meta.env.PROD && !configured) {
 
 // Derived from the current host rather than hardcoded to "localhost", so that
 // `npm run dev:network` (testing from a phone on the same Wi-Fi) reaches the worker.
-const devFallback = `${window.location.protocol}//${window.location.hostname}:8787`
+const devFallback = typeof window !== 'undefined'
+  ? `${window.location.protocol}//${window.location.hostname}:8787`
+  : 'http://localhost:8787'
 
 /** No trailing slash, so apiUrl() never produces a double slash. */
 export const API_BASE = (configured || devFallback).replace(/\/+$/, '')

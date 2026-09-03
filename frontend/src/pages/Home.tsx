@@ -8,6 +8,7 @@ import { useClosures } from '../hooks/useClosures'
 import { minDeliveryDate, toIsoDate } from '../lib/dates'
 import type { FlowerGroup, FlowerVariant } from '../types/catalog'
 import { apiUrl, mediaUrl } from '../lib/api'
+import { calculateBaseTotal, calculateCustomBouquetTotal, remainingForMinOrder } from '../lib/pricing'
 import Seo from '../components/Seo'
 import { useSettings } from '../hooks/useSettings'
 
@@ -62,10 +63,9 @@ export default function Home() {
     setGroups(newGroups)
   }
 
-  const baseTotal = groups.reduce((acc, g) => acc + g.variants.reduce((accV, v) => accV + v.basePrice * v.qty, 0), 0)
-  const bouquetMultiplier = 1 + ((settings.bouquetFeePercent ?? 25) / 100)
-  const priceModifier = mode === 'bouquet' ? bouquetMultiplier : 1.0
-  const currentTotal = baseTotal * priceModifier
+  const allVariants = useMemo(() => groups.flatMap(g => g.variants), [groups])
+  const baseTotal = calculateBaseTotal(allVariants)
+  const currentTotal = calculateCustomBouquetTotal(baseTotal, mode, settings.bouquetFeePercent ?? 25)
   const minOrder = settings.minOrderTotal ?? 15
 
   const validateTime = (dateStr: string) => {
@@ -294,7 +294,7 @@ export default function Home() {
             <div style={{ background: '#fafafa', padding: '1rem', border: '1px dashed #ccc' }}>
                 <h3 style={{ margin: 0 }}>{t('home.base_selection')}: €{baseTotal.toFixed(2)}</h3>
                 {!IS_STEP_1_COMPLETE ? (
-                  <p style={{ margin: '0.5rem 0 0 0', color: '#666', fontSize: '0.9rem' }}>{t('home.min_order_note').replace('{{amount}}', (minOrder - baseTotal).toFixed(2))}</p>
+                  <p style={{ margin: '0.5rem 0 0 0', color: '#666', fontSize: '0.9rem' }}>{t('home.min_order_note').replace('{{amount}}', remainingForMinOrder(baseTotal, minOrder).toFixed(2))}</p>
                 ) : (
                   <p style={{ margin: '0.5rem 0 0 0', color: '#5cb85c', fontSize: '0.9rem' }}>{t('home.min_reached')}</p>
                 )}

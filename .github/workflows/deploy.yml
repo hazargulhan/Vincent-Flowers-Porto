@@ -36,11 +36,12 @@ jobs:
           npm ci
           npm run typecheck
 
-      - name: Install, Lint & Build Frontend
+      - name: Install, Lint, Test & Build Frontend
         run: |
           cd frontend
           npm ci
           npm run lint
+          npm test
           npm run build
 
   deploy:
