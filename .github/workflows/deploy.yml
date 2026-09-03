@@ -65,16 +65,9 @@ jobs:
           npm ci
           npm run build
 
-      - name: Verify Cloudflare Secret
-        if: ${{ secrets.CLOUDFLARE_API_TOKEN == '' }}
-        run: |
-          echo "::error::CLOUDFLARE_API_TOKEN secret is missing in GitHub repository settings!"
-          echo "Please add CLOUDFLARE_API_TOKEN to Settings -> Secrets and variables -> Actions."
-          exit 1
-
       - name: Deploy to Cloudflare Pages
         uses: cloudflare/wrangler-action@v3
         with:
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          apiToken: ${{ secrets.CFLARE_API_TOKEN_VF || secrets.CLOUDFLARE_API_TOKEN }}
           accountId: 3c2a3d9cf4b7a29183669f8ef6f334d2
           command: pages deploy frontend/dist --project-name=vincent-flowers-porto --branch=main

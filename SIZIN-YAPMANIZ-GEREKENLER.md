@@ -43,7 +43,7 @@ Son yapılan iyileştirmeler:
 - [x] Events sayfası SEO ana başlığı (`<h1>`) ve Porto düğün/etkinlik metinleri eklendi.
 - [x] Fotoğraf büyütme pencerelerine `Escape` tuşu ve site geneli formlara erişilebilirlik etiketleri eklendi.
 - [x] Admin panelinde "Make Your Own" çiçek kartlarındaki mobil taşma ve "Delete Type" buton sıkışması giderildi.
-- [ ] **GitHub Actions ile Otomatik Dağıtım Kurulumu:** Cloudflare API anahtarı GitHub'a eklenecek (adımları aşağıda).
+- [x] **GitHub Actions ile Otomatik Dağıtım Kurulumu:** Cloudflare API anahtarı (`CFLARE_API_TOKEN_VF`) GitHub'a başarıyla tanımlandı.
 
 ---
 
