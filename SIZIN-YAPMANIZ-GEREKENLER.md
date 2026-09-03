@@ -17,13 +17,12 @@ Siz teknik biri değilsiniz. Bu yüzden:
 
 ---
 
-## ŞU AN DURUM (ÇEREZ BİLDİRİMİ VE GİZLİLİK POLİTİKASI TAMAMLANDI 🎉)
+## ŞU AN DURUM (PORTEKİZCE AYRI URL VE ÇOK DİLLİ SEO TAMAMLANDI 🎉)
 
 Son yapılan iyileştirmeler:
-- **Çerez Onay Bildirimi (Cookie Banner):** Sitede altta yüzen, zarif ve kullanıcıyı rahatsız etmeyen çerez onay çubuğu eklendi. Yalnızca sepet, dil ve güvenlik için gerekli verilerin saklandığı belirtiliyor ("Kabul Et" ve "Yalnızca Gerekli Olanlar" butonları).
-- **GDPR / RGPD Uyumlu Gizlilik Politikası Sayfası:** `/privacy` adresinde iki dilde (İngilizce ve Portekizce) kapsamlı, Porto yerel veri koruma mevzuatına tam uyumlu bir politika sayfası oluşturuldu.
-- **Alt Bilgi (Footer) Güncellemesi:** Sitenin en altına telif hakkı satırı, Gizlilik Politikası linki ve kullanıcının istediği zaman çerez ayarlarını değiştirebilmesini sağlayan buton eklendi.
-- **GitHub Actions ile Otomatik Dağıtım:** Yapılan tüm geliştirmeler otomatik testlerden geçerek canlıya yüklendi.
+- **Portekizce İçin Ayrı URL Yapısı (/pt/...):** Portekizce diline geçildiğinde sayfalar artık kendine özel URL'lere (`/pt`, `/pt/shop`, `/pt/builder`, `/pt/events`, `/pt/privacy` vb.) sahip. Menüdeki dil değiştiriciye basıldığında bulunulan sayfa anında karşılığına geçiyor.
+- **Google Çok Dilli SEO & Hreflang Entegrasyonu:** Google'ın Porto'daki yerel aramalarda Portekizce sayfaları, uluslararası aramalarda İngilizce sayfaları çıkarması için çift yönlü `hreflang` etiketleri ve `sitemap.xml` haritası eklendi.
+- **Otomatik Test Paketi (Vitest):** Fiyatlandırma, tarih ve URL yönlendirme kuralları için 29 adet birim testi yazıldı ve her güncellemede otomatik çalışacak şekilde bağlandı.
 
 ### Tamamlanan İşler
 - [x] Fotoğraf depolama kovası (`vincent-flowers-media`) oluşturuldu.
@@ -45,7 +44,8 @@ Son yapılan iyileştirmeler:
 - [x] Admin panelinde "Make Your Own" çiçek kartlarındaki mobil taşma ve "Delete Type" buton sıkışması giderildi.
 - [x] **GitHub Actions ile Otomatik Dağıtım:** Cloudflare API anahtarı (`CFLARE_API_TOKEN_VF`) bağlandı ve otomatik canlıya alma başarıyla test edildi.
 - [x] **Çerez Bildirimi & Gizlilik Politikası:** GDPR/RGPD uyumlu çerez bandı ve `/privacy` sayfası canlıya alındı.
-- [x] **Otomatik Test Paketi (Vitest):** Fiyatlandırma (%25 buket montajı, minimum sepet), tarih doğrulama ve API yardımcıları için 22 adet otomatik test yazıldı ve her güncellemede otomatik çalışacak şekilde bağlandı.
+- [x] **Otomatik Test Paketi (Vitest):** Fiyatlandırma, tarih ve URL yardımcıları için 29 adet otomatik test yazıldı.
+- [x] **Portekizce Ayrı URL Yapısı (/pt/...) & Hreflang SEO:** Google yerel aramaları için iki dilli indeksleme tamamlandı.
 
 ---
 

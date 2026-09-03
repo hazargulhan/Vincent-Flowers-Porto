@@ -1,35 +1,129 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <!-- Home / Início -->
   <url>
     <loc>https://vincentflowersporto.com/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://vincentflowersporto.com/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://vincentflowersporto.com/pt"/>
     <priority>1.0</priority>
   </url>
   <url>
+    <loc>https://vincentflowersporto.com/pt</loc>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://vincentflowersporto.com/pt"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://vincentflowersporto.com/"/>
+    <priority>1.0</priority>
+  </url>
+
+  <!-- Builder / Crie o Seu -->
+  <url>
     <loc>https://vincentflowersporto.com/builder</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://vincentflowersporto.com/builder"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://vincentflowersporto.com/pt/builder"/>
     <priority>0.9</priority>
   </url>
+  <url>
+    <loc>https://vincentflowersporto.com/pt/builder</loc>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://vincentflowersporto.com/pt/builder"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://vincentflowersporto.com/builder"/>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- Shop / Loja -->
   <url>
     <loc>https://vincentflowersporto.com/shop</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://vincentflowersporto.com/shop"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://vincentflowersporto.com/pt/shop"/>
     <priority>0.9</priority>
   </url>
   <url>
+    <loc>https://vincentflowersporto.com/pt/shop</loc>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://vincentflowersporto.com/pt/shop"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://vincentflowersporto.com/shop"/>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- Subscription / Subscrição -->
+  <url>
     <loc>https://vincentflowersporto.com/subscription</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://vincentflowersporto.com/subscription"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://vincentflowersporto.com/pt/subscription"/>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://vincentflowersporto.com/events</loc>
-    <priority>0.7</priority>
+    <loc>https://vincentflowersporto.com/pt/subscription</loc>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://vincentflowersporto.com/pt/subscription"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://vincentflowersporto.com/subscription"/>
+    <priority>0.8</priority>
   </url>
+
+  <!-- Events / Eventos -->
+  <url>
+    <loc>https://vincentflowersporto.com/events</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://vincentflowersporto.com/events"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://vincentflowersporto.com/pt/events"/>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://vincentflowersporto.com/pt/events</loc>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://vincentflowersporto.com/pt/events"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://vincentflowersporto.com/events"/>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- B2B -->
   <url>
     <loc>https://vincentflowersporto.com/b2b</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://vincentflowersporto.com/b2b"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://vincentflowersporto.com/pt/b2b"/>
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://vincentflowersporto.com/pt/b2b</loc>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://vincentflowersporto.com/pt/b2b"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://vincentflowersporto.com/b2b"/>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- About / Sobre Nós -->
+  <url>
     <loc>https://vincentflowersporto.com/about</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://vincentflowersporto.com/about"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://vincentflowersporto.com/pt/about"/>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://vincentflowersporto.com/faq</loc>
+    <loc>https://vincentflowersporto.com/pt/about</loc>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://vincentflowersporto.com/pt/about"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://vincentflowersporto.com/about"/>
     <priority>0.6</priority>
+  </url>
+
+  <!-- FAQ -->
+  <url>
+    <loc>https://vincentflowersporto.com/faq</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://vincentflowersporto.com/faq"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://vincentflowersporto.com/pt/faq"/>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://vincentflowersporto.com/pt/faq</loc>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://vincentflowersporto.com/pt/faq"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://vincentflowersporto.com/faq"/>
+    <priority>0.6</priority>
+  </url>
+
+  <!-- Privacy / Privacidade -->
+  <url>
+    <loc>https://vincentflowersporto.com/privacy</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://vincentflowersporto.com/privacy"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://vincentflowersporto.com/pt/privacy"/>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://vincentflowersporto.com/pt/privacy</loc>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://vincentflowersporto.com/pt/privacy"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://vincentflowersporto.com/privacy"/>
+    <priority>0.5</priority>
   </url>
 </urlset>

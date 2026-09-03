@@ -1,5 +1,5 @@
 import { useState, useEffect, lazy, Suspense } from 'react'
-import { Routes, Route, Link, useLocation } from 'react-router-dom'
+import { Routes, Route, Link, useLocation, useNavigate } from 'react-router-dom'
 import { Menu, X, MessageCircle } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import type { TFunction } from 'i18next'
@@ -16,6 +16,7 @@ import B2B from './pages/B2B'
 import NotFound from './pages/NotFound'
 import CookieBanner from './components/CookieBanner'
 import { apiUrl } from './lib/api'
+import { isPtPath, getCleanPath, getLocalizedPath, getOppositeLanguageUrl } from './lib/locale'
 
 // Code-split admin and privacy so initial bundle size stays minimal for shoppers
 const Admin = lazy(() => import('./pages/Admin'))
@@ -23,23 +24,47 @@ const Privacy = lazy(() => import('./pages/Privacy'))
 
 function App() {
   const location = useLocation()
+  const navigate = useNavigate()
   const { t, i18n } = useTranslation()
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
-  const toggleLanguage = () => {
-    const newLang = i18n.language === 'en' ? 'pt' : 'en';
-    i18n.changeLanguage(newLang);
-  }
+  const isPt = isPtPath(location.pathname)
+
+  // Synchronize language with current URL:
+  // Visiting /pt or /pt/... sets 'pt'
+  // Visiting / or /shop etc. sets 'en' (unless on /admin)
+  useEffect(() => {
+    if (isPtPath(location.pathname)) {
+      if (!i18n.language.startsWith('pt')) {
+        i18n.changeLanguage('pt')
+      }
+    } else if (location.pathname !== '/admin') {
+      if (i18n.language.startsWith('pt')) {
+        i18n.changeLanguage('en')
+      }
+    }
+  }, [location.pathname, i18n])
 
   useEffect(() => {
-    document.documentElement.lang = i18n.language.startsWith('pt') ? 'pt' : 'en'
-  }, [i18n.language])
+    document.documentElement.lang = isPt ? 'pt' : 'en'
+  }, [isPt])
+
+  const toggleLanguage = () => {
+    const nextUrl = getOppositeLanguageUrl(location.pathname, isPt)
+    const nextLang = isPt ? 'en' : 'pt'
+    i18n.changeLanguage(nextLang)
+    navigate(nextUrl)
+  }
+
+  const l = (path: string) => getLocalizedPath(path, isPt)
+  const currentCleanPath = getCleanPath(location.pathname)
+  const isActive = (path: string) => currentCleanPath === path
 
   return (
     <div className="app-container">
       <header className="app-header">
           <div className="container nav-container" style={{ display: 'flex', alignItems: 'center' }}>
-            <Link to="/" className="logo" style={{ display: 'flex', alignItems: 'center', gap: '0.25rem', flex: 1 }} onClick={() => setMobileMenuOpen(false)}>
+            <Link to={l('/')} className="logo" style={{ display: 'flex', alignItems: 'center', gap: '0.25rem', flex: 1 }} onClick={() => setMobileMenuOpen(false)}>
               <img src="/images/logo.webp" alt={t('nav.logo_alt')} className="nav-logo" />
               <span className="logo-text">Vincent Flowers Porto</span>
             </Link>
@@ -59,20 +84,21 @@ function App() {
                 style={{ border: '1px solid var(--border-color)', background: 'transparent', cursor: 'pointer', padding: '0.25rem 0.5rem', fontSize: '0.8rem', borderRadius: '4px', margin: 'auto 0' }}
                 title="Change Language"
               >
-                {(i18n.language || '').startsWith('pt') ? 'PT' : 'EN'}
+                {isPt ? 'PT' : 'EN'}
               </button>
-              <Link to="/builder" className={location.pathname === '/builder' ? 'active' : ''} onClick={() => setMobileMenuOpen(false)}>{t('nav.make')}</Link>
-              <Link to="/shop" className={location.pathname === '/shop' ? 'active' : ''} onClick={() => setMobileMenuOpen(false)}>{t('nav.shop')}</Link>
-              <Link to="/subscription" className={location.pathname === '/subscription' ? 'active' : ''} onClick={() => setMobileMenuOpen(false)}>{t('nav.sub')}</Link>
-              <Link to="/events" className={location.pathname === '/events' ? 'active' : ''} onClick={() => setMobileMenuOpen(false)}>{t('nav.events')}</Link>
-              <Link to="/b2b" className={location.pathname === '/b2b' ? 'active' : ''} onClick={() => setMobileMenuOpen(false)}>B2B</Link>
-              <Link to="/about" className={location.pathname === '/about' ? 'active' : ''} onClick={() => setMobileMenuOpen(false)}>{t('nav.about')}</Link>
+              <Link to={l('/builder')} className={isActive('/builder') ? 'active' : ''} onClick={() => setMobileMenuOpen(false)}>{t('nav.make')}</Link>
+              <Link to={l('/shop')} className={isActive('/shop') ? 'active' : ''} onClick={() => setMobileMenuOpen(false)}>{t('nav.shop')}</Link>
+              <Link to={l('/subscription')} className={isActive('/subscription') ? 'active' : ''} onClick={() => setMobileMenuOpen(false)}>{t('nav.sub')}</Link>
+              <Link to={l('/events')} className={isActive('/events') ? 'active' : ''} onClick={() => setMobileMenuOpen(false)}>{t('nav.events')}</Link>
+              <Link to={l('/b2b')} className={isActive('/b2b') ? 'active' : ''} onClick={() => setMobileMenuOpen(false)}>B2B</Link>
+              <Link to={l('/about')} className={isActive('/about') ? 'active' : ''} onClick={() => setMobileMenuOpen(false)}>{t('nav.about')}</Link>
             </nav>
           </div>
         </header>
 
         <main>
           <Routes>
+            {/* Standard English Routes */}
             <Route path="/" element={<Landing />} />
             <Route path="/builder" element={<Home />} />
             <Route path="/shop" element={<Shop />} />
@@ -89,6 +115,26 @@ function App() {
                 </Suspense>
               }
             />
+
+            {/* Portuguese Routes for Google and Local SEO */}
+            <Route path="/pt" element={<Landing />} />
+            <Route path="/pt/builder" element={<Home />} />
+            <Route path="/pt/shop" element={<Shop />} />
+            <Route path="/pt/subscription" element={<Subscription />} />
+            <Route path="/pt/events" element={<Events />} />
+            <Route path="/pt/b2b" element={<B2B />} />
+            <Route path="/pt/about" element={<About />} />
+            <Route path="/pt/faq" element={<FAQ />} />
+            <Route
+              path="/pt/privacy"
+              element={
+                <Suspense fallback={<div className="container page-section" style={{ padding: '4rem 0', textAlign: 'center' }}>Loading...</div>}>
+                  <Privacy />
+                </Suspense>
+              }
+            />
+
+            {/* Admin */}
             <Route
               path="/admin"
               element={
@@ -112,10 +158,10 @@ function App() {
             </div>
             <div>
               <h3>{t('footer.faq')}</h3>
-              <p><Link to="/faq#delivery">Delivery Information</Link></p>
-              <p><Link to="/faq#care">Flower Care Guide</Link></p>
-              <p><Link to="/faq#returns">Returns Policy</Link></p>
-              <p><Link to="/privacy">{t('footer.privacy_policy')}</Link></p>
+              <p><Link to={l('/faq') + '#delivery'}>Delivery Information</Link></p>
+              <p><Link to={l('/faq') + '#care'}>Flower Care Guide</Link></p>
+              <p><Link to={l('/faq') + '#returns'}>Returns Policy</Link></p>
+              <p><Link to={l('/privacy')}>{t('footer.privacy_policy')}</Link></p>
             </div>
             <div>
               <h3>{t('footer.quick_msg')}</h3>
@@ -126,7 +172,7 @@ function App() {
           <div className="container" style={{ borderTop: '1px solid var(--border-color)', marginTop: '2.5rem', paddingTop: '1.5rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1rem', fontSize: '0.85rem', color: '#666' }}>
             <span>© {new Date().getFullYear()} Vincent Flowers Porto. {t('footer.rights_reserved')}</span>
             <div style={{ display: 'flex', gap: '1.5rem', alignItems: 'center', flexWrap: 'wrap' }}>
-              <Link to="/privacy" style={{ color: 'inherit' }}>{t('footer.privacy_policy')}</Link>
+              <Link to={l('/privacy')} style={{ color: 'inherit' }}>{t('footer.privacy_policy')}</Link>
               <button
                 type="button"
                 onClick={() => window.dispatchEvent(new CustomEvent('vfp_open_cookie_banner'))}

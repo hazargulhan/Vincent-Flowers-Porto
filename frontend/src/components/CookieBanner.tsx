@@ -2,12 +2,14 @@ import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { ShieldCheck } from 'lucide-react'
+import { getLocalizedPath } from '../lib/locale'
 
 export const COOKIE_CONSENT_KEY = 'vfp_cookie_consent'
 
 export default function CookieBanner() {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   const [visible, setVisible] = useState(false)
+  const isPt = i18n.language.startsWith('pt')
 
   useEffect(() => {
     const saved = localStorage.getItem(COOKIE_CONSENT_KEY)
@@ -42,7 +44,7 @@ export default function CookieBanner() {
         </div>
         <p className="cookie-banner-text">
           {t('cookies.message')}{' '}
-          <Link to="/privacy" className="cookie-banner-link">
+          <Link to={getLocalizedPath('/privacy', isPt)} className="cookie-banner-link">
             {t('cookies.learn_more')}
           </Link>
         </p>

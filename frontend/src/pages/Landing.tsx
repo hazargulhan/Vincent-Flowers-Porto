@@ -5,10 +5,12 @@ import { Helmet } from 'react-helmet-async'
 import Seo from '../components/Seo'
 import ClosureNotice from '../components/ClosureNotice'
 import { useClosures } from '../hooks/useClosures'
+import { getLocalizedPath } from '../lib/locale'
 
 export default function Landing() {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   const { closures, closureMessage } = useClosures()
+  const isPt = i18n.language.startsWith('pt')
 
   return (
     <div className="landing-page">
@@ -48,10 +50,10 @@ export default function Landing() {
           <ClosureNotice closures={closures} closureMessage={closureMessage} />
 
           <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', marginTop: '1.5rem' }}>
-            <Link to="/builder" className="landing-btn" style={{ flex: '1 1 250px' }}>
+            <Link to={getLocalizedPath('/builder', isPt)} className="landing-btn" style={{ flex: '1 1 250px' }}>
               {t('landing.btn_custom')} <ArrowRight size={20} />
             </Link>
-            <Link to="/shop" className="landing-btn" style={{ flex: '1 1 250px' }}>
+            <Link to={getLocalizedPath('/shop', isPt)} className="landing-btn" style={{ flex: '1 1 250px' }}>
               {t('landing.btn_shop')} <ArrowRight size={20} />
             </Link>
           </div>
