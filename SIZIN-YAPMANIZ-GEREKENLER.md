@@ -43,6 +43,30 @@ Son yapılan iyileştirmeler:
 - [x] Events sayfası SEO ana başlığı (`<h1>`) ve Porto düğün/etkinlik metinleri eklendi.
 - [x] Fotoğraf büyütme pencerelerine `Escape` tuşu ve site geneli formlara erişilebilirlik etiketleri eklendi.
 - [x] Admin panelinde "Make Your Own" çiçek kartlarındaki mobil taşma ve "Delete Type" buton sıkışması giderildi.
+- [ ] **GitHub Actions ile Otomatik Dağıtım Kurulumu:** Cloudflare API anahtarı GitHub'a eklenecek (adımları aşağıda).
+
+---
+
+## GitHub Actions Kurulumu (Tek Seferlik - 2 Dakika)
+
+GitHub'a her kod attığımızda sitenizin Cloudflare Pages üzerinde otomatik güncellenmesi için bir kerelik Cloudflare anahtarınızı GitHub'a tanımlamanız gerekiyor:
+
+1. **Cloudflare Paneline Gidin:**
+   - Tarayıcınızda [dash.cloudflare.com/profile/api-tokens](https://dash.cloudflare.com/profile/api-tokens) adresini açın.
+2. **Anahtar Oluşturun:**
+   - Mavi **"Create Token"** (Belirteç Oluştur) butonuna tıklayın.
+   - Şablonlar arasında **"Cloudflare Pages"** şablonunu bulun ve yanındaki **"Use template"** (Şablonu kullan) butonuna tıklayın.
+   - *"Account Resources"* kısmında hesabınızı (`vincent.flowers.porto@gmail.com`) seçin.
+   - Sayfanın en altındaki mavi **"Continue to summary"** ve ardından **"Create Token"** butonuna basın.
+   - Ekranda görünen uzun gizli kodu kopyalayın (bu kodu bir daha göremezsiniz).
+3. **GitHub'a Ekleyin:**
+   - [github.com/hazargulhan/Vincent-Flowers-Porto/settings/secrets/actions](https://github.com/hazargulhan/Vincent-Flowers-Porto/settings/secrets/actions) adresini açın.
+   - Sağ üstteki yeşil **"New repository secret"** butonuna tıklayın.
+   - **Name** kutusuna: `CLOUDFLARE_API_TOKEN` yazın.
+   - **Secret** kutusuna: Cloudflare'den kopyaladığınız kodu yapıştırın.
+   - Yeşil **"Add secret"** butonuna basın.
+
+Bu kadar! Artık her güncellemede GitHub Actions kodunuzu test edecek ve otomatik olarak Cloudflare Pages'e canlıya yükleyecektir.
 
 ---
 
