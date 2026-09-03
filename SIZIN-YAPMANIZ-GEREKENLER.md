@@ -17,14 +17,13 @@ Siz teknik biri değilsiniz. Bu yüzden:
 
 ---
 
-## ŞU AN DURUM (İŞLETME AYARLARI VE DİNAMİK FİYATLAR CANLIDA 🎉)
+## ŞU AN DURUM (EVENTS SEO, ERİŞİLEBİLİRLİK VE MOBİL ADMIN DÜZELTMESİ TAMAMLANDI 🎉)
 
-İşletme fiyatlarının ve dükkan kurallarının koddan kurtarılıp Admin Paneli üzerinden anlık yönetilmesi tamamlandı ve canlıya yayınlandı:
-
-- **Dinamik Abonelik Fiyatları:** Small (30 €), Medium (55 €) ve Large (75 €) fiyatları artık doğrudan Admin Panelinden değiştirilebiliyor. Değiştirdiğiniz an Abonelik sayfasındaki tüm butonlar ve toplam tutarlar otomatik güncelleniyor.
-- **Kendi Buketini Yap Kuralları:** 15 € olan minimum sipariş tutarı ve %25 olan buket montaj ücreti panelden ayarlanabiliyor.
-- **Teslimat Şehirleri ve Çalışma Saatleri:** Porto, Gaia, Maia, Matosinhos şehir listesi ve 09:00 - 18:00 saat aralığı panelden güncellenebiliyor.
-- **Admin Paneli "Business Settings" Bölümü:** Kapatma tarihlerinin hemen altına şık ve ferah bir ayarlar kartı eklendi. "Save Settings" butonuyla yapılan değişiklikler anında kaydediliyor.
+Son yapılan iyileştirmeler:
+- **Admin Paneli Mobil Taşma Düzeltmesi:** "Make Your Own" çiçek türü kutularında "Delete Type" / "Eliminar Tipo" butonunun kutudan taşması ve görsel kutusunu sıkıştırması düzeltildi. Mobilde çiçek adı, aktiflik anahtarı ve silme butonu ekran genişliğine göre ferahça hizalanıyor.
+- **Events (Düğün & Etkinlik) SEO Güçlendirmesi:** Google'ın sayfayı tanıması için eksik olan ana başlık (`<h1>`) ve Porto yerel arama kelimelerini içeren alt başlık iki dilde (İngilizce ve Portekizce) eklendi.
+- **Fotoğraf Büyütme (Lightbox) Kolaylığı:** Sitede herhangi bir fotoğrafa tıklandığında açılan büyük önizleme penceresi artık klavyeden `Escape` (Esc) tuşuna basıldığında anında kapanıyor.
+- **Form Otomatik Doldurma ve Erişilebilirlik:** Sipariş, B2B, Events ve alt kısımdaki formlara tarayıcıların otomatik doldurma (isim, e-posta, telefon, adres) yeteneklerini hızlandıracak ve görme engelli ekran okuyucularının formları rahatça okumasını sağlayacak etiketler eklendi.
 
 ### Tamamlanan İşler
 - [x] Fotoğraf depolama kovası (`vincent-flowers-media`) oluşturuldu.
@@ -41,6 +40,9 @@ Siz teknik biri değilsiniz. Bu yüzden:
 - [x] Admin paneli mobil uyumlu (responsive) hale getirildi.
 - [x] Admin paneline Portekizce dil desteği eklendi.
 - [x] İşletme fiyatları ve dükkan ayarları Admin Paneline taşındı ve canlıya alındı.
+- [x] Events sayfası SEO ana başlığı (`<h1>`) ve Porto düğün/etkinlik metinleri eklendi.
+- [x] Fotoğraf büyütme pencerelerine `Escape` tuşu ve site geneli formlara erişilebilirlik etiketleri eklendi.
+- [x] Admin panelinde "Make Your Own" çiçek kartlarındaki mobil taşma ve "Delete Type" buton sıkışması giderildi.
 
 ---
 

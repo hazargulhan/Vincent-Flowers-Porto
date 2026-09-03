@@ -739,13 +739,58 @@ input:focus, select:focus, textarea:focus {
   margin-bottom: 0.8rem;
 }
 
+.admin-flower-card {
+  border: 1px solid var(--border-color);
+  padding: 1.5rem;
+  box-sizing: border-box;
+  max-width: 100%;
+  overflow: hidden;
+}
+
 .admin-flower-header {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 1rem;
+  align-items: center;
+  margin-bottom: 1.2rem;
   flex-wrap: wrap;
   gap: 1rem;
+}
+
+.admin-flower-title-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex: 1;
+  min-width: 0;
+  flex-wrap: wrap;
+}
+
+.admin-flower-name-input {
+  flex: 1 1 180px;
+  min-width: 0;
+}
+
+.admin-flower-delete-btn {
+  color: #c62828;
+  background: transparent;
+  border: 1px solid #ef9a9a;
+  border-radius: 4px;
+  cursor: pointer;
+  padding: 0.35rem 0.75rem;
+  font-size: 0.8rem;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: all 0.2s ease;
+}
+
+.admin-flower-delete-btn:hover {
+  background: #ffebee;
+  border-color: #e57373;
+}
+
+.admin-flower-image-section {
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .admin-flower-fields {
@@ -766,6 +811,36 @@ input:focus, select:focus, textarea:focus {
     gap: 0.6rem;
     padding: 0.9rem 1rem;
     cursor: pointer;
+  }
+
+  .admin-flower-card {
+    padding: 1rem 0.85rem !important;
+  }
+
+  .admin-flower-header {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 0.8rem !important;
+    margin-bottom: 1rem !important;
+  }
+
+  .admin-flower-title-row {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    gap: 0.6rem !important;
+    width: 100% !important;
+  }
+
+  .admin-flower-name-input {
+    width: auto !important;
+    flex: 1 1 auto !important;
+  }
+
+  .admin-flower-delete-btn {
+    align-self: flex-start !important;
+    margin-top: 0.2rem;
+    padding: 0.4rem 0.8rem !important;
   }
 
   .admin-variant-grid {
@@ -829,6 +904,7 @@ input:focus, select:focus, textarea:focus {
     flex-direction: column !important;
     gap: 1rem !important;
     align-items: stretch !important;
+    padding: 1rem 0.85rem !important;
   }
 }
 
@@ -839,4 +915,7 @@ input:focus, select:focus, textarea:focus {
   align-items: flex-end;
   padding: 1.5rem;
   border: 1px solid var(--border-color);
+  box-sizing: border-box;
+  max-width: 100%;
+  overflow: hidden;
 }

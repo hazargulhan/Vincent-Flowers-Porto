@@ -29,6 +29,8 @@ export default function PhoneInput({ dialCode, number, onDialCodeChange, onNumbe
         type="tel"
         inputMode="tel"
         placeholder={placeholder}
+        aria-label={placeholder || 'Phone number'}
+        autoComplete="tel"
         required={required}
         value={number}
         onChange={e => onNumberChange(e.target.value)}

@@ -84,6 +84,8 @@ export default function Events() {
         path="/events"
       />
       <div style={{ textAlign: 'center', marginBottom: '3rem', maxWidth: '800px', margin: '0 auto 3rem auto' }}>
+        <h1 style={{ marginBottom: '1rem', fontSize: '2.5rem' }}>{t('events.title')}</h1>
+        <p style={{ fontSize: '1.2rem', lineHeight: '1.6', color: '#555', marginBottom: '2rem' }}>{t('events.subtitle')}</p>
         <p style={{ fontSize: '1.2rem', lineHeight: '1.6' }}>{t('events.desc1')}</p>
         <p style={{ fontSize: '1.2rem', lineHeight: '1.6', marginTop: '1.5rem' }}>{t('events.desc2')}</p>
         <ul style={{ listStyle: 'none', padding: 0, marginTop: '1.5rem', display: 'flex', flexDirection: 'column', gap: '0.8rem', alignItems: 'center', fontSize: '1.2rem' }}>
@@ -135,8 +137,24 @@ export default function Events() {
             style={{ display: 'flex', flexDirection: 'column', gap: '1rem', maxWidth: '500px', margin: '2rem auto 0' }}
             onSubmit={handleSubmit}
           >
-            <input type="text" placeholder={t('events.form_name')} required value={formData.name} onChange={e => setFormData({...formData, name: e.target.value})} />
-            <input type="email" placeholder={t('events.form_email')} required value={formData.email} onChange={e => setFormData({...formData, email: e.target.value})} />
+            <input
+              type="text"
+              placeholder={t('events.form_name')}
+              aria-label={t('events.form_name')}
+              autoComplete="name"
+              required
+              value={formData.name}
+              onChange={e => setFormData({...formData, name: e.target.value})}
+            />
+            <input
+              type="email"
+              placeholder={t('events.form_email')}
+              aria-label={t('events.form_email')}
+              autoComplete="email"
+              required
+              value={formData.email}
+              onChange={e => setFormData({...formData, email: e.target.value})}
+            />
             <PhoneInput
               dialCode={formData.phoneDialCode}
               number={formData.phoneNumber}
@@ -145,18 +163,28 @@ export default function Events() {
               placeholder={t('events.form_phone')}
             />
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', textAlign: 'left' }}>
-              <label style={{ fontSize: '0.9rem', color: '#666' }}>{t('events.form_date')}</label>
+              <label htmlFor="event-date" style={{ fontSize: '0.9rem', color: '#666' }}>{t('events.form_date')}</label>
               <input
+                id="event-date"
                 type="date"
                 required
                 placeholder="dd/mm/yyyy"
+                aria-label={t('events.form_date')}
                 value={formData.eventDate}
                 onClick={(e) => e.currentTarget.showPicker && e.currentTarget.showPicker()}
                 onChange={e => setFormData({...formData, eventDate: e.target.value})}
                 style={{ width: '100%' }}
               />
             </div>
-            <input type="text" placeholder={t('events.form_location')} required value={formData.location} onChange={e => setFormData({...formData, location: e.target.value})} />
+            <input
+              type="text"
+              placeholder={t('events.form_location')}
+              aria-label={t('events.form_location')}
+              autoComplete="address-level2"
+              required
+              value={formData.location}
+              onChange={e => setFormData({...formData, location: e.target.value})}
+            />
             {submitError && <div style={{ color: 'red' }}>{submitError}</div>}
             <button type="submit" disabled={submitting} style={{ padding: '1rem', background: 'transparent', color: 'var(--text-color)', border: '1px solid var(--text-color)' }}>
                {submitting ? t('common.sending') : t('events.btn_send')}
@@ -165,7 +193,7 @@ export default function Events() {
         )}
       </div>
 
-      {lightboxImg && <ImageModal src={lightboxImg} onClose={() => setLightboxImg(null)} />}
+      {lightboxImg && <ImageModal src={lightboxImg} alt="Wedding and event floral arrangement" onClose={() => setLightboxImg(null)} />}
     </div>
   )
 }

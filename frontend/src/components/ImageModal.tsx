@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { X } from 'lucide-react';
 
 interface ImageModalProps {
@@ -7,8 +8,21 @@ interface ImageModalProps {
 }
 
 export default function ImageModal({ src, alt, onClose }: ImageModalProps) {
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        onClose();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [onClose]);
+
   return (
     <div 
+      role="dialog"
+      aria-modal="true"
+      aria-label={alt || 'Enlarged photo preview'}
       style={{ 
         position: 'fixed', 
         top: 0, 
@@ -27,6 +41,7 @@ export default function ImageModal({ src, alt, onClose }: ImageModalProps) {
     >
       <button 
         onClick={onClose} 
+        aria-label="Close modal"
         style={{ 
           position: 'absolute', 
           top: '20px', 

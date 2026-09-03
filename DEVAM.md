@@ -4,7 +4,7 @@
 > ilk tamamlanmamış adımdan devam et. Başka bir şey sorma, plan yapmadan önce bu dosyayı
 > baştan sona oku.
 
-**Son güncelleme:** 2026-09-02
+**Son güncelleme:** 2026-09-03
 
 ---
 
@@ -74,17 +74,17 @@ Detaylı kurulum/çalıştırma bilgisi için `README.md`.
 - [x] **ADIM 13:** Admin paneli telefona tam uyumlu (responsive) hale getirildi (siparişler için mobil kart görünümü, kaydırmasız renk varyantları ve esnek butonlar).
 - [x] **ADIM 14:** Admin paneline ve sipariş geçmişine tam Portekizce dil desteği eklendi (üst menüdeki global dil seçicisi ile entegre).
 - [x] **ADIM 15:** İşletme fiyatları ve ayarları (Abonelikler, minimum sepet tutarı, buket montaj ücreti, teslimat şehirleri ve çalışma saatleri) Cloudflare KV'ye bağlandı, Admin panelinde "Business Settings" kartı eklendi ve tüm sitede dinamik senkronize edildi.
+- [x] **ADIM 16:** Events (Düğün & Etkinlik) sayfası SEO'su güçlendirildi (Google için `<h1>` ana başlığı ve Porto odaklı arama metinleri eklendi).
+- [x] **ADIM 17:** Site geneli Form ve Modal erişilebilirliği tamamlandı (Tüm fotoğraf büyütme pencerelerine klavyeden `Escape` tuşu desteği, mobil menü butonuna ve tüm sipariş/iletişim formlarına ekran okuyucu ve otomatik doldurma etiketleri eklendi).
+- [x] **ADIM 18:** Admin paneli Build Your Own çiçek kartlarındaki taşma ve "Delete Type" butonunun sığmama sorunu düzeltildi (Görsel ve URL alanı tam genişliğe alındı; mobilde çiçek adı, aktiflik anahtarı ve Delete Type butonu esnek satırlara ayrılarak taşmalar önlendi).
 
 ### Gelecek Oturumda Yapılabilecekler (Aday İşler)
-1. **Events (Düğün & Etkinlik) Sayfası SEO İyileştirmesi:**
-   - Sayfada Google'ın baktığı `<h1>` başlığı ve Porto odaklı arama metinleri eklenebilir.
-2. **Form & Modal Erişilebilirliği:**
-   - Form alanlarına `<label>` etiketleri eklenmesi (otomatik doldurma ve erişilebilirlik için).
-   - Fotoğraf büyütme pencerelerine (lightbox modal) `Escape` tuşu ile kapatma desteği.
-3. **Canlıda Uçtan Uca Sipariş Doğrulaması:**
+1. **Canlıda Uçtan Uca Sipariş Doğrulaması:**
    - Canlı siteden test siparişi verilerek admin panelindeki yeni kart görünümünün ve bildirim e-postasının kontrol edilmesi.
-4. **Otomatik Test Paketi (Vitest):**
+2. **Otomatik Test Paketi (Vitest):**
    - Fiyat hesaplama, tarih doğrulama ve kapatma dönemi kuralları için birim testler yazılması.
+3. **CI / CD GitHub Actions:**
+   - Her push/PR işleminde build, lint ve tip kontrollerini otomatik koşan iş akışı eklenmesi.
 
 ## 4. Adımların ayrıntısı
 

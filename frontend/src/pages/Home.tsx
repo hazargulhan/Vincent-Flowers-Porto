@@ -351,8 +351,24 @@ export default function Home() {
               <form onSubmit={handleSubmit} className="delivery-form">
                 <h3 style={{ marginTop: 0, marginBottom: '0.5rem' }}>{t('home.buyer_section_title')}</h3>
                 <small style={{ display: 'block', marginBottom: '0.8rem', color: '#666' }}>{t('home.buyer_section_note')}</small>
-                <input type="text" placeholder={t('home.buyer_form_name')} required value={buyer.name} onChange={e => setBuyer({...buyer, name: e.target.value})} />
-                <input type="email" placeholder={t('home.buyer_form_email')} required value={buyer.email} onChange={e => setBuyer({...buyer, email: e.target.value})} />
+                <input
+                  type="text"
+                  placeholder={t('home.buyer_form_name')}
+                  aria-label={t('home.buyer_form_name')}
+                  autoComplete="name"
+                  required
+                  value={buyer.name}
+                  onChange={e => setBuyer({...buyer, name: e.target.value})}
+                />
+                <input
+                  type="email"
+                  placeholder={t('home.buyer_form_email')}
+                  aria-label={t('home.buyer_form_email')}
+                  autoComplete="email"
+                  required
+                  value={buyer.email}
+                  onChange={e => setBuyer({...buyer, email: e.target.value})}
+                />
                 <PhoneInput
                   dialCode={buyer.phoneDialCode}
                   number={buyer.phoneNumber}
@@ -362,8 +378,24 @@ export default function Home() {
                 />
 
                 <h3 style={{ marginTop: '2rem', marginBottom: '0.5rem' }}>{t('home.recipient_section_title')}</h3>
-                <input type="text" placeholder={t('home.form_name')} required value={recipient.name} onChange={e => setRecipient({...recipient, name: e.target.value})} />
-                <input type="email" placeholder={t('home.form_email')} required value={recipient.email} onChange={e => setRecipient({...recipient, email: e.target.value})} />
+                <input
+                  type="text"
+                  placeholder={t('home.form_name')}
+                  aria-label={t('home.form_name')}
+                  autoComplete="name"
+                  required
+                  value={recipient.name}
+                  onChange={e => setRecipient({...recipient, name: e.target.value})}
+                />
+                <input
+                  type="email"
+                  placeholder={t('home.form_email')}
+                  aria-label={t('home.form_email')}
+                  autoComplete="email"
+                  required
+                  value={recipient.email}
+                  onChange={e => setRecipient({...recipient, email: e.target.value})}
+                />
                 <PhoneInput
                   dialCode={recipient.phoneDialCode}
                   number={recipient.phoneNumber}
@@ -374,12 +406,26 @@ export default function Home() {
 
                 {deliveryMode === 'delivery' && (
                   <>
-                    <select required value={recipient.city} onChange={e => setRecipient({...recipient, city: e.target.value})}>
+                    <select
+                      required
+                      aria-label="Delivery city"
+                      autoComplete="address-level2"
+                      value={recipient.city}
+                      onChange={e => setRecipient({...recipient, city: e.target.value})}
+                    >
                       {settings.deliveryCities.map((ct) => (
                         <option key={ct} value={ct}>{ct}</option>
                       ))}
                     </select>
-                    <textarea placeholder={t('home.form_address')} rows={3} required value={recipient.address} onChange={e => setRecipient({...recipient, address: e.target.value})}></textarea>
+                    <textarea
+                      placeholder={t('home.form_address')}
+                      aria-label={t('home.form_address')}
+                      autoComplete="street-address"
+                      rows={3}
+                      required
+                      value={recipient.address}
+                      onChange={e => setRecipient({...recipient, address: e.target.value})}
+                    ></textarea>
                   </>
                 )}
 
@@ -396,6 +442,7 @@ export default function Home() {
                   />
                   <select
                     required
+                    aria-label="Preferred delivery time slot"
                     value={recipient.pickupSlot}
                     onChange={e => setRecipient({...recipient, pickupSlot: e.target.value})}
                   >

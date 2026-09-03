@@ -63,7 +63,7 @@ export default function About() {
         </div>
       </div>
 
-      {lightboxImg && <ImageModal src={lightboxImg} onClose={() => setLightboxImg(null)} />}
+      {lightboxImg && <ImageModal src={lightboxImg} alt="Vincent Flowers shop and floral design" onClose={() => setLightboxImg(null)} />}
     </div>
   )
 }

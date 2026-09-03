@@ -140,9 +140,36 @@ export default function B2B() {
             style={{ display: 'flex', flexDirection: 'column', gap: '1.2rem', maxWidth: '500px', margin: '0 auto' }}
             onSubmit={handleSubmit}
           >
-            <input type="text" placeholder={t('b2b.form_business')} required style={{ padding: '1rem' }} value={formData.businessName} onChange={e => setFormData({...formData, businessName: e.target.value})} />
-            <input type="text" placeholder={t('b2b.form_person')} required style={{ padding: '1rem' }} value={formData.contactPerson} onChange={e => setFormData({...formData, contactPerson: e.target.value})} />
-            <input type="email" placeholder={t('b2b.form_email')} required style={{ padding: '1rem' }} value={formData.email} onChange={e => setFormData({...formData, email: e.target.value})} />
+            <input
+              type="text"
+              placeholder={t('b2b.form_business')}
+              aria-label={t('b2b.form_business')}
+              autoComplete="organization"
+              required
+              style={{ padding: '1rem' }}
+              value={formData.businessName}
+              onChange={e => setFormData({...formData, businessName: e.target.value})}
+            />
+            <input
+              type="text"
+              placeholder={t('b2b.form_person')}
+              aria-label={t('b2b.form_person')}
+              autoComplete="name"
+              required
+              style={{ padding: '1rem' }}
+              value={formData.contactPerson}
+              onChange={e => setFormData({...formData, contactPerson: e.target.value})}
+            />
+            <input
+              type="email"
+              placeholder={t('b2b.form_email')}
+              aria-label={t('b2b.form_email')}
+              autoComplete="email"
+              required
+              style={{ padding: '1rem' }}
+              value={formData.email}
+              onChange={e => setFormData({...formData, email: e.target.value})}
+            />
             <PhoneInput
               dialCode={formData.phoneDialCode}
               number={formData.phoneNumber}
@@ -150,7 +177,15 @@ export default function B2B() {
               onNumberChange={n => setFormData({...formData, phoneNumber: n})}
               placeholder={t('b2b.form_phone')}
             />
-            <textarea placeholder={t('b2b.form_msg')} rows={5} required style={{ padding: '1rem' }} value={formData.message} onChange={e => setFormData({...formData, message: e.target.value})}></textarea>
+            <textarea
+              placeholder={t('b2b.form_msg')}
+              aria-label={t('b2b.form_msg')}
+              rows={5}
+              required
+              style={{ padding: '1rem' }}
+              value={formData.message}
+              onChange={e => setFormData({...formData, message: e.target.value})}
+            ></textarea>
             {submitError && <div style={{ color: 'red' }}>{submitError}</div>}
             <button
               type="submit"
@@ -173,7 +208,7 @@ export default function B2B() {
         )}
       </div>
 
-      {lightboxImg && <ImageModal src={lightboxImg} onClose={() => setLightboxImg(null)} />}
+      {lightboxImg && <ImageModal src={lightboxImg} alt="B2B floral installation" onClose={() => setLightboxImg(null)} />}
     </div>
   )
 }

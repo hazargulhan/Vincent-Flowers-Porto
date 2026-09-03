@@ -217,8 +217,24 @@ export default function Shop() {
           <form onSubmit={handleSubmit} className="delivery-form" style={{ maxWidth: '600px' }}>
             <h3 style={{ marginTop: 0, marginBottom: '0.5rem' }}>{t('shop.buyer_section_title')}</h3>
             <small style={{ display: 'block', marginBottom: '0.8rem', color: '#666' }}>{t('shop.buyer_section_note')}</small>
-            <input type="text" placeholder={t('shop.buyer_form_name')} required value={buyer.name} onChange={e => setBuyer({...buyer, name: e.target.value})} />
-            <input type="email" placeholder={t('shop.buyer_form_email')} required value={buyer.email} onChange={e => setBuyer({...buyer, email: e.target.value})} />
+            <input
+              type="text"
+              placeholder={t('shop.buyer_form_name')}
+              aria-label={t('shop.buyer_form_name')}
+              autoComplete="name"
+              required
+              value={buyer.name}
+              onChange={e => setBuyer({...buyer, name: e.target.value})}
+            />
+            <input
+              type="email"
+              placeholder={t('shop.buyer_form_email')}
+              aria-label={t('shop.buyer_form_email')}
+              autoComplete="email"
+              required
+              value={buyer.email}
+              onChange={e => setBuyer({...buyer, email: e.target.value})}
+            />
             <PhoneInput
               dialCode={buyer.phoneDialCode}
               number={buyer.phoneNumber}
@@ -228,8 +244,24 @@ export default function Shop() {
             />
 
             <h3 style={{ marginTop: '2rem', marginBottom: '0.5rem' }}>{t('shop.recipient_section_title')}</h3>
-            <input type="text" placeholder={t('shop.form_name')} required value={recipient.name} onChange={e => setRecipient({...recipient, name: e.target.value})} />
-            <input type="email" placeholder={t('shop.form_email')} required value={recipient.email} onChange={e => setRecipient({...recipient, email: e.target.value})} />
+            <input
+              type="text"
+              placeholder={t('shop.form_name')}
+              aria-label={t('shop.form_name')}
+              autoComplete="name"
+              required
+              value={recipient.name}
+              onChange={e => setRecipient({...recipient, name: e.target.value})}
+            />
+            <input
+              type="email"
+              placeholder={t('shop.form_email')}
+              aria-label={t('shop.form_email')}
+              autoComplete="email"
+              required
+              value={recipient.email}
+              onChange={e => setRecipient({...recipient, email: e.target.value})}
+            />
             <PhoneInput
               dialCode={recipient.phoneDialCode}
               number={recipient.phoneNumber}
@@ -240,12 +272,26 @@ export default function Shop() {
 
             {deliveryMode === 'delivery' && (
               <>
-                <select required value={recipient.city} onChange={e => setRecipient({...recipient, city: e.target.value})}>
+                <select
+                  required
+                  aria-label="Delivery city"
+                  autoComplete="address-level2"
+                  value={recipient.city}
+                  onChange={e => setRecipient({...recipient, city: e.target.value})}
+                >
                   {settings.deliveryCities.map((ct) => (
                     <option key={ct} value={ct}>{ct}</option>
                   ))}
                 </select>
-                <textarea placeholder={t('shop.form_address')} rows={3} required value={recipient.address} onChange={e => setRecipient({...recipient, address: e.target.value})}></textarea>
+                <textarea
+                  placeholder={t('shop.form_address')}
+                  aria-label={t('shop.form_address')}
+                  autoComplete="street-address"
+                  rows={3}
+                  required
+                  value={recipient.address}
+                  onChange={e => setRecipient({...recipient, address: e.target.value})}
+                ></textarea>
               </>
             )}
 
@@ -262,6 +308,7 @@ export default function Shop() {
               />
               <select
                 required
+                aria-label="Preferred delivery time slot"
                 value={recipient.pickupSlot}
                 onChange={e => setRecipient({...recipient, pickupSlot: e.target.value})}
               >
@@ -285,7 +332,7 @@ export default function Shop() {
 
       </div>
 
-      {lightboxImg && <ImageModal src={lightboxImg} onClose={() => setLightboxImg(null)} />}
+      {lightboxImg && <ImageModal src={lightboxImg} alt={selectedBouquet?.title || 'Bouquet image'} onClose={() => setLightboxImg(null)} />}
     </div>
   )
 }

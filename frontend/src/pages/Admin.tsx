@@ -518,74 +518,80 @@ export default function Admin() {
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
           {catalog.makeYourOwn.map((g, gIdx) => (
-            <div key={gIdx} style={{ border: '1px solid var(--border-color)', padding: '1.5rem', background: g.available ? 'transparent' : '#f0f0f0' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '1.5rem' }}>
-                <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                    <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
-                        <input
-                            type="text"
-                            value={g.name}
-                            style={{ fontSize: '1.2rem', fontWeight: 'bold', border: 'none', borderBottom: '1px solid #ccc', background: 'transparent' }}
-                            onChange={e => {
-                                const newCat = {...catalog};
-                                newCat.makeYourOwn[gIdx].name = e.target.value;
-                                setCatalog(newCat);
-                            }}
-                        />
-                        <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.9rem', cursor: 'pointer' }}>
-                            <input
-                                type="checkbox"
-                                checked={g.available}
-                                onChange={e => {
-                                    const newCat = {...catalog};
-                                    newCat.makeYourOwn[gIdx].available = e.target.checked;
-                                    setCatalog(newCat);
-                                }}
-                            />
-                            {g.available ? t('admin.active') : t('admin.hidden_frozen')}
-                        </label>
-                    </div>
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.3rem' }}>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                            <label style={{ fontSize: '0.8rem', color: '#666' }}>{t('admin.visualizer_image')}</label>
-                            {g.image?.startsWith('/media/') ? (
-                                <span style={{ fontSize: '0.72rem', color: '#2e7d32', fontWeight: 600 }}>☁️ {t('admin.stored_r2')}</span>
-                            ) : g.image?.includes('github') ? (
-                                <span style={{ fontSize: '0.72rem', color: '#d32f2f', fontWeight: 600 }}>⚠️ {t('admin.stored_github')}</span>
-                            ) : null}
-                        </div>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
-                            {g.image && (
-                                <img
-                                    src={mediaUrl(g.image)}
-                                    alt={g.name}
-                                    style={{ width: '40px', height: '40px', objectFit: 'contain', border: '1px solid var(--border-color)', borderRadius: '4px', background: '#fff', padding: '2px', flexShrink: 0 }}
-                                    onError={(e) => { (e.target as HTMLElement).style.display = 'none'; }}
-                                />
-                            )}
-                            <input
-                                type="text"
-                                placeholder="/media/flowers/example.webp or /images/..."
-                                value={g.image}
-                                style={{ flex: 1, padding: '0.4rem' }}
-                                onChange={e => {
-                                    const newCat = {...catalog};
-                                    newCat.makeYourOwn[gIdx].image = e.target.value;
-                                    setCatalog(newCat);
-                                }}
-                            />
-                        </div>
-                        <ImageDropzone
-                          token={token}
-                          onUploaded={(url) => {
-                            const newCat = {...catalog};
-                            newCat.makeYourOwn[gIdx].image = url;
-                            setCatalog(newCat);
-                          }}
-                        />
-                    </div>
+            <div key={gIdx} className="admin-flower-card" style={{ background: g.available ? 'transparent' : '#f0f0f0' }}>
+              <div className="admin-flower-header">
+                <div className="admin-flower-title-row">
+                  <input
+                    type="text"
+                    value={g.name}
+                    className="admin-flower-name-input"
+                    style={{ fontSize: '1.2rem', fontWeight: 'bold', border: 'none', borderBottom: '1px solid #ccc', background: 'transparent' }}
+                    onChange={e => {
+                      const newCat = {...catalog};
+                      newCat.makeYourOwn[gIdx].name = e.target.value;
+                      setCatalog(newCat);
+                    }}
+                  />
+                  <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.9rem', cursor: 'pointer', whiteSpace: 'nowrap', flexShrink: 0 }}>
+                    <input
+                      type="checkbox"
+                      checked={g.available}
+                      onChange={e => {
+                        const newCat = {...catalog};
+                        newCat.makeYourOwn[gIdx].available = e.target.checked;
+                        setCatalog(newCat);
+                      }}
+                    />
+                    {g.available ? t('admin.active') : t('admin.hidden_frozen')}
+                  </label>
                 </div>
-                <button onClick={() => deleteFlowerGroup(gIdx)} style={{ color: 'red', border: 'none', background: 'transparent', cursor: 'pointer', padding: '0.4rem 0' }}>{t('admin.btn_delete_type')}</button>
+                <button
+                  type="button"
+                  onClick={() => deleteFlowerGroup(gIdx)}
+                  className="admin-flower-delete-btn"
+                >
+                  {t('admin.btn_delete_type')}
+                </button>
+              </div>
+
+              <div className="admin-flower-image-section" style={{ display: 'flex', flexDirection: 'column', gap: '0.3rem', marginBottom: '1.5rem' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '0.4rem' }}>
+                  <label style={{ fontSize: '0.8rem', color: '#666' }}>{t('admin.visualizer_image')}</label>
+                  {g.image?.startsWith('/media/') ? (
+                    <span style={{ fontSize: '0.72rem', color: '#2e7d32', fontWeight: 600 }}>☁️ {t('admin.stored_r2')}</span>
+                  ) : g.image?.includes('github') ? (
+                    <span style={{ fontSize: '0.72rem', color: '#d32f2f', fontWeight: 600 }}>⚠️ {t('admin.stored_github')}</span>
+                  ) : null}
+                </div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
+                  {g.image && (
+                    <img
+                      src={mediaUrl(g.image)}
+                      alt={g.name}
+                      style={{ width: '40px', height: '40px', objectFit: 'contain', border: '1px solid var(--border-color)', borderRadius: '4px', background: '#fff', padding: '2px', flexShrink: 0 }}
+                      onError={(e) => { (e.target as HTMLElement).style.display = 'none'; }}
+                    />
+                  )}
+                  <input
+                    type="text"
+                    placeholder="/media/flowers/example.webp or /images/..."
+                    value={g.image}
+                    style={{ flex: 1, minWidth: 0, padding: '0.4rem' }}
+                    onChange={e => {
+                      const newCat = {...catalog};
+                      newCat.makeYourOwn[gIdx].image = e.target.value;
+                      setCatalog(newCat);
+                    }}
+                  />
+                </div>
+                <ImageDropzone
+                  token={token}
+                  onUploaded={(url) => {
+                    const newCat = {...catalog};
+                    newCat.makeYourOwn[gIdx].image = url;
+                    setCatalog(newCat);
+                  }}
+                />
               </div>
 
               <div className="admin-flower-variants-container" style={{ paddingLeft: '1.5rem', borderLeft: '2px solid var(--border-color)' }}>
@@ -701,7 +707,7 @@ export default function Admin() {
                     <input
                        type="text"
                        value={b.img}
-                       style={{ flex: 1 }}
+                       style={{ flex: 1, minWidth: 0 }}
                        onChange={e => {
                            const newCat = {...catalog}
                            newCat.shopBouquets[bIdx].img = e.target.value

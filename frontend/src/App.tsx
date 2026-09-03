@@ -42,7 +42,12 @@ function App() {
               <span className="logo-text">Vincent Flowers Porto</span>
             </Link>
             
-            <button className="mobile-menu-btn" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
+            <button
+              className="mobile-menu-btn"
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              aria-label="Toggle navigation menu"
+              aria-expanded={mobileMenuOpen}
+            >
               {mobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
             </button>
 
@@ -153,12 +158,15 @@ function FooterForm({ t }: { t: TFunction }) {
       <input 
         type="email" 
         placeholder="Email" 
+        aria-label="Email"
+        autoComplete="email"
         required 
         value={email}
         onChange={e => setEmail(e.target.value)} 
       />
       <textarea 
         placeholder="Message" 
+        aria-label="Message"
         rows={3} 
         required 
         value={message}
