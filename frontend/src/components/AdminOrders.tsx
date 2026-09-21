@@ -26,6 +26,7 @@ export default function AdminOrders({ token }: { token: string }) {
   const [listComplete, setListComplete] = useState(true)
   const [loading, setLoading] = useState(false)
   const [filter, setFilter] = useState('active')
+  const [sortBy, setSortBy] = useState<'date-desc' | 'date-asc' | 'total-desc' | 'total-asc' | 'status'>('date-desc')
   const [expandedId, setExpandedId] = useState<string | null>(null)
   const [details, setDetails] = useState<Record<string, StoredOrder>>({})
   const [search, setSearch] = useState('')
@@ -37,6 +38,14 @@ export default function AdminOrders({ token }: { token: string }) {
     { value: 'handled', label: t('admin.filter_handled') },
     { value: 'archived', label: t('admin.filter_archived') },
     { value: 'all', label: t('admin.filter_all') },
+  ]
+
+  const sortOptions = [
+    { value: 'date-desc', label: t('admin.sort_date_desc') },
+    { value: 'date-asc', label: t('admin.sort_date_asc') },
+    { value: 'total-desc', label: t('admin.sort_total_desc') },
+    { value: 'total-asc', label: t('admin.sort_total_asc') },
+    { value: 'status', label: t('admin.sort_status') },
   ]
 
   const typeLabels: Record<string, string> = {
@@ -122,9 +131,18 @@ export default function AdminOrders({ token }: { token: string }) {
   }
 
   const query = search.trim().toLowerCase()
-  const visible = query
+  const filtered = query
     ? orders.filter(o => `${o.ref} ${o.name} ${o.email}`.toLowerCase().includes(query))
     : orders
+
+  const visible = [...filtered].sort((a, b) => {
+    if (sortBy === 'date-asc') return a.createdAt - b.createdAt
+    if (sortBy === 'date-desc') return b.createdAt - a.createdAt
+    if (sortBy === 'total-desc') return (b.total || 0) - (a.total || 0)
+    if (sortBy === 'total-asc') return (a.total || 0) - (b.total || 0)
+    if (sortBy === 'status') return a.status.localeCompare(b.status)
+    return 0
+  })
 
   return (
     <div style={{ marginBottom: '4rem' }}>
@@ -140,6 +158,14 @@ export default function AdminOrders({ token }: { token: string }) {
           />
           <select value={filter} onChange={e => setFilter(e.target.value)} style={{ padding: '0.4rem' }}>
             {filters.map(f => <option key={f.value} value={f.value}>{f.label}</option>)}
+          </select>
+          <select
+            value={sortBy}
+            onChange={e => setSortBy(e.target.value as 'date-desc' | 'date-asc' | 'total-desc' | 'total-asc' | 'status')}
+            style={{ padding: '0.4rem', fontSize: '0.8rem' }}
+            aria-label={t('admin.sort_by')}
+          >
+            {sortOptions.map(s => <option key={s.value} value={s.value}>{s.label}</option>)}
           </select>
           <button onClick={() => load()} disabled={loading} style={{ ...btn, padding: '0.5rem 1.2rem' }}>
             {loading ? t('admin.saving') : t('admin.btn_refresh')}

@@ -313,6 +313,141 @@ export default function Admin() {
 
       <div style={{ marginBottom: '4rem' }}>
         <div className="admin-section-header">
+          <h2 style={{ margin: 0 }}>{t('admin.settings_title')}</h2>
+          <div style={{ display: 'flex', gap: '0.8rem', flexWrap: 'wrap', alignItems: 'center' }}>
+            {settingsFeedback && (
+              <span style={{ color: '#2e7d32', fontSize: '0.85rem', fontWeight: 500 }}>
+                {settingsFeedback}
+              </span>
+            )}
+            <button
+              onClick={saveSettings}
+              disabled={savingSettings}
+              style={{ background: 'var(--text-color)', color: '#fff', padding: '0.5rem 1.5rem', cursor: 'pointer' }}
+            >
+              {savingSettings ? t('admin.saving') : t('admin.btn_save_settings')}
+            </button>
+          </div>
+        </div>
+        <p style={{ fontSize: '0.85rem', color: '#666', marginBottom: '1rem' }}>
+          {t('admin.settings_desc')}
+        </p>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '1.5rem', border: '1px solid var(--border-color)', padding: '1.5rem', background: '#fafafa', borderRadius: '4px' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
+            <label style={{ fontSize: '0.8rem', fontWeight: 600 }}>{t('admin.settings_min_order')}</label>
+            <input
+              type="number"
+              step="1"
+              min="0"
+              value={settings.minOrderTotal}
+              onChange={e => setSettings({ ...settings, minOrderTotal: parseFloat(e.target.value) || 0 })}
+            />
+          </div>
+
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
+            <label style={{ fontSize: '0.8rem', fontWeight: 600 }}>{t('admin.settings_bouquet_fee')}</label>
+            <input
+              type="number"
+              step="1"
+              min="0"
+              value={settings.bouquetFeePercent}
+              onChange={e => setSettings({ ...settings, bouquetFeePercent: parseFloat(e.target.value) || 0 })}
+            />
+          </div>
+
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
+            <label style={{ fontSize: '0.8rem', fontWeight: 600 }}>{t('admin.settings_delivery_fee')}</label>
+            <input
+              type="number"
+              step="0.5"
+              min="0"
+              value={settings.deliveryFee ?? 10}
+              onChange={e => setSettings({ ...settings, deliveryFee: parseFloat(e.target.value) || 0 })}
+            />
+          </div>
+
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
+            <label style={{ fontSize: '0.8rem', fontWeight: 600 }}>{t('admin.settings_sub_small')}</label>
+            <input
+              type="number"
+              step="1"
+              min="0"
+              value={settings.subscriptionPricing.small}
+              onChange={e => setSettings({
+                ...settings,
+                subscriptionPricing: { ...settings.subscriptionPricing, small: parseFloat(e.target.value) || 0 }
+              })}
+            />
+          </div>
+
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
+            <label style={{ fontSize: '0.8rem', fontWeight: 600 }}>{t('admin.settings_sub_medium')}</label>
+            <input
+              type="number"
+              step="1"
+              min="0"
+              value={settings.subscriptionPricing.medium}
+              onChange={e => setSettings({
+                ...settings,
+                subscriptionPricing: { ...settings.subscriptionPricing, medium: parseFloat(e.target.value) || 0 }
+              })}
+            />
+          </div>
+
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
+            <label style={{ fontSize: '0.8rem', fontWeight: 600 }}>{t('admin.settings_sub_large')}</label>
+            <input
+              type="number"
+              step="1"
+              min="0"
+              value={settings.subscriptionPricing.large}
+              onChange={e => setSettings({
+                ...settings,
+                subscriptionPricing: { ...settings.subscriptionPricing, large: parseFloat(e.target.value) || 0 }
+              })}
+            />
+          </div>
+
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem', gridColumn: '1 / -1' }}>
+            <label style={{ fontSize: '0.8rem', fontWeight: 600 }}>{t('admin.settings_delivery_cities')}</label>
+            <input
+              type="text"
+              value={settings.deliveryCities.join(', ')}
+              onChange={e => setSettings({
+                ...settings,
+                deliveryCities: e.target.value.split(',').map(s => s.trim()).filter(Boolean)
+              })}
+            />
+          </div>
+
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
+            <label style={{ fontSize: '0.8rem', fontWeight: 600 }}>{t('admin.settings_opening_time')}</label>
+            <input
+              type="time"
+              value={settings.openingHours.start}
+              onChange={e => setSettings({
+                ...settings,
+                openingHours: { ...settings.openingHours, start: e.target.value }
+              })}
+            />
+          </div>
+
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
+            <label style={{ fontSize: '0.8rem', fontWeight: 600 }}>{t('admin.settings_closing_time')}</label>
+            <input
+              type="time"
+              value={settings.openingHours.end}
+              onChange={e => setSettings({
+                ...settings,
+                openingHours: { ...settings.openingHours, end: e.target.value }
+              })}
+            />
+          </div>
+        </div>
+      </div>
+
+      <div style={{ marginBottom: '4rem' }}>
+        <div className="admin-section-header">
             <h2 style={{ margin: 0 }}>{t('admin.closures_title')}</h2>
             <div style={{ display: 'flex', gap: '0.8rem', flexWrap: 'wrap' }}>
               <button onClick={addClosure} style={{ padding: '0.5rem 1rem' }}>{t('admin.btn_add_closure')}</button>

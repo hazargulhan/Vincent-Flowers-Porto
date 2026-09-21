@@ -1,6 +1,7 @@
 export interface BusinessSettings {
   minOrderTotal: number
   bouquetFeePercent: number
+  deliveryFee: number
   subscriptionPricing: {
     small: number
     medium: number
@@ -16,6 +17,7 @@ export interface BusinessSettings {
 export const DEFAULT_SETTINGS: BusinessSettings = {
   minOrderTotal: 15,
   bouquetFeePercent: 25,
+  deliveryFee: 10,
   subscriptionPricing: {
     small: 30,
     medium: 55,

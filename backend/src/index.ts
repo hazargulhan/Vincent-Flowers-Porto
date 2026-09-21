@@ -174,6 +174,7 @@ function safeSubject(value: unknown): string {
 export interface BusinessSettings {
   minOrderTotal: number
   bouquetFeePercent: number
+  deliveryFee: number
   subscriptionPricing: {
     small: number
     medium: number
@@ -189,6 +190,7 @@ export interface BusinessSettings {
 export const DEFAULT_SETTINGS: BusinessSettings = {
   minOrderTotal: 15,
   bouquetFeePercent: 25,
+  deliveryFee: 10,
   subscriptionPricing: {
     small: 30,
     medium: 55,
@@ -566,7 +568,9 @@ app.post('/api/order', async (c) => {
       .join('\n')
     detailsHtml = `
       <h3>Order Summary / Resumo do Pedido</h3>
-      <p><strong>Type:</strong> ${escapeHtml(mode)} | <strong>Option:</strong> ${escapeHtml(deliveryMode)}</p>
+      <p><strong>Type:</strong> ${escapeHtml(mode)} | <strong>Option:</strong> ${escapeHtml(deliveryMode)}${
+        deliveryMode === 'delivery' ? ` (Delivery Fee: €${(settings.deliveryFee ?? DEFAULT_SETTINGS.deliveryFee).toFixed(2)})` : ''
+      }</p>
       <pre style="background: #f4f4f4; padding: 10px; border-radius: 5px;">${orderDetails}</pre>
       <p><strong>Total: €${displayTotal.toFixed(2)}</strong></p>
     `
@@ -576,7 +580,9 @@ app.post('/api/order', async (c) => {
     detailsHtml = `
       <h3>Shop Selection / Seleção da Loja</h3>
       <p><strong>Item:</strong> ${escapeHtml(item.title)}</p>
-      <p><strong>Option:</strong> ${escapeHtml(deliveryMode)}</p>
+      <p><strong>Option:</strong> ${escapeHtml(deliveryMode)}${
+        deliveryMode === 'delivery' ? ` (Delivery Fee: €${(settings.deliveryFee ?? DEFAULT_SETTINGS.deliveryFee).toFixed(2)})` : ''
+      }</p>
       <p><strong>Total: €${displayTotal.toFixed(2)}</strong></p>
     `
   } else if (type === 'subscription') {
@@ -649,7 +655,7 @@ app.post('/api/order', async (c) => {
       <h3>Recipient Details / Detalhes do Destinatário</h3>
       <p>
         <strong>Name:</strong> ${escapeHtml(customer?.name || record.contactPerson) || 'N/A'}<br />
-        <strong>Email:</strong> ${escapeHtml(customer?.email)}<br />
+        ${customer?.email ? `<strong>Email:</strong> ${escapeHtml(customer.email)}<br />` : ''}
         <strong>Phone:</strong> ${escapeHtml(customer?.phone) || 'N/A'}<br />
         ${
           deliveryMode === 'delivery' || customer?.address
@@ -911,6 +917,7 @@ async function getSettings(env: Env): Promise<BusinessSettings> {
       return {
         minOrderTotal: typeof s.minOrderTotal === 'number' && s.minOrderTotal >= 0 ? s.minOrderTotal : DEFAULT_SETTINGS.minOrderTotal,
         bouquetFeePercent: typeof s.bouquetFeePercent === 'number' && s.bouquetFeePercent >= 0 ? s.bouquetFeePercent : DEFAULT_SETTINGS.bouquetFeePercent,
+        deliveryFee: typeof s.deliveryFee === 'number' && s.deliveryFee >= 0 ? s.deliveryFee : DEFAULT_SETTINGS.deliveryFee,
         subscriptionPricing: {
           small: typeof s.subscriptionPricing?.small === 'number' && s.subscriptionPricing.small > 0 ? s.subscriptionPricing.small : DEFAULT_SETTINGS.subscriptionPricing.small,
           medium: typeof s.subscriptionPricing?.medium === 'number' && s.subscriptionPricing.medium > 0 ? s.subscriptionPricing.medium : DEFAULT_SETTINGS.subscriptionPricing.medium,
@@ -950,6 +957,9 @@ app.post('/api/admin/settings', async (c) => {
       bouquetFeePercent: typeof body.bouquetFeePercent === 'number' && body.bouquetFeePercent >= 0
         ? round2(body.bouquetFeePercent)
         : current.bouquetFeePercent,
+      deliveryFee: typeof body.deliveryFee === 'number' && body.deliveryFee >= 0
+        ? round2(body.deliveryFee)
+        : current.deliveryFee,
       subscriptionPricing: {
         small: typeof body.subscriptionPricing?.small === 'number' && body.subscriptionPricing.small > 0
           ? round2(body.subscriptionPricing.small)
@@ -1047,7 +1057,7 @@ app.get('/api/admin/orders/:id', async (c) => {
   return c.json({ success: true, order })
 })
 
-app.post('/api/admin/orders/:id/status', async (c) => {
+app.on(['POST', 'PATCH'], '/api/admin/orders/:id/status', async (c) => {
   if (!(await requireAdmin(c))) {
     return c.json({ success: false, message: 'Unauthorized' }, 401)
   }

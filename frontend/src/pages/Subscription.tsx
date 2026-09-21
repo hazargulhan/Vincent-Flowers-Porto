@@ -14,7 +14,8 @@ export default function Subscription() {
   const [lightboxImg, setLightboxImg] = useState<string | null>(null);
   const [size, setSize] = useState<number | null>(null) // 1: Small, 2: Medium, 3: Large
   const [freq, setFreq] = useState<number | null>(null)
-  const [recipient, setRecipient] = useState({ name: '', email: '', phoneDialCode: '+351', phoneNumber: '', address: '' })
+  const [sameAsBuyer, setSameAsBuyer] = useState(false)
+  const [recipient, setRecipient] = useState({ name: '', phoneDialCode: '+351', phoneNumber: '', address: '' })
   const [buyer, setBuyer] = useState({ name: '', email: '', phoneDialCode: '+351', phoneNumber: '' })
   const [submitted, setSubmitted] = useState(false)
   const [submitError, setSubmitError] = useState('')
@@ -201,9 +202,10 @@ export default function Subscription() {
                 setSubmitting(true);
                 try {
                   const recipientPayload = {
-                    name: recipient.name,
-                    email: recipient.email,
-                    phone: `${recipient.phoneDialCode} ${recipient.phoneNumber}`.trim(),
+                    name: sameAsBuyer ? buyer.name : recipient.name,
+                    phone: sameAsBuyer
+                      ? `${buyer.phoneDialCode} ${buyer.phoneNumber}`.trim()
+                      : `${recipient.phoneDialCode} ${recipient.phoneNumber}`.trim(),
                     address: recipient.address,
                   }
                   const buyerPayload = {
@@ -268,31 +270,39 @@ export default function Subscription() {
             />
 
             <h3 style={{ marginTop: '2rem', marginBottom: '0.5rem' }}>{t('sub.recipient_section_title')}</h3>
-            <input
-              type="text"
-              placeholder={t('sub.form_name')}
-              aria-label={t('sub.form_name')}
-              autoComplete="name"
-              required
-              value={recipient.name}
-              onChange={e => setRecipient({...recipient, name: e.target.value})}
-            />
-            <input
-              type="email"
-              placeholder={t('sub.form_email')}
-              aria-label={t('sub.form_email')}
-              autoComplete="email"
-              required
-              value={recipient.email}
-              onChange={e => setRecipient({...recipient, email: e.target.value})}
-            />
-            <PhoneInput
-              dialCode={recipient.phoneDialCode}
-              number={recipient.phoneNumber}
-              onDialCodeChange={dc => setRecipient({...recipient, phoneDialCode: dc})}
-              onNumberChange={n => setRecipient({...recipient, phoneNumber: n})}
-              placeholder={t('sub.form_phone')}
-            />
+            <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1rem', cursor: 'pointer', fontSize: '0.9rem' }}>
+              <input
+                type="checkbox"
+                checked={sameAsBuyer}
+                onChange={e => setSameAsBuyer(e.target.checked)}
+              />
+              <span>{t('common.same_as_buyer')}</span>
+            </label>
+
+            {!sameAsBuyer ? (
+              <>
+                <input
+                  type="text"
+                  placeholder={t('sub.form_name')}
+                  aria-label={t('sub.form_name')}
+                  autoComplete="name"
+                  required
+                  value={recipient.name}
+                  onChange={e => setRecipient({...recipient, name: e.target.value})}
+                />
+                <PhoneInput
+                  dialCode={recipient.phoneDialCode}
+                  number={recipient.phoneNumber}
+                  onDialCodeChange={dc => setRecipient({...recipient, phoneDialCode: dc})}
+                  onNumberChange={n => setRecipient({...recipient, phoneNumber: n})}
+                  placeholder={t('sub.form_phone')}
+                />
+              </>
+            ) : (
+              <p style={{ fontSize: '0.85rem', color: '#666', margin: '0 0 1rem' }}>
+                {t('common.same_as_buyer_note')}
+              </p>
+            )}
             <textarea
               placeholder={t('sub.form_address')}
               aria-label={t('sub.form_address')}

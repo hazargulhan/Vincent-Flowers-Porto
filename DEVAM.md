@@ -82,6 +82,12 @@ Detaylı kurulum/çalıştırma bilgisi için `README.md`.
 - [x] **ADIM 21:** Otomatik Test Paketi (Vitest) entegre edildi (`pricing.test.ts`, `dates.test.ts`, `api.test.ts`, `locale.test.ts`). 29 adet birim testi yazıldı ve GitHub Actions CI/CD hattına `npm test` adımı olarak eklendi.
 - [x] **ADIM 22:** Portekizce İçin Ayrı URL Yapısı (/pt/...) ve Hreflang Çok Dilli SEO Altyapısı tamamlandı (`locale.ts`, `locale.test.ts`, `Seo.tsx`, `App.tsx`, `sitemap.xml`). Google için iki dilli indeksleme, canonical ve dil değiştirici entegre edildi.
 - [x] **ADIM 23:** Yapay Zekâ Aramaları (GEO / LLMs) & Zengin Yapısal Veri (Schema.org) tamamlandı (`llms.txt`, `robots.txt`, `Landing.tsx` zengin Florist/LocalBusiness şeması, `FAQ.tsx` FAQPage şeması). Perplexity, ChatGPT Search, Claude ve Google Gemini için doğrudan atıf ve harita optimizasyonu yapıldı.
+- [x] **ADIM 24:** Sipariş Akışı & Yönetim İyileştirmeleri (Kız Arkadaşın İstekleri):
+  1. Alıcı e-posta alanı tüm sipariş formlarından kaldırıldı (sürpriz hediyeler bozulmasın diye).
+  2. "Same as buyer" (Alıcı kendimim) seçeneği eklendi; siparişi kendine verenler için alıcı adı ve telefonu gizlenip otomatik dolduruluyor, yalnızca adres isteniyor.
+  3. Sabit 10 € teslimat ücreti eklendi; teslimat seçildiğinde hem buton altında hem toplam özetinde gösteriliyor. Admin panelinde "Business Settings" kartı üzerinden istenildiğinde değiştirilebiliyor.
+  4. Admin panelindeki "Network error" hatası düzeltildi (backend durum güncellemesi için hem `POST` hem `PATCH` destekliyor; siparişleri tarih, tutar ve duruma göre sıralama filtresi eklendi).
+
 
 ### Gelecek Oturumda Yapılabilecekler (Aday İşler)
 1. **Canlıda Uçtan Uca Sipariş Doğrulaması:**

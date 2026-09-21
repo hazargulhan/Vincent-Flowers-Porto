@@ -17,12 +17,13 @@ Siz teknik biri değilsiniz. Bu yüzden:
 
 ---
 
-## ŞU AN DURUM (PORTEKİZCE AYRI URL VE ÇOK DİLLİ SEO TAMAMLANDI 🎉)
+## ŞU AN DURUM (SİPARİŞ AKIŞI VE YÖNETİM GÜNCELLEMELERİ TAMAMLANDI 🎉)
 
-Son yapılan iyileştirmeler:
-- **Portekizce İçin Ayrı URL Yapısı (/pt/...):** Portekizce diline geçildiğinde sayfalar artık kendine özel URL'lere (`/pt`, `/pt/shop`, `/pt/builder`, `/pt/events`, `/pt/privacy` vb.) sahip. Menüdeki dil değiştiriciye basıldığında bulunulan sayfa anında karşılığına geçiyor.
-- **Google Çok Dilli SEO & Hreflang Entegrasyonu:** Google'ın Porto'daki yerel aramalarda Portekizce sayfaları, uluslararası aramalarda İngilizce sayfaları çıkarması için çift yönlü `hreflang` etiketleri ve `sitemap.xml` haritası eklendi.
-- **Otomatik Test Paketi (Vitest):** Fiyatlandırma, tarih ve URL yönlendirme kuralları için 29 adet birim testi yazıldı ve her güncellemede otomatik çalışacak şekilde bağlandı.
+Son yapılan iyileştirmeler (Kız arkadaşınızın notları):
+- **Alıcı E-Posta Alanı Kaldırıldı:** Sürpriz hediyelerin bozulmaması için alıcının e-posta adresi artık hiçbir sipariş formunda istenmiyor, e-posta sadece siparişi veren kişiye gidiyor.
+- **"Same as buyer" (Alıcı kendimim) Onay Kutusu:** Kendine çiçek siparişi verenler için tek tıkla alıcı adını ve telefonunu gizleyip eşleyen kutucuk eklendi. Yalnızca teslimat adresi girmeleri yeterli.
+- **10 € Sabit Teslimat Ücreti:** Teslimat seçeneği tıklandığında hem buton altında hem de sepet özetinde 10 € teslimat ücreti şeffafça gösteriliyor ve toplam fiyata ekleniyor. Bu ücret Admin panelindeki "Business Settings" kartından istenildiği zaman değiştirilebilir.
+- **Admin Paneli Sipariş Yönetimi ve Sıralama:** Siparişlerin durumunu güncellerken çıkan "Network error" hatası düzeltildi; siparişleri tarihe, tutara ve duruma göre sıralama filtresi eklendi.
 
 ### Tamamlanan İşler
 - [x] Fotoğraf depolama kovası (`vincent-flowers-media`) oluşturuldu.
@@ -47,6 +48,7 @@ Son yapılan iyileştirmeler:
 - [x] **Otomatik Test Paketi (Vitest):** Fiyatlandırma, tarih ve URL yardımcıları için 29 adet otomatik test yazıldı.
 - [x] **Portekizce Ayrı URL Yapısı (/pt/...) & Hreflang SEO:** Google yerel aramaları için iki dilli indeksleme tamamlandı.
 - [x] **Yapay Zekâ Aramaları (GEO / LLMs) & Zengin Yapısal Veri:** `llms.txt` rehber dosyası oluşturuldu, Google ve yapay zekâ botları (ChatGPT, Perplexity, Gemini) için zengin çiçekçi ve SSS şemaları eklendi.
+- [x] **Sipariş Formları ve Yönetim Güncellemeleri:** Alıcı e-postası kaldırıldı, 'Same as buyer' kutucuğu eklendi, 10 € teslimat ücreti eklendi, admin sipariş durum hatası ve sıralama filtresi tamamlandı.
 
 ---
 

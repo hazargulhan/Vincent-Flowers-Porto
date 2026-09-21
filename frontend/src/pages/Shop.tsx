@@ -19,7 +19,8 @@ export default function Shop() {
   const [sortBy, setSortBy] = useState('none')
   const [selectedBouquet, setSelectedBouquet] = useState<{title: string, price: number} | null>(null)
   const [deliveryMode, setDeliveryMode] = useState<'delivery' | 'pickup'>('delivery')
-  const [recipient, setRecipient] = useState({ name: '', email: '', phoneDialCode: '+351', phoneNumber: '', address: '', pickupDate: '', pickupSlot: 'Morning (10:00 - 13:00)', city: 'Porto' })
+  const [sameAsBuyer, setSameAsBuyer] = useState(false)
+  const [recipient, setRecipient] = useState({ name: '', phoneDialCode: '+351', phoneNumber: '', address: '', pickupDate: '', pickupSlot: 'Morning (10:00 - 13:00)', city: 'Porto' })
   const [buyer, setBuyer] = useState({ name: '', email: '', phoneDialCode: '+351', phoneNumber: '' })
   const [submitted, setSubmitted] = useState(false)
   const [submitError, setSubmitError] = useState('')
@@ -76,11 +77,12 @@ export default function Shop() {
 
     try {
       const recipientPayload = {
-        name: recipient.name,
-        email: recipient.email,
-        phone: `${recipient.phoneDialCode} ${recipient.phoneNumber}`.trim(),
-        address: recipient.address,
-        city: recipient.city,
+        name: sameAsBuyer ? buyer.name : recipient.name,
+        phone: sameAsBuyer
+          ? `${buyer.phoneDialCode} ${buyer.phoneNumber}`.trim()
+          : `${recipient.phoneDialCode} ${recipient.phoneNumber}`.trim(),
+        address: deliveryMode === 'delivery' ? recipient.address : '',
+        city: deliveryMode === 'delivery' ? recipient.city : '',
         pickupTime: recipient.pickupDate ? `${recipient.pickupDate} - ${recipient.pickupSlot}` : ''
       }
       const buyerPayload = {
@@ -207,7 +209,9 @@ export default function Shop() {
           </div>
           <div style={{ minHeight: '60px', marginBottom: '1rem', transition: 'opacity 0.3s ease', opacity: 1, color: '#666', fontSize: '0.9rem' }}>
              {deliveryMode === 'delivery' && (
-                <span style={{ animation: 'fadeIn 0.5s' }}>{t('shop.delivery_info')}</span>
+                <div style={{ animation: 'fadeIn 0.5s' }}>
+                  <span>{t('shop.delivery_info', { fee: (settings.deliveryFee ?? 10).toFixed(2) })}</span>
+                </div>
              )}
              {deliveryMode === 'pickup' && (
                 <span style={{ animation: 'fadeIn 0.5s' }}>{t('shop.pickup_info')}</span>
@@ -244,31 +248,39 @@ export default function Shop() {
             />
 
             <h3 style={{ marginTop: '2rem', marginBottom: '0.5rem' }}>{t('shop.recipient_section_title')}</h3>
-            <input
-              type="text"
-              placeholder={t('shop.form_name')}
-              aria-label={t('shop.form_name')}
-              autoComplete="name"
-              required
-              value={recipient.name}
-              onChange={e => setRecipient({...recipient, name: e.target.value})}
-            />
-            <input
-              type="email"
-              placeholder={t('shop.form_email')}
-              aria-label={t('shop.form_email')}
-              autoComplete="email"
-              required
-              value={recipient.email}
-              onChange={e => setRecipient({...recipient, email: e.target.value})}
-            />
-            <PhoneInput
-              dialCode={recipient.phoneDialCode}
-              number={recipient.phoneNumber}
-              onDialCodeChange={dc => setRecipient({...recipient, phoneDialCode: dc})}
-              onNumberChange={n => setRecipient({...recipient, phoneNumber: n})}
-              placeholder={t('shop.form_phone')}
-            />
+            <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1rem', cursor: 'pointer', fontSize: '0.9rem' }}>
+              <input
+                type="checkbox"
+                checked={sameAsBuyer}
+                onChange={e => setSameAsBuyer(e.target.checked)}
+              />
+              <span>{t('common.same_as_buyer')}</span>
+            </label>
+
+            {!sameAsBuyer ? (
+              <>
+                <input
+                  type="text"
+                  placeholder={t('shop.form_name')}
+                  aria-label={t('shop.form_name')}
+                  autoComplete="name"
+                  required
+                  value={recipient.name}
+                  onChange={e => setRecipient({...recipient, name: e.target.value})}
+                />
+                <PhoneInput
+                  dialCode={recipient.phoneDialCode}
+                  number={recipient.phoneNumber}
+                  onDialCodeChange={dc => setRecipient({...recipient, phoneDialCode: dc})}
+                  onNumberChange={n => setRecipient({...recipient, phoneNumber: n})}
+                  placeholder={t('shop.form_phone')}
+                />
+              </>
+            ) : (
+              <p style={{ fontSize: '0.85rem', color: '#666', margin: '0 0 1rem' }}>
+                {t('common.same_as_buyer_note')}
+              </p>
+            )}
 
             {deliveryMode === 'delivery' && (
               <>
@@ -320,7 +332,14 @@ export default function Shop() {
             {submitError && <div style={{ color: 'red', marginTop: '0.5rem' }}>{submitError}</div>}
 
             <div style={{ marginTop: '2rem', padding: '1.5rem', border: '1px solid var(--border-color)', background: 'transparent', color: 'var(--text-color)', textAlign: 'center' }}>
-                <h3 style={{ margin: 0, paddingBottom: '1rem', borderBottom: '1px solid var(--border-color)' }}>{t('shop.final_total')}: €{selectedBouquet?.price.toFixed(2) || '0.00'}</h3>
+                <h3 style={{ margin: 0, paddingBottom: '1rem', borderBottom: '1px solid var(--border-color)' }}>
+                  {t('shop.final_total')}: €{selectedBouquet?.price.toFixed(2) || '0.00'}
+                  {deliveryMode === 'delivery' && (
+                    <span style={{ display: 'block', fontSize: '0.85rem', fontWeight: 'normal', color: '#666', marginTop: '0.4rem' }}>
+                      + €{(settings.deliveryFee ?? 10).toFixed(2)} ({t('common.fixed_delivery_fee', { fee: (settings.deliveryFee ?? 10).toFixed(2) })})
+                    </span>
+                  )}
+                </h3>
                 <button type="submit" disabled={submitting} style={{ width: '100%', padding: '1rem', marginTop: '1rem', background: 'transparent', color: 'var(--text-color)', fontWeight: 'bold', border: '1px solid var(--text-color)' }}>
                   {submitting
                     ? t('common.sending')

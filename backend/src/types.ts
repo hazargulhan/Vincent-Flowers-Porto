@@ -9,7 +9,7 @@ export interface ClosurePeriod {
 /** The person the flowers are delivered/handed to (payload key kept as "customer" for history). */
 export interface RecipientInfo {
   name: string
-  email: string
+  email?: string
   phone: string
   address?: string
   city?: string
