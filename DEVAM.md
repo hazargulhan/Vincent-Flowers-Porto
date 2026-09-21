@@ -4,7 +4,7 @@
 > ilk tamamlanmamış adımdan devam et. Başka bir şey sorma, plan yapmadan önce bu dosyayı
 > baştan sona oku.
 
-**Son güncelleme:** 2026-09-03
+**Son güncelleme:** 2026-09-21
 
 ---
 
@@ -87,6 +87,8 @@ Detaylı kurulum/çalıştırma bilgisi için `README.md`.
   2. "Same as buyer" (Alıcı kendimim) seçeneği eklendi; siparişi kendine verenler için alıcı adı ve telefonu gizlenip otomatik dolduruluyor, yalnızca adres isteniyor.
   3. Sabit 10 € teslimat ücreti eklendi; teslimat seçildiğinde hem buton altında hem toplam özetinde gösteriliyor. Admin panelinde "Business Settings" kartı üzerinden istenildiğinde değiştirilebiliyor.
   4. Admin panelindeki "Network error" hatası düzeltildi (backend durum güncellemesi için hem `POST` hem `PATCH` destekliyor; siparişleri tarih, tutar ve duruma göre sıralama filtresi eklendi).
+  5. Onay kutusu (checkbox) görsel tik işareti düzeltildi (CSS `appearance: none` kuralı ayrıştırıldı, koyu tema uyumlu SVG tik ikonu eklendi).
+
 
 
 ### Gelecek Oturumda Yapılabilecekler (Aday İşler)
