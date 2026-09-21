@@ -382,7 +382,7 @@ export default function Home() {
                 />
 
                 <h3 style={{ marginTop: '2rem', marginBottom: '0.5rem' }}>{t('home.recipient_section_title')}</h3>
-                <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1rem', cursor: 'pointer', fontSize: '0.9rem' }}>
+                <label style={{ display: 'flex', alignItems: 'center', gap: '0.65rem', marginBottom: '1rem', cursor: 'pointer', fontSize: '0.9rem', userSelect: 'none' }}>
                   <input
                     type="checkbox"
                     checked={sameAsBuyer}
