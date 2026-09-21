@@ -67,6 +67,8 @@ export default function Home() {
   const allVariants = useMemo(() => groups.flatMap(g => g.variants), [groups])
   const baseTotal = calculateBaseTotal(allVariants)
   const currentTotal = calculateCustomBouquetTotal(baseTotal, mode, settings.bouquetFeePercent ?? 25)
+  const deliveryFee = deliveryMode === 'delivery' ? (settings.deliveryFee ?? 10) : 0
+  const finalTotal = currentTotal + deliveryFee
   const minOrder = settings.minOrderTotal ?? 15
 
   const validateTime = (dateStr: string) => {
@@ -127,7 +129,7 @@ export default function Home() {
           customer: recipientPayload,
           buyer: buyerPayload,
           deliveryDate: recipient.pickupDate,
-          total: currentTotal
+          total: finalTotal
         })
       })
       const data = await res.json().catch(() => null)
@@ -203,9 +205,9 @@ export default function Home() {
                  const itemsInThisRow = Math.min(ROW_SIZE, compositeStems.length - row * ROW_SIZE);
 
                  const idx = indexInRow - (itemsInThisRow - 1) / 2;
-                 const angle = idx * 10;
-                 const tx = idx * 25;
-                 const ty = Math.abs(idx) * 8 + (row * 60);
+                 const angle = idx * 8;
+                 const tx = idx * 22;
+                 const ty = Math.abs(idx) * 6 + (row * 20);
 
                  return (
                    <img
@@ -216,9 +218,9 @@ export default function Home() {
                       style={{
                         transform: `translateX(${tx}px) translateY(${ty}px) rotate(${angle}deg)`,
                         zIndex: i,
-                        height: `${75 + (i % 3) * 5}%`,
+                        height: `${74 + (i % 3) * 3}%`,
                         position: 'absolute',
-                        bottom: '5%', // Modest lift for desktop, overridden for mobile in index.css
+                        bottom: '4%',
                         left: '50%',
                         marginLeft: '-25%', // Center it manually
                         width: '50%',
@@ -465,20 +467,32 @@ export default function Home() {
                 {timeError && <div style={{ color: 'red', marginTop: '0.5rem' }}>{timeError}</div>}
                 {submitError && <div style={{ color: 'red', marginTop: '0.5rem' }}>{submitError}</div>}
 
-                <div style={{ marginTop: '2rem', padding: '1.5rem', border: '1px solid var(--border-color)', background: 'transparent', color: 'var(--text-color)', textAlign: 'center' }}>
-                    <h3 style={{ margin: 0, paddingBottom: '1rem', borderBottom: '1px solid var(--border-color)' }}>
-                      {t('home.final_total')}: €{currentTotal.toFixed(2)}
-                      {deliveryMode === 'delivery' && (
-                        <span style={{ display: 'block', fontSize: '0.85rem', fontWeight: 'normal', color: '#666', marginTop: '0.4rem' }}>
-                          + €{(settings.deliveryFee ?? 10).toFixed(2)} ({t('common.fixed_delivery_fee', { fee: (settings.deliveryFee ?? 10).toFixed(2) })})
-                        </span>
-                      )}
+                <div style={{ marginTop: '2rem', padding: '1.5rem', border: '1px solid var(--border-color)', background: 'transparent', color: 'var(--text-color)' }}>
+                  {deliveryMode === 'delivery' ? (
+                    <div style={{ paddingBottom: '1rem', borderBottom: '1px solid var(--border-color)' }}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', color: '#777', fontSize: '0.95rem', marginBottom: '0.35rem' }}>
+                        <span>{t('common.items_total')}:</span>
+                        <span>€{currentTotal.toFixed(2)}</span>
+                      </div>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', color: '#777', fontSize: '0.95rem', marginBottom: '0.6rem' }}>
+                        <span>{t('common.delivery_fee_label')}:</span>
+                        <span>€{deliveryFee.toFixed(2)}</span>
+                      </div>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '1.25rem', fontWeight: 'bold', color: 'var(--text-color)', paddingTop: '0.5rem', borderTop: '1px dashed var(--border-color)' }}>
+                        <span>{t('home.final_total')}:</span>
+                        <span>€{finalTotal.toFixed(2)}</span>
+                      </div>
+                    </div>
+                  ) : (
+                    <h3 style={{ margin: 0, paddingBottom: '1rem', borderBottom: '1px solid var(--border-color)', textAlign: 'center', fontSize: '1.25rem', fontWeight: 'bold' }}>
+                      {t('home.final_total')}: €{finalTotal.toFixed(2)}
                     </h3>
-                    <button type="submit" disabled={submitting} style={{ width: '100%', padding: '1rem', marginTop: '1rem', background: 'transparent', color: 'var(--text-color)', fontWeight: 'bold', border: '1px solid var(--text-color)' }}>
-                      {submitting
-                        ? t('common.sending')
-                        : deliveryMode === 'delivery' ? t('home.btn_delivery') : t('home.btn_pickup')}
-                    </button>
+                  )}
+                  <button type="submit" disabled={submitting} style={{ width: '100%', padding: '1rem', marginTop: '1rem', background: 'transparent', color: 'var(--text-color)', fontWeight: 'bold', border: '1px solid var(--text-color)', cursor: 'pointer' }}>
+                    {submitting
+                      ? t('common.sending')
+                      : deliveryMode === 'delivery' ? t('home.btn_delivery') : t('home.btn_pickup')}
+                  </button>
                 </div>
               </form>
 

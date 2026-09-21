@@ -9,7 +9,9 @@
     "same_as_buyer": "Os dados do destinatário são os mesmos do comprador",
     "same_as_buyer_note": "A utilizar os dados de contacto do comprador.",
     "fixed_delivery_fee": "Taxa fixa de entrega: €{{fee}}",
-    "delivery_fee": "Entrega: €{{fee}}"
+    "delivery_fee": "Entrega: €{{fee}}",
+    "items_total": "Total",
+    "delivery_fee_label": "Taxa de entrega"
   },
   "seo": {
     "site_name": "Vincent Flowers Porto",

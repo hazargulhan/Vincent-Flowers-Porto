@@ -65,6 +65,10 @@ export default function Shop() {
     return ""
   }
 
+  const itemPrice = selectedBouquet?.price || 0
+  const deliveryFee = deliveryMode === 'delivery' ? (settings.deliveryFee ?? 10) : 0
+  const finalTotal = itemPrice + deliveryFee
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     if (submitting) return
@@ -101,7 +105,7 @@ export default function Shop() {
           customer: recipientPayload,
           buyer: buyerPayload,
           deliveryDate: recipient.pickupDate,
-          total: selectedBouquet.price,
+          total: finalTotal,
           configuration: [selectedBouquet]
         })
       })
@@ -331,20 +335,32 @@ export default function Shop() {
             {timeError && <div style={{ color: 'red', marginTop: '0.5rem' }}>{timeError}</div>}
             {submitError && <div style={{ color: 'red', marginTop: '0.5rem' }}>{submitError}</div>}
 
-            <div style={{ marginTop: '2rem', padding: '1.5rem', border: '1px solid var(--border-color)', background: 'transparent', color: 'var(--text-color)', textAlign: 'center' }}>
-                <h3 style={{ margin: 0, paddingBottom: '1rem', borderBottom: '1px solid var(--border-color)' }}>
-                  {t('shop.final_total')}: €{selectedBouquet?.price.toFixed(2) || '0.00'}
-                  {deliveryMode === 'delivery' && (
-                    <span style={{ display: 'block', fontSize: '0.85rem', fontWeight: 'normal', color: '#666', marginTop: '0.4rem' }}>
-                      + €{(settings.deliveryFee ?? 10).toFixed(2)} ({t('common.fixed_delivery_fee', { fee: (settings.deliveryFee ?? 10).toFixed(2) })})
-                    </span>
-                  )}
+            <div style={{ marginTop: '2rem', padding: '1.5rem', border: '1px solid var(--border-color)', background: 'transparent', color: 'var(--text-color)' }}>
+              {deliveryMode === 'delivery' ? (
+                <div style={{ paddingBottom: '1rem', borderBottom: '1px solid var(--border-color)' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', color: '#777', fontSize: '0.95rem', marginBottom: '0.35rem' }}>
+                    <span>{t('common.items_total')}:</span>
+                    <span>€{itemPrice.toFixed(2)}</span>
+                  </div>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', color: '#777', fontSize: '0.95rem', marginBottom: '0.6rem' }}>
+                    <span>{t('common.delivery_fee_label')}:</span>
+                    <span>€{deliveryFee.toFixed(2)}</span>
+                  </div>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '1.25rem', fontWeight: 'bold', color: 'var(--text-color)', paddingTop: '0.5rem', borderTop: '1px dashed var(--border-color)' }}>
+                    <span>{t('shop.final_total')}:</span>
+                    <span>€{finalTotal.toFixed(2)}</span>
+                  </div>
+                </div>
+              ) : (
+                <h3 style={{ margin: 0, paddingBottom: '1rem', borderBottom: '1px solid var(--border-color)', textAlign: 'center', fontSize: '1.25rem', fontWeight: 'bold' }}>
+                  {t('shop.final_total')}: €{finalTotal.toFixed(2)}
                 </h3>
-                <button type="submit" disabled={submitting} style={{ width: '100%', padding: '1rem', marginTop: '1rem', background: 'transparent', color: 'var(--text-color)', fontWeight: 'bold', border: '1px solid var(--text-color)' }}>
-                  {submitting
-                    ? t('common.sending')
-                    : deliveryMode === 'delivery' ? t('shop.btn_delivery') : t('shop.btn_pickup')}
-                </button>
+              )}
+              <button type="submit" disabled={submitting} style={{ width: '100%', padding: '1rem', marginTop: '1rem', background: 'transparent', color: 'var(--text-color)', fontWeight: 'bold', border: '1px solid var(--text-color)', cursor: 'pointer' }}>
+                {submitting
+                  ? t('common.sending')
+                  : deliveryMode === 'delivery' ? t('shop.btn_delivery') : t('shop.btn_pickup')}
+              </button>
             </div>
           </form>
         </div>

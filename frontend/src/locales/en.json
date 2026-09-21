@@ -9,7 +9,9 @@
     "same_as_buyer": "Recipient info is the same as buyer",
     "same_as_buyer_note": "Using buyer's contact information.",
     "fixed_delivery_fee": "Fixed delivery fee: €{{fee}}",
-    "delivery_fee": "Delivery: €{{fee}}"
+    "delivery_fee": "Delivery: €{{fee}}",
+    "items_total": "Total",
+    "delivery_fee_label": "Delivery fee"
   },
   "seo": {
     "site_name": "Vincent Flowers Porto",

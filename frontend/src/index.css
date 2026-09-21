@@ -655,8 +655,9 @@ input:focus, select:focus, textarea:focus {
 
 .composite-container {
   width: 100%;
-  aspect-ratio: 16/10;
-  max-height: 40vh;
+  aspect-ratio: 4/3;
+  min-height: 270px;
+  max-height: 350px;
   background: transparent;
   position: relative;
   display: flex;
@@ -668,24 +669,27 @@ input:focus, select:focus, textarea:focus {
 @media (min-width: 768px) {
   .composite-container {
     aspect-ratio: 1/1;
-    max-height: none;
+    min-height: 380px;
+    max-height: 520px;
   }
 }
 
 .composite-layer {
   position: absolute;
-  height: 90%;
+  height: 80%;
   object-fit: contain;
-  bottom: 5%;
+  bottom: 4%;
   transform-origin: bottom center;
-  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transition: all 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 @media (max-width: 767px) {
   .composite-layer {
-    bottom: 12% !important; /* Lowered from 35% to prevent overflow */
+    bottom: 2% !important;
+    height: 78% !important;
   }
 }
+
 
 
 
