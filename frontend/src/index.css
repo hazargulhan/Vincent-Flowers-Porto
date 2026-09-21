@@ -669,8 +669,8 @@ input:focus, select:focus, textarea:focus {
 @media (min-width: 768px) {
   .composite-container {
     aspect-ratio: 1/1;
-    min-height: 380px;
-    max-height: 520px;
+    min-height: 420px;
+    max-height: 560px;
   }
 }
 
@@ -679,8 +679,12 @@ input:focus, select:focus, textarea:focus {
   height: 80%;
   object-fit: contain;
   bottom: 4%;
+  left: 50%;
+  margin-left: -25%;
+  width: 50%;
   transform-origin: bottom center;
   transition: all 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transform: translateX(var(--tx-d, 0px)) translateY(var(--ty-d, 0px)) rotate(var(--angle-d, 0deg));
 }
 
 @media (max-width: 767px) {
@@ -693,6 +697,7 @@ input:focus, select:focus, textarea:focus {
   .composite-layer {
     bottom: 3% !important;
     height: 76% !important;
+    transform: translateX(var(--tx-m, 0px)) translateY(var(--ty-m, 0px)) rotate(var(--angle-m, 0deg)) !important;
   }
 }
 

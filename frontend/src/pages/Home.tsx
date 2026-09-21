@@ -204,35 +204,51 @@ export default function Home() {
                   const indexInRow = i % ROW_SIZE;
                   const itemsInThisRow = Math.min(ROW_SIZE, compositeStems.length - row * ROW_SIZE);
                   const totalRows = Math.max(1, Math.ceil(compositeStems.length / ROW_SIZE));
-                  const rowStep = totalRows >= 5 ? 26 : totalRows === 4 ? 32 : totalRows === 3 ? 34 : 36;
-                  const rowY = (row - (totalRows - 1) / 2) * rowStep;
-
                   const idx = indexInRow - (itemsInThisRow - 1) / 2;
-                  const stagger = (itemsInThisRow >= 4) ? ((row % 4 === 1) ? 10 : (row % 4 === 3) ? -10 : 0) : 0;
-                  const tx = idx * 28 + stagger;
-                  const angle = (idx * 8.5) + (stagger * 0.25);
-                  const arch = Math.abs(idx) * 6;
-                  const ty = arch + rowY;
 
-                 return (
-                   <img
-                      key={`${stem.name}-${stem.variant.color}-${i}`}
-                      src={mediaUrl(stem.image)}
-                      alt=""
-                      className="composite-layer"
-                      style={{
-                        transform: `translateX(${tx}px) translateY(${ty}px) rotate(${angle}deg)`,
-                        zIndex: i,
-                        height: `${74 + (i % 3) * 3}%`,
-                        position: 'absolute',
-                        bottom: '4%',
-                        left: '50%',
-                        marginLeft: '-25%', // Center it manually
-                        width: '50%',
-                        objectFit: 'contain'
-                      }}
-                    />
-                 )
+                  // Mobile layout calculations (tuned for ~360-400px container)
+                  const rowStepMobile = totalRows >= 5 ? 26 : totalRows === 4 ? 32 : totalRows === 3 ? 34 : 36;
+                  const rowYMobile = (row - (totalRows - 1) / 2) * rowStepMobile;
+                  const staggerMobile = (itemsInThisRow >= 4) ? ((row % 4 === 1) ? 10 : (row % 4 === 3) ? -10 : 0) : 0;
+                  const txMobile = idx * 28 + staggerMobile;
+                  const angleMobile = (idx * 8.5) + (staggerMobile * 0.25);
+                  const archMobile = Math.abs(idx) * 6;
+                  const tyMobile = archMobile + rowYMobile;
+
+                  // Desktop layout calculations (proportional to wider ~520px container)
+                  const rowStepDesktop = totalRows >= 5 ? 38 : totalRows === 4 ? 46 : totalRows === 3 ? 50 : 54;
+                  const rowYDesktop = (row - (totalRows - 1) / 2) * rowStepDesktop;
+                  const staggerDesktop = (itemsInThisRow >= 4) ? ((row % 4 === 1) ? 18 : (row % 4 === 3) ? -18 : 0) : 0;
+                  const txDesktop = idx * 48 + staggerDesktop;
+                  const angleDesktop = (idx * 9) + (staggerDesktop * 0.15);
+                  const archDesktop = Math.abs(idx) * 7;
+                  const tyDesktop = archDesktop + rowYDesktop;
+
+                  return (
+                    <img
+                       key={`${stem.name}-${stem.variant.color}-${i}`}
+                       src={mediaUrl(stem.image)}
+                       alt=""
+                       className="composite-layer"
+                       style={{
+                         '--tx-m': `${txMobile}px`,
+                         '--ty-m': `${tyMobile}px`,
+                         '--angle-m': `${angleMobile}deg`,
+                         '--tx-d': `${txDesktop}px`,
+                         '--ty-d': `${tyDesktop}px`,
+                         '--angle-d': `${angleDesktop}deg`,
+                         transform: `translateX(var(--tx-d, ${txDesktop}px)) translateY(var(--ty-d, ${tyDesktop}px)) rotate(var(--angle-d, ${angleDesktop}deg))`,
+                         zIndex: i,
+                         height: `${74 + (i % 3) * 3}%`,
+                         position: 'absolute',
+                         bottom: '4%',
+                         left: '50%',
+                         marginLeft: '-25%', // Center it manually
+                         width: '50%',
+                         objectFit: 'contain'
+                       } as React.CSSProperties}
+                     />
+                  )
                })
              ) : (
                 <div style={{ color: '#aaa', padding: '2rem', textAlign: 'center', position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: '100%' }}>
