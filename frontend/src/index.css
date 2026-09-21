@@ -684,9 +684,15 @@ input:focus, select:focus, textarea:focus {
 }
 
 @media (max-width: 767px) {
+  .composite-container {
+    aspect-ratio: 4/3;
+    min-height: 280px;
+    max-height: 380px;
+  }
+
   .composite-layer {
-    bottom: 2% !important;
-    height: 78% !important;
+    bottom: 3% !important;
+    height: 76% !important;
   }
 }
 

@@ -199,15 +199,20 @@ export default function Home() {
            <div className="composite-container" style={{ position: 'relative' }}>
              {compositeStems.length > 0 ? (
                compositeStems.map((stem, i) => {
-                 const ROW_SIZE = 6;
-                 const row = Math.floor(i / ROW_SIZE);
-                 const indexInRow = i % ROW_SIZE;
-                 const itemsInThisRow = Math.min(ROW_SIZE, compositeStems.length - row * ROW_SIZE);
+                  const ROW_SIZE = 6;
+                  const row = Math.floor(i / ROW_SIZE);
+                  const indexInRow = i % ROW_SIZE;
+                  const itemsInThisRow = Math.min(ROW_SIZE, compositeStems.length - row * ROW_SIZE);
+                  const totalRows = Math.max(1, Math.ceil(compositeStems.length / ROW_SIZE));
+                  const rowStep = totalRows >= 5 ? 26 : totalRows === 4 ? 32 : totalRows === 3 ? 34 : 36;
+                  const rowY = (row - (totalRows - 1) / 2) * rowStep;
 
-                 const idx = indexInRow - (itemsInThisRow - 1) / 2;
-                 const angle = idx * 8;
-                 const tx = idx * 22;
-                 const ty = Math.abs(idx) * 6 + (row * 20);
+                  const idx = indexInRow - (itemsInThisRow - 1) / 2;
+                  const stagger = (itemsInThisRow >= 4) ? ((row % 4 === 1) ? 10 : (row % 4 === 3) ? -10 : 0) : 0;
+                  const tx = idx * 28 + stagger;
+                  const angle = (idx * 8.5) + (stagger * 0.25);
+                  const arch = Math.abs(idx) * 6;
+                  const ty = arch + rowY;
 
                  return (
                    <img
