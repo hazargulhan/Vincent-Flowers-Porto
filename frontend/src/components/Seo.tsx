@@ -3,7 +3,8 @@ import { useLocation } from 'react-router-dom'
 import { isPtPath, getCleanPath } from '../lib/locale'
 
 const SITE_URL = 'https://vincentflowersporto.com'
-const DEFAULT_IMAGE = `${SITE_URL}/images/logo.webp`
+const DEFAULT_IMAGE = `${SITE_URL}/images/About/IMG_5663.webp`
+
 
 interface SeoProps {
   title: string

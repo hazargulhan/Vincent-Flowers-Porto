@@ -24,6 +24,9 @@ Son yapılan iyileştirmeler (Kız arkadaşınızın notları):
 - **"Same as buyer" (Alıcı kendimim) Onay Kutusu:** Kendine çiçek siparişi verenler için tek tıkla alıcı adını ve telefonunu gizleyip eşleyen kutucuk eklendi. Yalnızca teslimat adresi girmeleri yeterli.
 - **10 € Sabit Teslimat Ücreti:** Teslimat seçeneği tıklandığında hem buton altında hem de sepet özetinde 10 € teslimat ücreti şeffafça gösteriliyor ve toplam fiyata ekleniyor. Bu ücret Admin panelindeki "Business Settings" kartından istenildiği zaman değiştirilebilir.
 - **Admin Paneli Sipariş Yönetimi ve Sıralama:** Siparişlerin durumunu güncellerken çıkan "Network error" hatası düzeltildi; siparişleri tarihe, tutara ve duruma göre sıralama filtresi eklendi.
+- **Sunucu Sipariş Onayı (Alıcı/Sipariş Veren E-Postası):** Alıcı e-postası kaldırıldığında sunucunun siparişleri reddetme sorunu giderildi; sipariş verenin e-posta adresiyle siparişler başarıyla kabul ediliyor.
+- **10 € Teslimat Ücreti Toplamlara Dahil Edildi:** Teslimat ücreti sunucuda `total` ve `serverTotal` değerlerine otomatik eklendi; hem e-postada hem admin sipariş özetinde doğru genel toplam görünüyor.
+- **Google Arama Sonucu Görseli:** Google arama sonuçlarında sağda çıkan küçük görsel için logo yerine ana sayfadaki popüler çiçek buketi fotoğrafı (`IMG_5663.webp`) tanımlandı.
 
 ### Tamamlanan İşler
 - [x] Fotoğraf depolama kovası (`vincent-flowers-media`) oluşturuldu.

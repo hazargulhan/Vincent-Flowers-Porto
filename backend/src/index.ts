@@ -466,7 +466,10 @@ app.post('/api/order', async (c) => {
   if (!ORDER_TYPES.includes(body.type)) {
     return c.json({ success: false, message: 'Unknown order type.' }, 400)
   }
-  if (!body.customer || !body.customer.email) {
+  // Home/Shop/Subscription no longer ask for the recipient's email (it would spoil a
+  // surprise), so the buyer's email is the contact there. Events/B2B/footer still send
+  // it on `customer`. Either one is enough.
+  if (!body.customer || !(body.customer.email || body.buyer?.email)) {
     return c.json({ success: false, message: 'Missing customer information.' }, 400)
   }
 
@@ -529,6 +532,16 @@ app.post('/api/order', async (c) => {
 
   const createdAt = Date.now()
   const { id, ref } = makeOrderIds(createdAt)
+
+  // Delivery fee applies to make-your-own and shop when deliveryMode === 'delivery'
+  const deliveryFee =
+    (body.type === 'make-your-own' || body.type === 'shop') && body.deliveryMode === 'delivery'
+      ? round2(settings.deliveryFee ?? DEFAULT_SETTINGS.deliveryFee)
+      : 0
+
+  const itemsTotal = priced !== null ? priced.total : round2(body.total || 0)
+  const computedTotal = round2(itemsTotal + deliveryFee)
+
   const record: StoredOrder = {
     ...sanitizeOrderBody(body),
     id,
@@ -536,7 +549,7 @@ app.post('/api/order', async (c) => {
     createdAt,
     status: 'new',
     emailStatus: 'pending',
-    serverTotal: priced?.total,
+    serverTotal: computedTotal,
   }
 
   // Persist before sending: the stored record is the durable artefact and the email
@@ -544,11 +557,11 @@ app.post('/api/order', async (c) => {
   const persisted = await putOrder(c.env, record)
 
   const { customer, buyer, configuration, deliveryMode, mode, type } = record
-  const displayTotal = priced ? priced.total : record.total || 0
+  const displayTotal = computedTotal
   const claimedTotal = record.total || 0
   // Worth showing rather than silently swallowing: it means either a stale price in
   // the browser or someone editing the payload on the way out.
-  const totalMismatch = priced !== null && Math.abs(claimedTotal - priced.total) > 0.01
+  const totalMismatch = priced !== null && Math.abs(claimedTotal - computedTotal) > 0.01
 
   // 1. Build dynamic email content based on type
   let subject = 'New Inquiry - Vincent Flowers Porto'
@@ -569,10 +582,12 @@ app.post('/api/order', async (c) => {
     detailsHtml = `
       <h3>Order Summary / Resumo do Pedido</h3>
       <p><strong>Type:</strong> ${escapeHtml(mode)} | <strong>Option:</strong> ${escapeHtml(deliveryMode)}${
-        deliveryMode === 'delivery' ? ` (Delivery Fee: €${(settings.deliveryFee ?? DEFAULT_SETTINGS.deliveryFee).toFixed(2)})` : ''
+        deliveryFee > 0 ? ` (Delivery Fee: €${deliveryFee.toFixed(2)})` : ''
       }</p>
       <pre style="background: #f4f4f4; padding: 10px; border-radius: 5px;">${orderDetails}</pre>
-      <p><strong>Total: €${displayTotal.toFixed(2)}</strong></p>
+      <p><strong>Total: €${displayTotal.toFixed(2)}</strong>${
+        deliveryFee > 0 ? ` (Includes €${deliveryFee.toFixed(2)} delivery)` : ''
+      }</p>
     `
   } else if (type === 'shop') {
     subject = `Shop Order / Pedido da Loja - ${safeSubject(customer?.name)} [${ref}]`
@@ -581,9 +596,11 @@ app.post('/api/order', async (c) => {
       <h3>Shop Selection / Seleção da Loja</h3>
       <p><strong>Item:</strong> ${escapeHtml(item.title)}</p>
       <p><strong>Option:</strong> ${escapeHtml(deliveryMode)}${
-        deliveryMode === 'delivery' ? ` (Delivery Fee: €${(settings.deliveryFee ?? DEFAULT_SETTINGS.deliveryFee).toFixed(2)})` : ''
+        deliveryFee > 0 ? ` (Delivery Fee: €${deliveryFee.toFixed(2)})` : ''
       }</p>
-      <p><strong>Total: €${displayTotal.toFixed(2)}</strong></p>
+      <p><strong>Total: €${displayTotal.toFixed(2)}</strong>${
+        deliveryFee > 0 ? ` (Includes €${deliveryFee.toFixed(2)} delivery)` : ''
+      }</p>
     `
   } else if (type === 'subscription') {
     subject = `New Subscription Inquiry / Nova Inscrição - ${safeSubject(customer?.name)} [${ref}]`

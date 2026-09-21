@@ -18,6 +18,7 @@ export default function Landing() {
         title={t('seo.landing_title')}
         description={t('seo.landing_desc')}
         path="/"
+        image="/images/About/IMG_5663.webp"
       />
       <Helmet>
         <script type="application/ld+json">
@@ -28,7 +29,7 @@ export default function Landing() {
             name: 'Vincent Flowers Porto',
             alternateName: ['Vincent Flowers', 'Vincent Flowers Porto Atelier'],
             description: 'Artisan floral studio in Porto, Portugal offering custom flower bouquets, curated arrangements, flower subscriptions, and event florals.',
-            image: 'https://vincentflowersporto.com/images/logo.webp',
+            image: 'https://vincentflowersporto.com/images/About/IMG_5663.webp',
             logo: 'https://vincentflowersporto.com/images/logo.webp',
             url: 'https://vincentflowersporto.com',
             telephone: '+351911119351',

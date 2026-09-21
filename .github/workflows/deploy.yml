@@ -67,7 +67,6 @@ jobs:
           npm run build
 
       - name: Deploy Backend to Cloudflare Workers
-        continue-on-error: true
         env:
           RAW_TOKEN: ${{ secrets.CFLARE_API_TOKEN_VF }}
           CLOUDFLARE_ACCOUNT_ID: 3c2a3d9cf4b7a29183669f8ef6f334d2
