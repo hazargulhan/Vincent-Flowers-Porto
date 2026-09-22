@@ -181,7 +181,7 @@
     "delivery_info": "Once your order is ready we will deliver it to the indicated address within the time slot you chose. Delivery fee: €{{fee}}.",
     "pickup_info": "You are welcome to collect the flowers in person or arrange a third-party courier (e.g., Uber or Bolt) to pick them up from our store. Arranging your own courier is often cheaper.",
 
-    "pickup_store": "Our store: Rua de Tanger 1544, Porto. Open 7 days a week: {{start}} - {{end}}.",
+    "pickup_store": "Our location: Rua de Tanger 1544, Porto. Open 7 days a week: {{start}} - {{end}}.",
     "buyer_section_title": "Buyer Info (your details)",
     "buyer_section_note": "This is you, the person placing the order — we will contact you to confirm.",
     "buyer_form_name": "Your Full Name",
@@ -251,7 +251,7 @@
     "delivery_info": "Once your order is ready we will deliver it to the indicated address within the time slot you chose. Delivery fee: €{{fee}}.",
     "pickup_info": "You are welcome to collect the flowers in person or arrange a third-party courier (e.g., Uber or Bolt) to pick them up from our store. Arranging your own courier is often cheaper.",
 
-    "pickup_store": "Our store: Rua de Tanger 1544, Porto. Open 7 days a week: {{start}} - {{end}}.",
+    "pickup_store": "Our location: Rua de Tanger 1544, Porto. Open 7 days a week: {{start}} - {{end}}.",
     "buyer_section_title": "Buyer Info (your details)",
     "buyer_section_note": "This is you, the person placing the order — we will contact you to confirm.",
     "buyer_form_name": "Your Full Name",

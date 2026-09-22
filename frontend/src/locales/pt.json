@@ -181,7 +181,7 @@
     "delivery_info": "Assim que a sua encomenda estiver pronta, entregamo-la na morada indicada dentro do horário que escolheu. Taxa de entrega: €{{fee}}.",
     "pickup_info": "Pode levantar as flores pessoalmente ou pedir a um estafeta (ex.: Uber ou Bolt) que as recolha na nossa loja. Tratar do seu próprio estafeta é muitas vezes mais barato.",
 
-    "pickup_store": "A nossa loja: Rua de Tanger 1544, Porto. Aberto 7 dias por semana: {{start}} - {{end}}.",
+    "pickup_store": "A nossa localização: Rua de Tanger 1544, Porto. Aberto 7 dias por semana: {{start}} - {{end}}.",
     "buyer_section_title": "Dados do Comprador (os seus dados)",
     "buyer_section_note": "Este é você, a pessoa que faz a encomenda — entraremos em contacto para confirmar.",
     "buyer_form_name": "O Seu Nome Completo",
@@ -251,7 +251,7 @@
     "delivery_info": "Assim que a sua encomenda estiver pronta, entregamo-la na morada indicada dentro do horário que escolheu. Taxa de entrega: €{{fee}}.",
     "pickup_info": "Pode levantar as flores pessoalmente ou pedir a um estafeta (ex.: Uber ou Bolt) que as recolha na nossa loja. Tratar do seu próprio estafeta é muitas vezes mais barato.",
 
-    "pickup_store": "A nossa loja: Rua de Tanger 1544, Porto. Aberto 7 dias por semana: {{start}} - {{end}}.",
+    "pickup_store": "A nossa localização: Rua de Tanger 1544, Porto. Aberto 7 dias por semana: {{start}} - {{end}}.",
     "buyer_section_title": "Dados do Comprador (os seus dados)",
     "buyer_section_note": "Este é você, a pessoa que faz a encomenda — entraremos em contacto para confirmar.",
     "buyer_form_name": "O Seu Nome Completo",
