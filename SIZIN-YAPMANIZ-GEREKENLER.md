@@ -26,7 +26,11 @@ Son yapılan iyileştirmeler (Kız arkadaşınızın notları):
 - **Admin Paneli Sipariş Yönetimi ve Sıralama:** Siparişlerin durumunu güncellerken çıkan "Network error" hatası düzeltildi; siparişleri tarihe, tutara ve duruma göre sıralama filtresi eklendi.
 - **Sunucu Sipariş Onayı (Alıcı/Sipariş Veren E-Postası):** Alıcı e-postası kaldırıldığında sunucunun siparişleri reddetme sorunu giderildi; sipariş verenin e-posta adresiyle siparişler başarıyla kabul ediliyor.
 - **10 € Teslimat Ücreti Toplamlara Dahil Edildi:** Teslimat ücreti sunucuda `total` ve `serverTotal` değerlerine otomatik eklendi; hem e-postada hem admin sipariş özetinde doğru genel toplam görünüyor.
+- **Teslimat Butonları Yenilendi (22 Eylül 2026):** Butonlar artık "Delivery" ve "Pick up / Courier". Altındaki açıklamalar yeni metinlerle değişti (Portekizce sürümü de güncellendi).
 - **Google Arama Sonucu Görseli:** Google arama sonuçlarında sağda çıkan küçük görsel için logo yerine ana sayfadaki popüler çiçek buketi fotoğrafı (`IMG_5663.webp`) tanımlandı.
+
+### Sizin küçük bir işiniz (21 Eylül 2026 kontrolü)
+- [ ] **Bir çiçeğin adı bozuk görünüyor:** "Make Your Own" sayfasında "Solidago ðíanadensis" yazıyor, doğrusu "Solidago Canadensis". Admin panelinde bu çiçeği bulup adını düzeltin ve kaydedin.
 
 ### Tamamlanan İşler
 - [x] Fotoğraf depolama kovası (`vincent-flowers-media`) oluşturuldu.
