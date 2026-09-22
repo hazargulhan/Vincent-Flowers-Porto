@@ -26,7 +26,7 @@ Son yapılan iyileştirmeler (Kız arkadaşınızın notları):
 - **Admin Paneli Sipariş Yönetimi ve Sıralama:** Siparişlerin durumunu güncellerken çıkan "Network error" hatası düzeltildi; siparişleri tarihe, tutara ve duruma göre sıralama filtresi eklendi.
 - **Sunucu Sipariş Onayı (Alıcı/Sipariş Veren E-Postası):** Alıcı e-postası kaldırıldığında sunucunun siparişleri reddetme sorunu giderildi; sipariş verenin e-posta adresiyle siparişler başarıyla kabul ediliyor.
 - **10 € Teslimat Ücreti Toplamlara Dahil Edildi:** Teslimat ücreti sunucuda `total` ve `serverTotal` değerlerine otomatik eklendi; hem e-postada hem admin sipariş özetinde doğru genel toplam görünüyor.
-- **Teslimat Butonları Yenilendi (22 Eylül 2026):** Butonlar artık "We deliver" ve "Pick up / Third-party courier". Altındaki açıklamalar yeni metinlerle değişti (Portekizce sürümü de güncellendi).
+- **Teslimat Butonları Yenilendi (22 Eylül 2026):** Butonlar artık "We deliver" ve "Pick up / Third-party courier". Altındaki açıklamalar yeni metinlerle değişti (Portekizce sürümü de güncellendi). Mağaza adresi ve çalışma saatleri sadece "Pick up / Third-party courier" seçilince görünüyor; saatler Admin panelindeki çalışma saatlerinden otomatik alınıyor.
 - **Google Arama Sonucu Görseli:** Google arama sonuçlarında sağda çıkan küçük görsel için logo yerine ana sayfadaki popüler çiçek buketi fotoğrafı (`IMG_5663.webp`) tanımlandı.
 
 ### Sizin küçük bir işiniz (21 Eylül 2026 kontrolü)

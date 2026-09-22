@@ -371,7 +371,10 @@ export default function Home() {
                     </div>
                  )}
                  {deliveryMode === 'pickup' && (
-                    <span style={{ animation: 'fadeIn 0.5s' }}>{t('home.pickup_info')}</span>
+                    <div style={{ animation: 'fadeIn 0.5s' }}>
+                        <span>{t('home.pickup_info')}</span>
+                        <span style={{ display: 'block', marginTop: '0.4rem' }}>{t('home.pickup_store', { start: settings.openingHours?.start ?? '09:00', end: settings.openingHours?.end ?? '18:00' })}</span>
+                    </div>
                  )}
               </div>
 

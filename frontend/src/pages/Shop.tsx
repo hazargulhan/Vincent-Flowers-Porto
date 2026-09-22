@@ -218,7 +218,10 @@ export default function Shop() {
                 </div>
              )}
              {deliveryMode === 'pickup' && (
-                <span style={{ animation: 'fadeIn 0.5s' }}>{t('shop.pickup_info')}</span>
+                <div style={{ animation: 'fadeIn 0.5s' }}>
+                    <span>{t('shop.pickup_info')}</span>
+                    <span style={{ display: 'block', marginTop: '0.4rem' }}>{t('shop.pickup_store', { start: settings.openingHours?.start ?? '09:00', end: settings.openingHours?.end ?? '18:00' })}</span>
+                </div>
              )}
           </div>
 
